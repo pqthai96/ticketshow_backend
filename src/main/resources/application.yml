@@ -1,0 +1,23 @@
+server:
+  port: 8080
+db:
+  port: 3306
+  name: ticket_show_db
+  endpoint: localhost
+  username: root
+  password: 1234
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}
+    username: ${db.username}
+    password: ${db.password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+#url:
+#  redirect:
+#    path: ${domain.path}
+#domain:
+#  path: http://localhost:3000/
