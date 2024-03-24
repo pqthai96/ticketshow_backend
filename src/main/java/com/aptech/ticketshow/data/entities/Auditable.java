@@ -29,16 +29,4 @@ public abstract class Auditable implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
     private Date updatedAt;
-
-    @CreatedBy
-    @Column(name = "created_by_user_id", updatable = false)
-    private Long createdBy;
-
-    @LastModifiedBy
-    @Column(name = "updated_by_user_id")
-    private Long updatedBy;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deleted_at")
-    private Date deletedAt;
 }
