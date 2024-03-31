@@ -2,10 +2,10 @@ server:
   port: 8080
 db:
   port: 3306
-  name: aptechsem4
+  name: ticket_show_db
   endpoint: localhost
   username: root
-  password: 123456
+  password: dUy12345
 
 spring:
   datasource:
