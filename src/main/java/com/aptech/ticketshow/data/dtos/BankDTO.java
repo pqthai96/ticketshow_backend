@@ -1,10 +1,5 @@
 package com.aptech.ticketshow.data.dtos;
 
-import com.aptech.ticketshow.data.entities.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +24,5 @@ public class BankDTO {
 
     private Long zip;
 
-    private UserDTO user;
+    private UserDTO userDTO;
 }
