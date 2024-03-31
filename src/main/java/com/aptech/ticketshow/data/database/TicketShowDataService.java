@@ -50,20 +50,24 @@ public class TicketShowDataService {
 	private UserRepository userRepository;
 	private VoucherRepository voucherRepository;
 	
-    public void insertDemoData() {
+    public void insertTicketShowData() {
     	// Create your demo data objects
     	Role role1 = new Role((long) 1, null);
     	Status status1 = new Status((long) 1, null);
     	Voucher voucher1 = new Voucher((long) 1,"Deduct $10 from the payment session","Voucher $10", 10.0, 100.0, new Date(), new Date(), "110100");
+    	Voucher voucher2 = new Voucher((long) 2,"Deduct $20 from the payment session","Voucher $20", 20.0, 200.0, new Date(), new Date(), "220200");
+    	Voucher voucher3 = new Voucher((long) 3,"Deduct $30 from the payment session","Voucher $30", 30.0, 200.0, new Date(), new Date(), "330200");
     	Category category1 = new Category((long) 1, null, null, null);
     	User user1 = new User(1, status1, role1, null, null, null, null, null, null, null, null, null, null, null, null);
     	Organiser organiser1 = new Organiser(null, user1, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
     	Admin admin1 = new Admin((long) 1, role1, null, null);
     	Event event1 = new Event((long) 1, null, null, null, null, null, null, null, null, null, null, null, null, null, null, organiser1, category1, admin1);
     	Ticket ticket1 = new Ticket((long) 1, null, null, null, null, null, null, null, event1, admin1);
-        Discount discount1 = new Discount((long) 1, " 10% discount ticket", 0.9, new Date(), new Date(),ticket1);
-        Discount discount2 = new Discount((long) 2, " 15% discount ticket", 0.85, new Date(), new Date(),ticket1);
-        Favorite favorite1 = new Favorite(null, event1, user1);
+    	Discount discount1 = new Discount((long) 1, " 5% discount ticket", 0.95, new Date(), new Date(),ticket1);
+        Discount discount2 = new Discount((long) 2, " 10% discount ticket", 0.9, new Date(), new Date(),null);
+        Discount discount3 = new Discount((long) 3, " 15% discount ticket", 0.85, new Date(), new Date(),null);
+        Favorite favorite1 = new Favorite((long) 1, event1, user1);
+        Favorite favorite2 = new Favorite((long) 2, null, null);
         Bank bank1 = new Bank((long)1, null, null, null, null, null, null, user1);
         Order order1 = new Order((long)1, null, null, null, null, null, null, user1, event1, voucher1);
         OrderItem orderItem1 = new OrderItem((long)1, null, order1, ticket1, discount2);
@@ -73,6 +77,8 @@ public class TicketShowDataService {
         roleRepository.save(role1);
         statusRepository.save(status1);
         voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
         categoryRepository.save(category1);
         userRepository.save(user1);
         organiserRepository.save(organiser1);
@@ -81,7 +87,9 @@ public class TicketShowDataService {
         ticketRepository.save(ticket1);
         discountRepository.save(discount1);
         discountRepository.save(discount2);
+        discountRepository.save(discount3);
         favoriteRepository.save(favorite1);
+        favoriteRepository.save(favorite2);
         bankRepository.save(bank1);
         orderRepository.save(order1);
         orderItemRepository.save(orderItem1);
@@ -98,8 +106,8 @@ public class MySpringBootApplication {
         SpringApplication.run(MySpringBootApplication.class, args);
 
         // Call the data seeding service (optional)
-        TicketShowDataService seekDataService = (TicketShowDataService) SpringApplication.getContext().getBean("seekDataService");
-        seekDataService.insertDemoData();
+        TicketShowDataService ticketShowDataService = (TicketShowDataService) SpringApplication.getContext().getBean("ticketShowDataService");
+        ticketShowDataService.insertTicketShowData();
     }
 }
 
