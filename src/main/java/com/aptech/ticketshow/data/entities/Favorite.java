@@ -19,8 +19,9 @@ public class Favorite extends Auditable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "event_id")
-    private String eventId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
