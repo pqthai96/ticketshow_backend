@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "favorites")
+@Table(name = "feedbacks")
 public class Feedback extends Auditable {
 
     @Id

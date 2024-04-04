@@ -1,7 +1,7 @@
 package com.aptech.ticketshow.data.mappers;
 
-import com.aptech.ticketshow.data.dtos.StatusDTO;
 import com.aptech.ticketshow.data.entities.Status;
+import com.aptech.ticketshow.data.dtos.StatusDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

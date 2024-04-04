@@ -1,9 +1,9 @@
 package com.aptech.ticketshow.data.mappers;
 
+import com.aptech.ticketshow.data.entities.Voucher;
 import org.mapstruct.Mapper;
 
 import com.aptech.ticketshow.data.dtos.VoucherDTO;
-import com.aptech.ticketshow.data.entities.Voucher;
 
 @Mapper(componentModel = "spring")
 public interface VoucherMapper {
