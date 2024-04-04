@@ -12,9 +12,7 @@ import org.mapstruct.Mapping;
 })
 public interface AdminMapper {
 
-    @Mapping(source = "roleDTO", target = "role")
     Admin toEntity(AdminDTO adminDTO);
 
-    @Mapping(source = "role", target = "roleDTO")
     AdminDTO toDTO(Admin admin);
 }

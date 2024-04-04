@@ -16,7 +16,12 @@ import java.util.Date;
 @Table(name = "vouchers")
 public class Voucher extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3106159136345065847L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

@@ -16,7 +16,12 @@ import java.util.Date;
 @Table(name = "organisers")
 public class Organiser extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8212787252756185258L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

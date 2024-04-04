@@ -16,7 +16,12 @@ import java.util.Date;
 @Table(name = "banks")
 public class Bank extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4682944501113484931L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

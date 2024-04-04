@@ -20,7 +20,12 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable implements Serializable {
 
-    @CreatedDate
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8306522422856717802L;
+
+	@CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
     private Date createdAt;

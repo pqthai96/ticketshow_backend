@@ -12,9 +12,7 @@ import org.mapstruct.Mapping;
 })
 public interface BankMapper {
 
-    @Mapping(source = "userDTO", target = "user")
     Bank toEntity(BankDTO bankDTO);
 
-    @Mapping(source = "user", target = "userDTO")
     BankDTO toDTO(Bank bank);
 }

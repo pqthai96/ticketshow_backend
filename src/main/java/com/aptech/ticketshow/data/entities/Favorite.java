@@ -14,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "favorites")
 public class Favorite extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4552490310714433103L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
