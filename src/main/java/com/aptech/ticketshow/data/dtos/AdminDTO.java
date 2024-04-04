@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class AdminDTO {
     private Long id;
 
-    private RoleDTO role;
+    private RoleDTO roleDTO;
 
     private String password;
 
