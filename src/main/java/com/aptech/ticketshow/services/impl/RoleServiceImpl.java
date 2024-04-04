@@ -1,7 +1,6 @@
 package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.RoleDTO;
-import com.aptech.ticketshow.data.entities.Role;
 import com.aptech.ticketshow.data.mappers.RoleMapper;
 import com.aptech.ticketshow.data.repositories.RoleRepository;
 import com.aptech.ticketshow.services.RoleService;

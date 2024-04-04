@@ -5,13 +5,13 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class RoleDTO {
+public class StatusDTO {
 
     private Long id;
-
-    private String name;
 
     private Date createdAt;
 
     private Date updatedAt;
+
+    private String name;
 }

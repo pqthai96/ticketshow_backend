@@ -5,9 +5,12 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class RoleDTO {
-
+public class AdminDTO {
     private Long id;
+    
+    private RoleDTO roleDTO;
+
+    private String password;
 
     private String name;
 
