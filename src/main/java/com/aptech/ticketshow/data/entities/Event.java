@@ -60,7 +60,8 @@ public class Event extends Auditable {
     @Column(name = "banner_image_path")
     private String bannerImagePath;
 
-    @Column(name = "content")
+    @Lob
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -21,7 +21,7 @@ public class Discount extends Auditable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "value")
