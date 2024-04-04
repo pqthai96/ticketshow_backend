@@ -14,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "orders")
 public class Order extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5465891230354739969L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
