@@ -14,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "statuses")
 public class Status extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3042389484383219369L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

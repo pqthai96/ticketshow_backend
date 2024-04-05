@@ -16,7 +16,12 @@ import java.util.Date;
 @Table(name = "events")
 public class Event extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3867597010973040270L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -60,7 +65,8 @@ public class Event extends Auditable {
     @Column(name = "banner_image_path")
     private String bannerImagePath;
 
-    @Column(name = "content")
+    @Lob
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -14,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "feedbacks")
 public class Feedback extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6267072747737215265L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -25,10 +30,10 @@ public class Feedback extends Auditable {
     @Column(name = "subject")
     private String subject;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "admin_reply")
+    @Column(name = "admin_reply", columnDefinition = "TEXT")
     private String adminReply;
 
     @ManyToOne(fetch = FetchType.EAGER)

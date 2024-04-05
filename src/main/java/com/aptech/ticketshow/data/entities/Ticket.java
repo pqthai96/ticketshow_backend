@@ -14,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "tickets")
 public class Ticket extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4759840303445113752L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -22,7 +27,7 @@ public class Ticket extends Auditable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "price")
