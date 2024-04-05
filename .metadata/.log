@@ -1,0 +1,145 @@
+!SESSION 2024-03-31 13:50:38.884 -----------------------------------------------
+eclipse.buildId=4.21.0.202312011804
+java.version=17.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY org.eclipse.emf.ecore 2 0 2024-03-31 13:50:41.139
+!MESSAGE Both 'org.eclipse.jst.j2ee.core' and 'org.eclipse.jst.j2ee.core' register a package for 'application.xmi'
+
+!ENTRY org.eclipse.jface 2 0 2024-03-31 13:51:32.089
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2024-03-31 13:51:32.089
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		WorkbenchHandlerServiceHandler("org.eclipse.jdt.ui.navigate.open.type"),
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		WorkbenchHandlerServiceHandler("org.eclipse.lsp4e.symbolinworkspace"),
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-03-31 13:51:38.004
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\ASUS'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.ui 2 2 2024-03-31 13:51:38.291
+!MESSAGE Invalid preference category path: org.jboss.tools.vpe.editor (bundle: org.jboss.tools.jst.web.ui, page: org.jboss.tools.jsf.ui.editor.pref.template)
+
+!ENTRY org.eclipse.ui 2 2 2024-03-31 13:51:38.291
+!MESSAGE Invalid preference category path: org.jboss.tools.vpe.editor (bundle: org.jboss.tools.jst.web.ui, page: org.jboss.tools.jsf.ui.editor.pref.contentassist)
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.651
+!MESSAGE Ignored property with key: null value: null
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.790
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.792
+!MESSAGE Could not send USER event 'Anonymous ID: 4d76da0b-cc1f-4efa-a913-4fefc063d4c8': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.793
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.794
+!MESSAGE Could not send STARTUP event 'startup': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.795
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.796
+!MESSAGE Could not send USER event 'Anonymous ID: 4d76da0b-cc1f-4efa-a913-4fefc063d4c8': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.797
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:44.798
+!MESSAGE Could not send ACTION event 'browser': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.462
+!MESSAGE Ignored property with key: null value: null
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.517
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.550
+!MESSAGE Could not send USER event 'Anonymous ID: 4d76da0b-cc1f-4efa-a913-4fefc063d4c8': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.571
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.576
+!MESSAGE Could not send STARTUP event 'startup': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.580
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.584
+!MESSAGE Could not send USER event 'Anonymous ID: 4d76da0b-cc1f-4efa-a913-4fefc063d4c8': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.588
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.592
+!MESSAGE Could not send ACTION event 'showOnStartup': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.604
+!MESSAGE Ignored property with key: null value: null
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.613
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.619
+!MESSAGE Could not send USER event 'Anonymous ID: 4d76da0b-cc1f-4efa-a913-4fefc063d4c8': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.623
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.629
+!MESSAGE Could not send STARTUP event 'startup': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.637
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.640
+!MESSAGE Could not send USER event 'Anonymous ID: 4d76da0b-cc1f-4efa-a913-4fefc063d4c8': no analytics instance present.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.646
+!MESSAGE Could not create Segment Analytics instance, missing writeKey.
+
+!ENTRY org.jboss.tools.usage 2 0 2024-03-31 13:51:46.650
+!MESSAGE Could not send ACTION event 'installed': no analytics instance present.
+
+!ENTRY org.jboss.tools.central 4 0 2024-03-31 13:51:50.685
+!MESSAGE An Error occured while extracting D:\MyEdu\Aptech\HK4\8.Project\CODE\ticketshow_backend\.metadata\.plugins\org.jboss.tools.foundation.core\ECF_REMOTE_CACHE\3d3dd19197422d26965a5c004cb3d95f41fbdfbf-559052771534076829.tmp
+!STACK 0
+java.io.IOException: D:\MyEdu\Aptech\HK4\8.Project\CODE\ticketshow_backend\.metadata\.plugins\org.jboss.tools.central\central\02a5e37\index.html can not be found
+	at org.jboss.tools.central.internal.CentralHelper.extractIfNeeded(CentralHelper.java:206)
+	at org.jboss.tools.central.internal.CentralHelper.getCentralPageUrl(CentralHelper.java:114)
+	at org.jboss.tools.central.internal.CentralHelper.getCentralUrl(CentralHelper.java:63)
+	at org.jboss.tools.central.editors.GettingStartedHtmlPage$5.run(GettingStartedHtmlPage.java:252)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.jboss.tools.central 4 0 2024-03-31 13:51:50.733
+!MESSAGE Unable to open D:\MyEdu\Aptech\DevTools\sts-4.21.0.RELEASE\plugins\org.jboss.tools.central_2.3.200.v20231019-1545\resources\jbosstools-central-webpage.zip
+!STACK 0
+java.io.IOException: D:\MyEdu\Aptech\HK4\8.Project\CODE\ticketshow_backend\.metadata\.plugins\org.jboss.tools.central\central\d794065\index.html can not be found
+	at org.jboss.tools.central.internal.CentralHelper.extractIfNeeded(CentralHelper.java:206)
+	at org.jboss.tools.central.internal.CentralHelper.getCentralPageUrl(CentralHelper.java:125)
+	at org.jboss.tools.central.internal.CentralHelper.getCentralUrl(CentralHelper.java:63)
+	at org.jboss.tools.central.editors.GettingStartedHtmlPage$5.run(GettingStartedHtmlPage.java:252)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
