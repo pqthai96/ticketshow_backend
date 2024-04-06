@@ -12,7 +12,7 @@ public interface BankService {
 
     BankDTO save(BankDTO bankDTO);
 
-    BankDTO update(Long id, BankDTO bankDTO);
+    BankDTO update(BankDTO bankDTO);
 
     void deleteById(Long id);
 }

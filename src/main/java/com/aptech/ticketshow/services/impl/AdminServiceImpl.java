@@ -48,7 +48,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminDTO update(Long id, AdminDTO adminDTO) {
+    public AdminDTO update(AdminDTO adminDTO) {
+        Long id = adminDTO.getId(); // Lấy id từ adminDTO
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             Admin admin = adminOptional.get();

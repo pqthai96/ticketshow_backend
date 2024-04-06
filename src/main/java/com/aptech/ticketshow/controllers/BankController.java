@@ -36,7 +36,8 @@ public class BankController {
 
     @PutMapping("/{id}")
     public ResponseEntity<BankDTO> updateBank(@PathVariable Long id, @RequestBody BankDTO bankDTO) {
-        BankDTO updatedBank = bankService.update(id, bankDTO);
+        bankDTO.setId(id);
+        BankDTO updatedBank = bankService.update(bankDTO);
         return ResponseEntity.ok(updatedBank);
     }
 
