@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DiscountDTO {
 	
+	private Long id;
+	
     private String description;
 
     private Double value;
