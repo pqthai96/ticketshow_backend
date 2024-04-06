@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.aptech.ticketshow.data.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aptech.ticketshow.data.dtos.DiscountDTO;
 import com.aptech.ticketshow.data.entities.Discount;
+import com.aptech.ticketshow.data.entities.Ticket;
 import com.aptech.ticketshow.data.mappers.DiscountMapper;
 import com.aptech.ticketshow.data.repositories.DiscountRepository;
 import com.aptech.ticketshow.services.DiscountService;
@@ -21,10 +23,11 @@ public class DiscountServiceImpl implements DiscountService {
     private DiscountRepository discountRepository;
 
     @Autowired
-    private DiscountMapper discountMapper;
+    private TicketRepository ticketRepository;
 
     @Autowired
-    private TicketService ticketService;
+    private DiscountMapper discountMapper;
+
     
     @Override
     public List<DiscountDTO> findAll() {
@@ -33,31 +36,32 @@ public class DiscountServiceImpl implements DiscountService {
 
 	@Override
 	public DiscountDTO create(DiscountDTO discountDTO) {
-		discountDTO.setTicketDTO(ticketService.getById(discountDTO.getTicketDTO().getId()));
-		
 		Discount discount = discountMapper.toEntity(discountDTO);
-        discount = discountRepository.save(discount);
-        return discountMapper.toDTO(discount);
+
+	    Optional<Ticket> optionalTicket = ticketRepository.findById(discountDTO.getTicketDTO().getId());
+	    if (optionalTicket.isPresent()) {
+	        Ticket ticket = optionalTicket.get();
+	        discount.setTicket(ticket);
+	    } else {
+	        
+	    }
+
+	    discount = discountRepository.save(discount);
+	    return discountMapper.toDTO(discount);
 	}
 
 	@Override
-	public DiscountDTO getById(Long id) {
+	public DiscountDTO findById(Long id) {
 		Optional<Discount> optionalDiscount = discountRepository.findById(id);
-        if (optionalDiscount.isPresent()) {
-            DiscountDTO discountDTO = discountMapper.toDTO(optionalDiscount.get());
-            
-            discountDTO.setTicketDTO(ticketService.getById(optionalDiscount.get().getTicket().getId()));
-            return discountDTO;
-        }
-        return null;
-	}
+        return optionalDiscount.map(discount -> discountMapper.toDTO(discount)).orElse(null);
+    }
 
 	@Override
 	public DiscountDTO update(DiscountDTO discountDTO) {
 		long id = discountDTO.getId();
 		Optional<Discount> optionalDiscount = discountRepository.findById(id);
         if (optionalDiscount.isPresent()) {
-            discountDTO.setTicketDTO(ticketService.update(optionalDiscount.get().getTicket().getId(), discountDTO.getTicketDTO()));
+        	optionalDiscount.get().setTicket(ticketRepository.findById(discountDTO.getTicketDTO().getId()).orElse(null));
             Discount existingDiscount = optionalDiscount.get();
             existingDiscount = discountMapper.toEntity(discountDTO);
             existingDiscount = discountRepository.save(existingDiscount);

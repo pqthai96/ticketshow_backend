@@ -30,7 +30,7 @@ public class DiscountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DiscountDTO> getDiscountById(@PathVariable("id") Long id) {
-        DiscountDTO discountDTO = discountService.getById(id);
+        DiscountDTO discountDTO = discountService.findById(id);
         if (discountDTO != null) {
             return new ResponseEntity<>(discountDTO, HttpStatus.OK);
         } else {
@@ -46,7 +46,8 @@ public class DiscountController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DiscountDTO> updateDiscount(@PathVariable("id") Long id, @RequestBody DiscountDTO discountDTO) {
-        DiscountDTO updatedDiscount = discountService.update(id, discountDTO);
+    	discountDTO.setId(id);
+        DiscountDTO updatedDiscount = discountService.update(discountDTO);
         if (updatedDiscount != null) {
             return new ResponseEntity<>(updatedDiscount, HttpStatus.OK);
         } else {

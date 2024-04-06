@@ -10,7 +10,7 @@ public interface DiscountService {
 	
     DiscountDTO create(DiscountDTO discountDTO);
 
-    DiscountDTO getById(Long id);
+    DiscountDTO findById(Long id);
 
     DiscountDTO update(DiscountDTO discountDTO);
 
