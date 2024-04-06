@@ -1,6 +1,5 @@
 package com.aptech.ticketshow.data.entities;
 
-import com.nimbusds.openid.connect.sdk.assurance.evidences.Voucher;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "order_items")
 public class OrderItem extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7181592437592074512L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

@@ -1,13 +1,10 @@
 package com.aptech.ticketshow.data.entities;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -17,7 +14,12 @@ import java.util.Date;
 @Table(name = "tickets")
 public class Ticket extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4759840303445113752L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

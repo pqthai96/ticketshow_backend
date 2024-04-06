@@ -11,10 +11,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "favorites")
+@Table(name = "feedbacks")
 public class Feedback extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6267072747737215265L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

@@ -14,7 +14,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "roles")
 public class Role extends Auditable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5745748029337659875L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
