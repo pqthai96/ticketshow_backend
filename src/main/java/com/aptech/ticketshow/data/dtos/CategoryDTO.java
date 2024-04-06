@@ -14,8 +14,4 @@ public class CategoryDTO {
     private String description;
 
     private Double serviceCharge;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

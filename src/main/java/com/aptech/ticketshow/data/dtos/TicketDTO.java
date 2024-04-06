@@ -25,8 +25,4 @@ public class TicketDTO {
     private EventDTO eventDTO;
 
     private AdminDTO adminDTO;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

@@ -15,8 +15,4 @@ public class OrderItemDTO {
   private TicketDTO ticketDTO;
 
   private DiscountDTO discountDTO;
-
-  private Date createdAt;
-
-  private Date updatedAt;
 }

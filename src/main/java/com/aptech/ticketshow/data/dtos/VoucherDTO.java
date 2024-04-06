@@ -8,10 +8,6 @@ import lombok.Data;
 public class VoucherDTO {
     private Long id;
 
-    private Date createdAt;
-
-    private Date updatedAt;
-
     private String description;
 
     private String name;

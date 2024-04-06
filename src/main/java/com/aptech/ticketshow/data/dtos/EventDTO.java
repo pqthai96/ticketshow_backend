@@ -41,8 +41,4 @@ public class EventDTO {
     private CategoryDTO categoryDTO;
 
     private AdminDTO adminDTO;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

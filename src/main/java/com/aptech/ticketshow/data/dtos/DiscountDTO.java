@@ -7,10 +7,6 @@ import lombok.Data;
 public class DiscountDTO {
 
    private Long id;
-
-   private Date createdAt;
-
-   private Date updatedAt;
 	
    private String description;
 

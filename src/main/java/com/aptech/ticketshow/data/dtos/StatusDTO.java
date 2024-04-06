@@ -9,9 +9,5 @@ public class StatusDTO {
 
     private Long id;
 
-    private Date createdAt;
-
-    private Date updatedAt;
-
     private String name;
 }

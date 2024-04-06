@@ -13,8 +13,4 @@ public class AdminDTO {
     private String password;
 
     private String name;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

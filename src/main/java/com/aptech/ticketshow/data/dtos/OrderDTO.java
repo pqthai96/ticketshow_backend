@@ -26,8 +26,4 @@ public class OrderDTO {
     private EventDTO eventDTO;
 
     private VoucherDTO voucherDTO;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

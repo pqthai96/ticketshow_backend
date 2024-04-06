@@ -41,7 +41,4 @@ public class UserDTO {
 
     private String rememberToken;
 
-    private Date updatedAt;
-    
-    private Date createdAt;
 }

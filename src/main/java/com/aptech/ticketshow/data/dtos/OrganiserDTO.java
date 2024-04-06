@@ -52,8 +52,4 @@ public class OrganiserDTO {
     private Double balance;
 
     private Long defaultBankId;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }
