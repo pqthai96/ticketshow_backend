@@ -12,7 +12,7 @@ public interface AdminService {
 
     AdminDTO save(AdminDTO adminDTO);
 
-    AdminDTO update(Long id, AdminDTO adminDTO);
+    AdminDTO update(AdminDTO adminDTO);
 
     void deleteById(Long id);
 }

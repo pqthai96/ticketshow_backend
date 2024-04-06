@@ -48,7 +48,8 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public BankDTO update(Long id, BankDTO bankDTO) {
+    public BankDTO update(BankDTO bankDTO) {
+        Long id = bankDTO.getId();
         Optional<Bank> bankOptional = bankRepository.findById(id);
         if (bankOptional.isPresent()) {
             Bank bank = bankOptional.get();

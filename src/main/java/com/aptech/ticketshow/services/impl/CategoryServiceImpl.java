@@ -44,7 +44,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO update(Long id, CategoryDTO categoryDTO) {
+    public CategoryDTO update(CategoryDTO categoryDTO) {
+        Long id = categoryDTO.getId();
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
