@@ -12,7 +12,7 @@ public interface FeedbackService {
 
     FeedbackDTO save(FeedbackDTO feedbackDTO);
 
-    FeedbackDTO update(Long id, FeedbackDTO feedbackDTO);
+    FeedbackDTO update(FeedbackDTO feedbackDTO);
 
     void deleteById(Long id);
 }

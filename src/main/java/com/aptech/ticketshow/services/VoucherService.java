@@ -12,7 +12,7 @@ public interface VoucherService {
 
     VoucherDTO getById(Long id);
 
-    VoucherDTO update(Long id, VoucherDTO voucherDTO);
+    VoucherDTO update(VoucherDTO voucherDTO);
 
     void delete(Long id);
 }
