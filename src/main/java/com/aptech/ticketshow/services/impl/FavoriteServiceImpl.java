@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aptech.ticketshow.data.dtos.FavoriteDTO;
+import com.aptech.ticketshow.data.entities.Event;
 import com.aptech.ticketshow.data.entities.Favorite;
+import com.aptech.ticketshow.data.entities.User;
 import com.aptech.ticketshow.data.mappers.FavoriteMapper;
+import com.aptech.ticketshow.data.repositories.EventRepository;
 import com.aptech.ticketshow.data.repositories.FavoriteRepository;
+import com.aptech.ticketshow.data.repositories.UserRepository;
 import com.aptech.ticketshow.services.EventService;
 import com.aptech.ticketshow.services.FavoriteService;
 import com.aptech.ticketshow.services.UserService;
@@ -20,15 +24,15 @@ public class FavoriteServiceImpl implements FavoriteService {
 
 	@Autowired
     private FavoriteRepository favoriteRepository;
+	
+	@Autowired
+    private EventRepository eventRepository;
+	@Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private FavoriteMapper favoriteMapper;
 
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private UserService userService;
     
     @Override
     public List<FavoriteDTO> findAll() {
@@ -38,11 +42,20 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Override
 	public FavoriteDTO create(FavoriteDTO favoriteDTO) {
 		Favorite favorite = favoriteMapper.toEntity(favoriteDTO);
-      
-		favorite.setEvent(eventService.findById(favoriteDTO.getEventDTO().getId()));
-		favorite.setUser(userService.findById(favoriteDTO.getUserDTO().getId()));
-        favorite = favoriteRepository.save(favorite);
-        return favoriteMapper.toDTO(favorite);
+
+	    Optional<Event> optionalEvent = eventRepository.findById(favoriteDTO.getEventDTO().getId());
+	    Optional<User> optionalUser = userRepository.findById(favoriteDTO.getUserDTO().getId());
+
+	    if (optionalEvent.isPresent() && optionalUser.isPresent()) {
+	        Event event = optionalEvent.get();
+	        User user = optionalUser.get();
+	        favorite.setEvent(event);
+	        favorite.setUser(user);
+	    } else {
+	    }
+
+	    favorite = favoriteRepository.save(favorite);
+	    return favoriteMapper.toDTO(favorite);
 	}
 
 	@Override
@@ -59,10 +72,9 @@ public class FavoriteServiceImpl implements FavoriteService {
 		long id = favoriteDTO.getId();
 		Optional<Favorite> optionalFavorite = favoriteRepository.findById(id);
         if (optionalFavorite.isPresent()) {
+        	optionalFavorite.get().setEvent(eventRepository.findById(favoriteDTO.getEventDTO().getId()).orElse(null));
+        	optionalFavorite.get().setUser(userRepository.findById(favoriteDTO.getUserDTO().getId()).orElse(null));
             Favorite existingFavorite = optionalFavorite.get();
-             existingFavorite.setEvent(eventService.findById(favoriteDTO.getEventDTO().getId()));
-             existingFavorite.setUser(userService.findById(favoriteDTO.getUserDTO().getId()));
-
             existingFavorite = favoriteRepository.save(existingFavorite);
             return favoriteMapper.toDTO(existingFavorite);
         }
