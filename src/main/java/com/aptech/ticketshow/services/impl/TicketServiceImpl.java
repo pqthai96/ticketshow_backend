@@ -1,19 +1,17 @@
 package com.aptech.ticketshow.services.impl;
 
-import com.aptech.ticketshow.data.dtos.RoleDTO;
 import com.aptech.ticketshow.data.dtos.TicketDTO;
-import com.aptech.ticketshow.data.entities.Role;
-import com.aptech.ticketshow.data.mappers.RoleMapper;
+import com.aptech.ticketshow.data.entities.Ticket;
+import com.aptech.ticketshow.data.mappers.AdminMapper;
 import com.aptech.ticketshow.data.mappers.TicketMapper;
-import com.aptech.ticketshow.data.repositories.RoleRepository;
 import com.aptech.ticketshow.data.repositories.TicketRepository;
-import com.aptech.ticketshow.services.RoleService;
 import com.aptech.ticketshow.services.TicketService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -26,8 +24,58 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private TicketMapper ticketMapper;
 
+    @Autowired
+    private AdminMapper adminMapper;
+
     @Override
     public List<TicketDTO> findAll() {
         return ticketRepository.findAll().stream().map(r -> ticketMapper.toDTO(r)).collect(Collectors.toList());
+    }
+
+    @Override
+    public TicketDTO findByID(Long id) {
+        Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+        if (ticketOptional.isPresent()) {
+            return ticketMapper.toDTO(ticketOptional.get());
+        } else {
+            throw new RuntimeException("Ticket not found with id: " + id);
+        }
+    }
+
+    @Override
+    public TicketDTO addTicket(TicketDTO ticketDTO) {
+        Ticket ticket = ticketMapper.toEntity(ticketDTO);
+        ticket = ticketRepository.save(ticket);
+        return ticketMapper.toDTO(ticket);
+    }
+
+    @Override
+    public void deleteTicket(Long id) {
+        Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+        if (ticketOptional.isPresent()) {
+            ticketRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Ticket not found with id: " + id);
+        }
+    }
+
+    @Override
+    public TicketDTO updateTicket(TicketDTO ticketDTO) {
+        Optional<Ticket> ticketOptional = ticketRepository.findById(ticketDTO.getId());
+        if (ticketOptional.isPresent()) {
+            Ticket ticket = ticketOptional.get();
+            ticket.setTitle(ticketDTO.getTitle());
+            ticket.setDescription(ticketDTO.getDescription());
+            ticket.setPrice(ticketDTO.getPrice());
+            ticket.setType(ticketDTO.getType());
+            ticket.setQuantity(ticketDTO.getQuantity());
+            ticket.setIsPaused(ticketDTO.getIsPaused());
+            ticket.setIsHidden((ticketDTO.getIsHidden()));
+            ticket.setEditedByAdminId(adminMapper.toEntity(ticketDTO.getEditedByAdminId()));
+            ticket = ticketRepository.save(ticket);
+            return ticketMapper.toDTO(ticket);
+        } else {
+            throw new RuntimeException("Ticket not found with id: " + ticketDTO.getId());
+        }
     }
 }
