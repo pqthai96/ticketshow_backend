@@ -1,7 +1,7 @@
 package com.aptech.ticketshow.data.mappers;
 
-import com.aptech.ticketshow.data.dtos.AdminDTO;
 import com.aptech.ticketshow.data.entities.Admin;
+import com.aptech.ticketshow.data.dtos.AdminDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
