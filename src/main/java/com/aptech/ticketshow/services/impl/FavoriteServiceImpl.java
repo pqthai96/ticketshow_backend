@@ -39,14 +39,14 @@ public class FavoriteServiceImpl implements FavoriteService {
 	public FavoriteDTO create(FavoriteDTO favoriteDTO) {
 		Favorite favorite = favoriteMapper.toEntity(favoriteDTO);
       
-		favorite.setEvent(eventService.getById(favoriteDTO.getEventDTO().getId()));
-		favorite.setUser(userService.getById(favoriteDTO.getUserDTO().getId()));
+		favorite.setEvent(eventService.findById(favoriteDTO.getEventDTO().getId()));
+		favorite.setUser(userService.findById(favoriteDTO.getUserDTO().getId()));
         favorite = favoriteRepository.save(favorite);
         return favoriteMapper.toDTO(favorite);
 	}
 
 	@Override
-	public FavoriteDTO getById(Long id) {
+	public FavoriteDTO findById(Long id) {
 		Optional<Favorite> optionalFavorite = favoriteRepository.findById(id);
         if (optionalFavorite.isPresent()) {
             return favoriteMapper.toDTO(optionalFavorite.get());
@@ -60,8 +60,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 		Optional<Favorite> optionalFavorite = favoriteRepository.findById(id);
         if (optionalFavorite.isPresent()) {
             Favorite existingFavorite = optionalFavorite.get();
-             existingFavorite.setEvent(eventService.getById(favoriteDTO.getEventDTO().getId()));
-             existingFavorite.setUser(userService.getById(favoriteDTO.getUserDTO().getId()));
+             existingFavorite.setEvent(eventService.findById(favoriteDTO.getEventDTO().getId()));
+             existingFavorite.setUser(userService.findById(favoriteDTO.getUserDTO().getId()));
 
             existingFavorite = favoriteRepository.save(existingFavorite);
             return favoriteMapper.toDTO(existingFavorite);

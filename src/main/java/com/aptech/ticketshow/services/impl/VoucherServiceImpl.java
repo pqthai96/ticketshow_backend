@@ -34,7 +34,7 @@ public class VoucherServiceImpl implements VoucherService{
 	}
 
 	@Override
-	public VoucherDTO getById(Long id) {
+	public VoucherDTO findById(Long id) {
 		Optional<Voucher> optionalVoucher = voucherRepository.findById(id);
         if (optionalVoucher.isPresent()) {
             return voucherMapper.toDTO(optionalVoucher.get());

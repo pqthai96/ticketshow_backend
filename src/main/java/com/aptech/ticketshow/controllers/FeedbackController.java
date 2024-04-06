@@ -44,7 +44,8 @@ public class FeedbackController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FeedbackDTO> updateFeedback(@PathVariable Long id, @RequestBody FeedbackDTO feedbackDTO) {
-        FeedbackDTO updatedFeedback = feedbackService.update(id, feedbackDTO);
+    	feedbackDTO.setId(id);
+        FeedbackDTO updatedFeedback = feedbackService.update(feedbackDTO);
         return ResponseEntity.ok(updatedFeedback);
     }
 

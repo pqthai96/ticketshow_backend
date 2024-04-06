@@ -33,7 +33,7 @@ public class DiscountServiceImpl implements DiscountService {
 
 	@Override
 	public DiscountDTO create(DiscountDTO discountDTO) {
-		discountDTO.setTicketDTO(ticketService.getById(discountDTO.getTicketDTO().getId()));
+		discountDTO.setTicketDTO(ticketService.findById(discountDTO.getTicketDTO().getId()));
 		
 		Discount discount = discountMapper.toEntity(discountDTO);
         discount = discountRepository.save(discount);
@@ -41,12 +41,12 @@ public class DiscountServiceImpl implements DiscountService {
 	}
 
 	@Override
-	public DiscountDTO getById(Long id) {
+	public DiscountDTO findById(Long id) {
 		Optional<Discount> optionalDiscount = discountRepository.findById(id);
         if (optionalDiscount.isPresent()) {
             DiscountDTO discountDTO = discountMapper.toDTO(optionalDiscount.get());
             
-            discountDTO.setTicketDTO(ticketService.getById(optionalDiscount.get().getTicket().getId()));
+            discountDTO.setTicketDTO(ticketService.findById(optionalDiscount.get().getTicket().getId()));
             return discountDTO;
         }
         return null;
