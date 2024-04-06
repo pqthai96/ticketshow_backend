@@ -1,7 +1,6 @@
 package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.UserDTO;
-import com.aptech.ticketshow.data.entities.User;
 import com.aptech.ticketshow.data.mappers.UserMapper;
 import com.aptech.ticketshow.data.repositories.UserRepository;
 import com.aptech.ticketshow.services.UserService;

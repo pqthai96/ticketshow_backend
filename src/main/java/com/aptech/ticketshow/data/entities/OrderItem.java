@@ -1,6 +1,5 @@
 package com.aptech.ticketshow.data.entities;
 
-import com.nimbusds.openid.connect.sdk.assurance.evidences.Voucher;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

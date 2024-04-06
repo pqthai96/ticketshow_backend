@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TicketshowBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TicketshowBackendApplication.class, args);
+		
 	}
 }

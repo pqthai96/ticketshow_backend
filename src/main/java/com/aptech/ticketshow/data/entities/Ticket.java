@@ -1,13 +1,10 @@
 package com.aptech.ticketshow.data.entities;
 
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
