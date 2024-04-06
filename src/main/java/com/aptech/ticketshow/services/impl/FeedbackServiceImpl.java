@@ -49,7 +49,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public FeedbackDTO update(Long id, FeedbackDTO feedbackDTO) {
+    public FeedbackDTO update(FeedbackDTO feedbackDTO) {
+    	long id = feedbackDTO.getId();
         Optional<Feedback> feedbackOptional = feedbackRepository.findById(id);
         if (feedbackOptional.isPresent()) {
             Feedback feedback = feedbackOptional.get();

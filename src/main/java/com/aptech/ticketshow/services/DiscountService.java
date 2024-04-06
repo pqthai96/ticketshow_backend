@@ -12,7 +12,7 @@ public interface DiscountService {
 
     DiscountDTO getById(Long id);
 
-    DiscountDTO update(Long id, DiscountDTO discountDTO);
+    DiscountDTO update(DiscountDTO discountDTO);
 
     void delete(Long id);
 }

@@ -43,7 +43,8 @@ public class VoucherServiceImpl implements VoucherService{
 	}
 
 	@Override
-	public VoucherDTO update(Long id, VoucherDTO voucherDTO) {
+	public VoucherDTO update(VoucherDTO voucherDTO) {
+		long id = voucherDTO.getId();
 		Optional<Voucher> optionalVoucher = voucherRepository.findById(id);
         if (optionalVoucher.isPresent()) {
             Voucher existingVoucher = optionalVoucher.get();

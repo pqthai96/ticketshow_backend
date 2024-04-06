@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FavoriteDTO {
+	
+	private Long id;
 
 	private EventDTO eventDTO;
 
