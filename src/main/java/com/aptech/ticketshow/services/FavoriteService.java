@@ -12,7 +12,7 @@ public interface FavoriteService {
 
     FavoriteDTO getById(Long id);
 
-    FavoriteDTO update(FavoriteDTO favoriteDTO);
+    FavoriteDTO update(Long id, FavoriteDTO favoriteDTO);
 
     void delete(Long id);
 }
