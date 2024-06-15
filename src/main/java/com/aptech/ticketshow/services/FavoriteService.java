@@ -10,7 +10,7 @@ public interface FavoriteService {
 	
     FavoriteDTO create(FavoriteDTO favoriteDTO);
 
-    FavoriteDTO getById(Long id);
+    FavoriteDTO findById(Long id);
 
     FavoriteDTO update(Long id, FavoriteDTO favoriteDTO);
 

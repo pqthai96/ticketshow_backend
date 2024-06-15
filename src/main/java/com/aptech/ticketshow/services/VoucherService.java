@@ -10,7 +10,7 @@ public interface VoucherService {
 	
     VoucherDTO create(VoucherDTO voucherDTO);
 
-    VoucherDTO getById(Long id);
+    VoucherDTO findById(Long id);
 
     VoucherDTO update(VoucherDTO voucherDTO);
 

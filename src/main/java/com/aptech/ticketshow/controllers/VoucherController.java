@@ -24,7 +24,7 @@ public class VoucherController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VoucherDTO> getVoucherById(@PathVariable("id") Long id) {
-        VoucherDTO voucherDTO = voucherService.getById(id);
+        VoucherDTO voucherDTO = voucherService.findById(id);
         if (voucherDTO != null) {
             return new ResponseEntity<>(voucherDTO, HttpStatus.OK);
         } else {
@@ -40,7 +40,8 @@ public class VoucherController {
 
     @PutMapping("/{id}")
     public ResponseEntity<VoucherDTO> updateVoucher(@PathVariable("id") Long id, @RequestBody VoucherDTO voucherDTO) {
-        VoucherDTO updatedVoucher = voucherService.update(id, voucherDTO);
+    	voucherDTO.setId(id);
+        VoucherDTO updatedVoucher = voucherService.update(voucherDTO);
         if (updatedVoucher != null) {
             return new ResponseEntity<>(updatedVoucher, HttpStatus.OK);
         } else {
