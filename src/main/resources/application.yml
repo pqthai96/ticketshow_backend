@@ -20,11 +20,11 @@ spring:
 
 twilio:
   account:
-    sid: AC88f2680ca4cf88da74c71eeb86967dd5
+    sid:
   auth:
-    token: ea4f60c4d0b766b4c3ffadf9deff563e
+    token:
   phone:
-    number: +12565107871
+    number:
 
 #url:
 #  redirect:
