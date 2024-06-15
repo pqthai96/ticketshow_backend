@@ -24,9 +24,8 @@ public class Admin extends Auditable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @Column(name = "role")
+    private ERole role;
 
     @Column(name = "password")
     private String password;

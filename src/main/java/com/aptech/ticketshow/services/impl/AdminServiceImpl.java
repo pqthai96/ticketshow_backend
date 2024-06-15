@@ -2,8 +2,8 @@ package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.AdminDTO;
 import com.aptech.ticketshow.data.entities.Admin;
+import com.aptech.ticketshow.data.entities.ERole;
 import com.aptech.ticketshow.data.mappers.AdminMapper;
-import com.aptech.ticketshow.data.mappers.RoleMapper;
 import com.aptech.ticketshow.data.repositories.AdminRepository;
 import com.aptech.ticketshow.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
-
-    @Autowired
-    private RoleMapper roleMapper;
 
     @Override
     public List<AdminDTO> findAll() {
@@ -55,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
             Admin admin = adminOptional.get();
             admin.setName(adminDTO.getName());
             admin.setPassword(adminDTO.getPassword());
-            admin.setRole(roleMapper.toEntity(adminDTO.getRoleDTO()));
+            admin.setRole(ERole.ROLE_ADMIN);
             admin = adminRepository.save(admin);
             return adminMapper.toDTO(admin);
         } else {
