@@ -11,6 +11,8 @@ public class FavoriteDTO {
 	
 	private Long id;
 
+    private Long eventId;
+    private Long userId;
 	private EventDTO eventDTO;
 
     private UserDTO userDTO;

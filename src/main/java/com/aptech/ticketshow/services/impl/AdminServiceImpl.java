@@ -39,7 +39,6 @@ public class AdminServiceImpl implements AdminService {
             throw new RuntimeException("Admin not found with id: " + id);
         }
     }
-
     @Override
     public AdminDTO save(AdminDTO adminDTO) {
         Admin admin = adminMapper.toEntity(adminDTO);

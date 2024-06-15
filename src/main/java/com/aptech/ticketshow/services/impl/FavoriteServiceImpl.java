@@ -11,7 +11,6 @@ import com.aptech.ticketshow.data.dtos.FavoriteDTO;
 import com.aptech.ticketshow.data.entities.Favorite;
 import com.aptech.ticketshow.data.mappers.FavoriteMapper;
 import com.aptech.ticketshow.data.repositories.FavoriteRepository;
-import com.aptech.ticketshow.services.EventService;
 import com.aptech.ticketshow.services.FavoriteService;
 import com.aptech.ticketshow.services.UserService;
 
@@ -55,8 +54,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 	}
 
 	@Override
-	public FavoriteDTO update(FavoriteDTO favoriteDTO) {
-		long id = favoriteDTO.getId();
+	public FavoriteDTO update(Long id, FavoriteDTO favoriteDTO) {
 		Optional<Favorite> optionalFavorite = favoriteRepository.findById(id);
         if (optionalFavorite.isPresent()) {
             Favorite existingFavorite = optionalFavorite.get();
