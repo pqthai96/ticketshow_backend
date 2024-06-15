@@ -9,7 +9,7 @@ import com.aptech.ticketshow.data.mappers.AdminMapper;
 import com.aptech.ticketshow.data.mappers.CategoryMapper;
 import com.aptech.ticketshow.data.mappers.EventMapper;
 import com.aptech.ticketshow.data.mappers.RoleMapper;
-import com.aptech.ticketshow.data.repositories.EventRespository;
+import com.aptech.ticketshow.data.repositories.EventRepository;
 import com.aptech.ticketshow.data.repositories.RoleRepository;
 import com.aptech.ticketshow.services.EventService;
 import com.aptech.ticketshow.services.RoleService;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
 
     @Autowired
-    private EventRespository eventRepository;
+    private EventRepository eventRepository;
 
     @Autowired
     private EventMapper eventMapper;

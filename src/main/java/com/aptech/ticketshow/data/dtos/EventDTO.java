@@ -36,7 +36,7 @@ public class EventDTO {
 
     private String content;
 
-    private OrganiserDTO organiser;
+    //private OrganiserDTO organiser;
 
     private CategoryDTO category;
 

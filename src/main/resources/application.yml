@@ -5,7 +5,7 @@ db:
   name: ticket_show_db
   endpoint: localhost
   username: root
-  password: dUy12345
+  password: Sang@1991
 
 spring:
   datasource:
@@ -17,6 +17,15 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
+
+twilio:
+  account:
+    sid: AC88f2680ca4cf88da74c71eeb86967dd5
+  auth:
+    token: ea4f60c4d0b766b4c3ffadf9deff563e
+  phone:
+    number: +12565107871
+
 #url:
 #  redirect:
 #    path: ${domain.path}
