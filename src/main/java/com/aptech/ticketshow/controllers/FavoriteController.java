@@ -48,7 +48,7 @@ public class FavoriteController {
     @PutMapping("/{id}")
     public ResponseEntity<FavoriteDTO> updateFavorite(@PathVariable("id") Long id, @RequestBody FavoriteDTO favoriteDTO) {
     	favoriteDTO.setId(id);
-    	FavoriteDTO updatedFavorite = favoriteService.update(favoriteDTO);
+    	FavoriteDTO updatedFavorite = favoriteService.update(id,favoriteDTO);
         if (updatedFavorite != null) {
             return new ResponseEntity<>(updatedFavorite, HttpStatus.OK);
         } else {

@@ -58,7 +58,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
 	@Override
-	public FavoriteDTO getById(Long id) {
+	public FavoriteDTO findById(Long id) {
 		Optional<Favorite> optionalFavorite = favoriteRepository.findById(id);
         if (optionalFavorite.isPresent()) {
             return favoriteMapper.toDTO(optionalFavorite.get());

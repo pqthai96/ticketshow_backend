@@ -10,5 +10,5 @@ public interface UserService {
     List<UserDTO> findAll();
 
     // Bổ sung phương thức getById
-    UserDTO getById(Long id);
+    UserDTO findById(Long id);
 }
