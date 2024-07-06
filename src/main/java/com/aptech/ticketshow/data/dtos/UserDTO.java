@@ -46,4 +46,5 @@ public class UserDTO extends Auditable {
     private String rememberToken;
 
     private String otp;
+
 }

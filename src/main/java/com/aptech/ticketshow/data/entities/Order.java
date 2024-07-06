@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Date;
+
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @Data
@@ -24,33 +27,19 @@ public class Order extends Auditable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "email_receive")
-    private String emailReceive;
+    @Column(name = "order_date")
+    private Date orderDate;
 
-    @Column(name = "ticket_pdf_path")
-    private String ticketPdfPath;
-
-    @Column(name = "transaction_id")
-    private Integer transactionId;
-
-    @Column(name = "business_name")
-    private String businessName;
-
-    @Column(name = "business_tax")
-    private Long businessTax;
-
-    @Column(name = "business_address")
-    private String businessAddress;
+    @Column(name = "total_amount")
+    private Double totalAmount;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "voucher_id", nullable = false)
-    private Voucher voucher;
+    @Column(name = "ticket_pdf_path")
+    private String ticketPdfPath;
 }

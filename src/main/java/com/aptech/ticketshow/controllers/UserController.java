@@ -1,6 +1,7 @@
 package com.aptech.ticketshow.controllers;
 
 import com.aptech.ticketshow.data.dtos.UserDTO;
+import com.aptech.ticketshow.data.dtos.UserProfileDTO;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +24,20 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/getUserById/{id}")
+    @GetMapping("/get-user-by-id/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         UserDTO user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/editUserById/{id}")
-    public ResponseEntity<UserDTO> editUserById(@PathVariable Long id, @RequestBody UserDTO userDTO){
-        userDTO.setId(id);
-        UserDTO editedUser = userService.editUser(userDTO);
+    @PutMapping("/edit-user-by-id/{id}")
+    public ResponseEntity<UserProfileDTO> editUserById(@PathVariable Long id, @RequestBody UserProfileDTO userProfileDTO){
+        userProfileDTO.setId(id);
+        UserProfileDTO editedUser = userService.editUser(userProfileDTO);
         return ResponseEntity.ok(editedUser);
     }
 
-    @GetMapping("/getUserByEmail/{email}")
+    @GetMapping("/get-user-by-email/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
         UserDTO user = userService.findByEmail(email);
         return ResponseEntity.ok(user);

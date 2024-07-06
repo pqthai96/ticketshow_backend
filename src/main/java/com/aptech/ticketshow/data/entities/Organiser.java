@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -42,7 +43,7 @@ public class Organiser extends Auditable {
     @Column(name = "individual_tax")
     private Long individualTax;
 
-    @Column(name = "individual_indentify")
+    @Column(name = "individual_identify")
     private Long individualIdentify;
 
     @Column(name = "individual_email")
@@ -50,6 +51,9 @@ public class Organiser extends Auditable {
 
     @Column(name = "individual_address")
     private String individualAddress;
+
+    @Column(name = "individual_province")
+    private String individualProvince;
 
     @Column(name = "individual_district")
     private String individualDistrict;
@@ -90,6 +94,9 @@ public class Organiser extends Auditable {
     @Column(name = "balance")
     private Double balance;
 
-    @Column(name = "default_bank_id")
-    private Long defaultBankId;
+    @OneToMany(mappedBy = "organiser")
+    private List<Bank> banks;
+
+    @OneToMany(mappedBy = "organiser")
+    private List<Event> events;
 }

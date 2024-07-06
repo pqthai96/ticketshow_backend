@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface JWTService {
-    String extractUserName(String token);
+    String generateToken(UserDetails userDetails, Map<String, Object> additionalClaims);
 
-    String generateToken(UserDetails userDetails);
+    String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails);
+
+    String extractUserName(String token);
 
     boolean isTokenValid(String token, UserDetails userDetails);
 
-    String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails);
 }

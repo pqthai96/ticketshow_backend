@@ -1,6 +1,7 @@
 package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.UserDTO;
+import com.aptech.ticketshow.data.dtos.UserProfileDTO;
 import com.aptech.ticketshow.data.entities.User;
 import com.aptech.ticketshow.data.mappers.UserMapper;
 import com.aptech.ticketshow.data.repositories.UserRepository;
@@ -43,24 +44,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO editUser(UserDTO userDTO){
-        Long id = userDTO.getId();
+    public UserProfileDTO editUser(UserProfileDTO userProfileDTO){
+        Long id = userProfileDTO.getId();
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isPresent()){
             User user = userOptional.get();
-            //user.setEmail(userDTO.getEmail());
-            //user.setPhone(userDTO.getPhone());
-            user.setPassword(userDTO.getPassword());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
-            user.setDistrict(userDTO.getDistrict());
-            user.setProvince(userDTO.getProvince());
-            user.setWard(userDTO.getWard());
-            //user.setEmailVerified(userDTO.getEmailVerified());
+            user.setPhone(userProfileDTO.getPhone());
+            user.setFirstName(userProfileDTO.getFirstName());
+            user.setLastName(userProfileDTO.getLastName());
+            user.setAddress(userProfileDTO.getAddress());
+            user.setDistrict(userProfileDTO.getDistrict());
+            user.setProvince(userProfileDTO.getProvince());
+            user.setWard(userProfileDTO.getWard());
             user = userRepository.save(user);
-            return userMapper.toDTO(user);
+            return userMapper.toProfileDTO(user);
         }
-        return userDTO;
+        return userProfileDTO;
     }
 
     @Override
@@ -103,5 +102,11 @@ public class UserServiceImpl implements UserService {
                 return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };
+    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        return user;
     }
 }

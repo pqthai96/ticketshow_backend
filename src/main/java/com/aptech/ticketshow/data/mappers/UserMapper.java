@@ -1,5 +1,6 @@
 package com.aptech.ticketshow.data.mappers;
 
+import com.aptech.ticketshow.data.dtos.UserProfileDTO;
 import com.aptech.ticketshow.data.entities.User;
 import com.aptech.ticketshow.data.dtos.UserDTO;
 import org.mapstruct.Mapper;
@@ -15,4 +16,6 @@ public interface UserMapper {
 
     @Mapping(source = "status", target = "statusDTO")
     UserDTO toDTO(User user);
+
+    UserProfileDTO toProfileDTO(User user);
 }

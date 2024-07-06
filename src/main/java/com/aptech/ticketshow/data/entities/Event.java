@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -68,6 +69,9 @@ public class Event extends Auditable {
     @Lob
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
+
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organiser_id", nullable = false)

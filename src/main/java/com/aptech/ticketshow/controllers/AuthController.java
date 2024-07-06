@@ -48,7 +48,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/sendOtp")
+    @PostMapping("/send-otp")
     public ResponseEntity<String> sendOtp(@RequestBody UserDTO userDTO) {
         // Generate a random OTP
         String otp = String.format("%06d", new Random().nextInt(999999));
@@ -61,7 +61,7 @@ public class AuthController {
         return ResponseEntity.ok("OTP sent successfully");
     }
 
-    @PostMapping("/verifyOtp")
+    @PostMapping("/verify-otp")
     public ResponseEntity<String> verifyOtp(@RequestBody OtpVerificationRequest request) {
         OtpEntry otpEntry = otpStorage.get(request.getPhoneNumber());
         if (otpEntry != null && otpEntry.otp.equals(request.getOtp())) {
@@ -83,11 +83,7 @@ public class AuthController {
         //OtpEntry otpEntry = otpStorage.get(userDTO.getPhone());
         //if (otpEntry != null && otpEntry.otp.equals(userDTO.getOtp())) {
             //if (System.currentTimeMillis() <= otpEntry.expirationTime) {
-                userDTO.setStatusDTO(new StatusDTO(1L, "Active"));
-                userDTO.setRole(ERole.ROLE_USER);
-                userDTO.setEmailVerified(userDTO.getEmailVerified());
                 User user = authService.signup(userDTO);
-                otpStorage.remove(userDTO.getPhone());
                 return ResponseEntity.ok(user);
             //} else {
                 // otpStorage.remove(userDTO.getPhone());
@@ -99,22 +95,13 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<JwtAuthResponse> signin(@RequestBody SigningRequest signingRequest){
-        JwtAuthResponse authResponse = authService.signin(signingRequest);
-        UserDTO userDTO = userService.findByEmail(signingRequest.getEmail());
-        authResponse.setId(userDTO.getId());
-        authResponse.setRole(userDTO.getRole());
-        authResponse.setEmail(userDTO.getEmail());
-        authResponse.setPhone(userDTO.getPhone());
-        authResponse.setLastName(userDTO.getLastName());
-        authResponse.setFirstName(userDTO.getFirstName());
-        authResponse.setName(userDTO.getFirstName() + " " + userDTO.getLastName());
-        authResponse.setEmailVerified(userDTO.getEmailVerified());
-        return ResponseEntity.ok(authResponse);
+    public ResponseEntity<JwtAuthResponse> signin(@RequestBody SigningRequest signingRequest) {
+        JwtAuthResponse jwtAuthResponse = authService.signin(signingRequest);
+        return ResponseEntity.ok(jwtAuthResponse);
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<JwtAuthResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
-        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
-    }
+//    @PostMapping("/refresh")
+//    public ResponseEntity<JwtAuthResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
+//        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
+//    }
 }

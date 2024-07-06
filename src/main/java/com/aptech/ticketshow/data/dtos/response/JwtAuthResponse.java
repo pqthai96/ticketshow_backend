@@ -21,5 +21,6 @@ public class JwtAuthResponse {
 
     public JwtAuthResponse() {
         this.name = firstName + " " + lastName;
+        this.id = getId();
     }
 }

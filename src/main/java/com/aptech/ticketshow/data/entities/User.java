@@ -109,4 +109,5 @@ public class User extends Auditable implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

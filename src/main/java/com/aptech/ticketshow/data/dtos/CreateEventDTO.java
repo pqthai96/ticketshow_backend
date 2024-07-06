@@ -1,12 +1,11 @@
 package com.aptech.ticketshow.data.dtos;
 
-import java.util.Date;
-
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class EventDTO {
-    private Long id;
+public class CreateEventDTO {
 
     private String title;
 
@@ -20,25 +19,15 @@ public class EventDTO {
 
     private String locationWard;
 
-    private String locationGooglePlaceId;
-
-    private String barcode;
-
     private Date startedAt;
 
     private Date endedAt;
 
     private Date onSaleAt;
 
-    private String positionImagePath;
-
-    private String bannerImagePath;
-
     private String content;
 
-    private HostingOrganiserDTO organiser;
+    private int category;
 
-    private CategoryDTO category;
-
-    private AdminDTO editedByAdminId;
+    private CreateTicketDTO[] tickets;
 }

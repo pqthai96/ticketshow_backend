@@ -29,8 +29,14 @@ public class Bank extends Auditable {
     @Column(name = "owner_name")
     private String ownerName;
 
-    @Column(name = "number")
-    private Long number;
+    @Column(name = "bank_name")
+    private String bankName;
+
+    @Column(name = "account_number")
+    private Long accountNumber;
+
+    @Column(name = "bank_branch")
+    private String bankBranch;
 
     @Column(name = "valid_date")
     private Date validDate;
@@ -45,6 +51,10 @@ public class Bank extends Auditable {
     private Long zip;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organiser_id")
+    private Organiser organiser;
 }

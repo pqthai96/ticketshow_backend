@@ -54,7 +54,9 @@ public class BankServiceImpl implements BankService {
         if (bankOptional.isPresent()) {
             Bank bank = bankOptional.get();
             bank.setOwnerName(bankDTO.getOwnerName());
-            bank.setNumber(bankDTO.getNumber());
+            bank.setBankName(bankDTO.getBankName());
+            bank.setAccountNumber(bankDTO.getAccountNumber());
+            bank.setBankBranch(bankDTO.getBankBranch());
             bank.setValidDate(bankDTO.getValidDate());
             bank.setCvc(bankDTO.getCvc());
             bank.setCountry(bankDTO.getCountry());
