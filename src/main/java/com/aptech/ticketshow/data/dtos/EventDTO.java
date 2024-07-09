@@ -36,9 +36,16 @@ public class EventDTO {
 
     private String content;
 
-    private OrganiserDTO organiser;
+    private String bookedSeat;
+
+//    private OrganiserDTO organiser;
 
     private CategoryDTO category;
 
     private AdminDTO editedByAdminId;
+
+    private String categories;
+    private String dates;
+    private String locations;
+    private String prices;
 }

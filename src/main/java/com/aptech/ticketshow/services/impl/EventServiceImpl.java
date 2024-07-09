@@ -9,7 +9,7 @@ import com.aptech.ticketshow.data.mappers.AdminMapper;
 import com.aptech.ticketshow.data.mappers.CategoryMapper;
 import com.aptech.ticketshow.data.mappers.EventMapper;
 import com.aptech.ticketshow.data.mappers.RoleMapper;
-import com.aptech.ticketshow.data.repositories.EventRespository;
+import com.aptech.ticketshow.data.repositories.EventRepository;
 import com.aptech.ticketshow.data.repositories.RoleRepository;
 import com.aptech.ticketshow.services.EventService;
 import com.aptech.ticketshow.services.RoleService;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
 
     @Autowired
-    private EventRespository eventRepository;
+    private EventRepository eventRepository;
 
     @Autowired
     private EventMapper eventMapper;
@@ -40,7 +40,12 @@ public class EventServiceImpl implements EventService {
     public List<EventDTO> findAll() {
         return eventRepository.findAll().stream().map(r -> eventMapper.toDTO(r)).collect(Collectors.toList());
     }
-
+    @Override
+    public List<EventDTO> getListFilter(EventDTO eventDTO) {
+        String cat = eventDTO.getCategories();
+        if("".equals(cat))  eventDTO.setCategories(null);
+        return eventRepository.findByCondition(eventDTO.getCategories()).stream().map(r -> eventMapper.toDTO(r)).collect(Collectors.toList());
+    }
     @Override
     public EventDTO findByID(Long id) {
         Optional<Event> eventOptional = eventRepository.findById(id);
@@ -90,6 +95,19 @@ public class EventServiceImpl implements EventService {
 
             event.setCategory(categoryMapper.toEntity(eventDTO.getCategory()));
             event.setEditedByAdminId(adminMapper.toEntity(eventDTO.getEditedByAdminId()));
+            event = eventRepository.save(event);
+            return eventMapper.toDTO(event);
+        } else {
+            throw new RuntimeException("Event not found with id: " + eventDTO.getId());
+        }
+    }
+    @Override
+    public EventDTO bookedSeat(EventDTO eventDTO) {
+        Optional<Event> eventOptional = eventRepository.findById(eventDTO.getId());
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            event.setBookedSeat(eventDTO.getBookedSeat());
+
             event = eventRepository.save(event);
             return eventMapper.toDTO(event);
         } else {
