@@ -24,13 +24,13 @@ public class FavoriteController {
 	@Autowired
 	private FavoriteService favoriteService;
 	@GetMapping
-    public ResponseEntity<List<FavoriteDTO>> getAllFavorites() {
+    public ResponseEntity<List<FavoriteDTO>> findAll() {
         List<FavoriteDTO> favorites = favoriteService.findAll();
         return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FavoriteDTO> getFavoriteById(@PathVariable("id") Long id) {
+    public ResponseEntity<FavoriteDTO> findById(@PathVariable("id") Long id) {
     	FavoriteDTO favoriteDTO = favoriteService.findById(id);
         if (favoriteDTO != null) {
             return new ResponseEntity<>(favoriteDTO, HttpStatus.OK);
@@ -40,14 +40,13 @@ public class FavoriteController {
     }
 
     @PostMapping
-    public ResponseEntity<FavoriteDTO> createFavorite(@RequestBody FavoriteDTO favoriteDTO) {
+    public ResponseEntity<FavoriteDTO> create(@RequestBody FavoriteDTO favoriteDTO) {
     	FavoriteDTO createdFavorite = favoriteService.create(favoriteDTO);
         return new ResponseEntity<>(createdFavorite, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FavoriteDTO> updateFavorite(@PathVariable("id") Long id, @RequestBody FavoriteDTO favoriteDTO) {
-    	favoriteDTO.setId(id);
+    public ResponseEntity<FavoriteDTO> update(@RequestBody FavoriteDTO favoriteDTO) {
     	FavoriteDTO updatedFavorite = favoriteService.update(favoriteDTO);
         if (updatedFavorite != null) {
             return new ResponseEntity<>(updatedFavorite, HttpStatus.OK);
@@ -57,7 +56,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFavorite(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
     	favoriteService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

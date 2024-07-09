@@ -10,9 +10,9 @@ public interface BankService {
 
     BankDTO findById(Long id);
 
-    BankDTO save(BankDTO bankDTO);
+    BankDTO create(BankDTO bankDTO);
 
     BankDTO update(BankDTO bankDTO);
 
-    void deleteById(Long id);
+    void delete(Long id);
 }

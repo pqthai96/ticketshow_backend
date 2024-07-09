@@ -10,9 +10,9 @@ public interface AdminService {
 
     AdminDTO findById(Long id);
 
-    AdminDTO save(AdminDTO adminDTO);
+    AdminDTO create(AdminDTO adminDTO);
 
     AdminDTO update(AdminDTO adminDTO);
 
-    void deleteById(Long id);
+    void delete(Long id);
 }

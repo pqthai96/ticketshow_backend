@@ -20,16 +20,18 @@ import com.aptech.ticketshow.services.DiscountService;
 @RestController
 @RequestMapping("api/discount")
 public class DiscountController {
+
 	@Autowired
 	private DiscountService discountService;
+
 	@GetMapping
-    public ResponseEntity<List<DiscountDTO>> getAllDiscounts() {
+    public ResponseEntity<List<DiscountDTO>> findAll() {
         List<DiscountDTO> discounts = discountService.findAll();
         return new ResponseEntity<>(discounts, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DiscountDTO> getDiscountById(@PathVariable("id") Long id) {
+    public ResponseEntity<DiscountDTO> findById(@PathVariable("id") Long id) {
         DiscountDTO discountDTO = discountService.findById(id);
         if (discountDTO != null) {
             return new ResponseEntity<>(discountDTO, HttpStatus.OK);
@@ -39,13 +41,13 @@ public class DiscountController {
     }
 
     @PostMapping
-    public ResponseEntity<DiscountDTO> createDiscount(@RequestBody DiscountDTO discountDTO) {
+    public ResponseEntity<DiscountDTO> create(@RequestBody DiscountDTO discountDTO) {
     	DiscountDTO createdDiscount = discountService.create(discountDTO);
         return new ResponseEntity<>(createdDiscount, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DiscountDTO> updateDiscount(@PathVariable("id") Long id, @RequestBody DiscountDTO discountDTO) {
+    public ResponseEntity<DiscountDTO> update(@PathVariable("id") Long id, @RequestBody DiscountDTO discountDTO) {
     	discountDTO.setId(id);
         DiscountDTO updatedDiscount = discountService.update(discountDTO);
         if (updatedDiscount != null) {
@@ -56,7 +58,7 @@ public class DiscountController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDiscount(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
     	discountService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

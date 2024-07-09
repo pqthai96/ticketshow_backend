@@ -1,19 +1,25 @@
 package com.aptech.ticketshow.services;
 
 import com.aptech.ticketshow.data.dtos.EventDTO;
+import com.aptech.ticketshow.data.dtos.EventFilterDTO;
+import com.aptech.ticketshow.data.dtos.PaginationDTO;
 import com.aptech.ticketshow.data.dtos.TicketDTO;
 
 import java.util.List;
 
 public interface EventService {
 
-    List<EventDTO> findAll();
+    PaginationDTO findAll(int no, int limit);
 
-    EventDTO findByID(Long id);
+    EventDTO findById(Long id);
 
-    EventDTO addEvent(EventDTO eventDTO);
+    EventDTO create(EventDTO eventDTO);
 
-    void deleteEvent(Long id);
+    void delete(Long id);
 
-    EventDTO updateEvent(EventDTO eventDTO);
+    EventDTO update(EventDTO eventDTO);
+
+    PaginationDTO filter(int no, int limit, EventFilterDTO eventFilterDTO);
+
+    PaginationDTO search(int no, int limit, String searchValue);
 }

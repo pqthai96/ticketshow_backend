@@ -5,7 +5,7 @@ db:
   name: ticket_show_db
   endpoint: localhost
   username: root
-  password: dUy12345
+  password: 1234
 
 spring:
   datasource:
@@ -14,9 +14,13 @@ spring:
     username: ${db.username}
     password: ${db.password}
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
+#  mvc:
+#    static-path-pattern: /images/**
+#  web:
+#    resources:
+#      static-locations: classpath:/static/images/
 #url:
 #  redirect:
 #    path: ${domain.path}

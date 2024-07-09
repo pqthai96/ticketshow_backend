@@ -26,6 +26,9 @@ public class Event extends Auditable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "title")
     private String title;
 

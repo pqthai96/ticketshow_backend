@@ -1,6 +1,7 @@
 package com.aptech.ticketshow.data.dtos;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -41,4 +42,6 @@ public class EventDTO {
     private CategoryDTO category;
 
     private AdminDTO editedByAdminId;
+
+    private List<TicketDTO> tickets;
 }
