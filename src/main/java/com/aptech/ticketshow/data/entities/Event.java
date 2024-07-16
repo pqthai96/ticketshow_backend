@@ -82,6 +82,6 @@ public class Event extends Auditable {
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "edited_by_admin_id", nullable = false)
+    @JoinColumn(name = "edited_by_admin_id")
     private Admin editedByAdminId;
 }

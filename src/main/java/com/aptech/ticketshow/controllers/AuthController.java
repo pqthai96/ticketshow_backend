@@ -16,8 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -100,8 +103,17 @@ public class AuthController {
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
-//    @PostMapping("/refresh")
-//    public ResponseEntity<JwtAuthResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest){
-//        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
-//    }
+    @PostMapping("/send-email-verification/{id}")
+    public ResponseEntity<UserDTO> verifyEmail(@PathVariable Long id, @RequestBody UserDTO userDTO){
+        userDTO.setId(id);
+        UserDTO editedUser = authService.verifyEmailUser(userDTO);
+        return ResponseEntity.ok(editedUser);
+    }
+
+    @GetMapping("/check-email-verification/{id}")
+    public ResponseEntity<?> checkEmailVerificationStatus(@PathVariable Long id) {
+        UserDTO userDTO = authService.findById(id);
+        boolean isVerified = userDTO.getEmailVerified() != null;
+        return ResponseEntity.ok(Collections.singletonMap("isVerified", isVerified));
+    }
 }

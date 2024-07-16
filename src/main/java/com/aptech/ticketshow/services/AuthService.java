@@ -13,4 +13,8 @@ public interface AuthService {
     JwtAuthResponse signin(SigningRequest signingRequest);
 
     JwtAuthResponse refreshToken(String refreshToken);
+
+    UserDTO findById(Long id);
+
+    UserDTO verifyEmailUser(UserDTO userDTO);
 }

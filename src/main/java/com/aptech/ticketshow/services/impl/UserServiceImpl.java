@@ -67,7 +67,8 @@ public class UserServiceImpl implements UserService {
         Long id = userDTO.getId();
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isPresent()){
-            User user = userOptional.get();user.setEmailVerified(userDTO.getEmailVerified());
+            User user = userOptional.get();
+            user.setEmailVerified(userDTO.getEmailVerified());
             user = userRepository.save(user);
             return userMapper.toDTO(user);
         }

@@ -1,7 +1,5 @@
 package com.aptech.ticketshow.controllers;
 
-import com.aptech.ticketshow.data.dtos.CreateEventDTO;
-import com.aptech.ticketshow.data.dtos.CreateTicketDTO;
 import com.aptech.ticketshow.data.dtos.EventDTO;
 import com.aptech.ticketshow.services.EventService;
 import com.aptech.ticketshow.services.FileStorageService;
@@ -20,32 +18,22 @@ public class EventController {
     @Autowired
     EventService eventService;
 
-//    @Autowired
-//    FileStorageService filesStorageService;
-
     @PostMapping(value = "/create", consumes = {"multipart/form-data"})
     @CrossOrigin
-    public ResponseEntity<EventDTO> addEvent(@RequestParam(name = "event") String event, @RequestParam(name = "bannerImg") MultipartFile bannerImg, @RequestParam(name = "positionImg") MultipartFile positionImg) {
+    public ResponseEntity<EventDTO> createEvent(
+            @RequestParam("event") String event,
+            @RequestParam(value = "bannerImg", required = false) MultipartFile bannerImg,
+            @RequestParam(value = "positionImg", required = false) MultipartFile positionImg) {
         ObjectMapper mapper = new ObjectMapper();
-        CreateEventDTO e;
+        EventDTO eventDTO;
         try {
-            e = mapper.readValue(event, CreateEventDTO.class);
+            eventDTO = mapper.readValue(event, EventDTO.class);
+            eventService.addEvent(eventDTO, bannerImg, positionImg);
         } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex);
         }
-        for(CreateTicketDTO c:e.getTickets())
-        {
-            System.out.println(c.getTitle());
-        }
         //filesStorageService.save(bannerImg);
-//        EventDTO eventDTO=new EventDTO();
-//        eventDTO.setTitle(e.getTitle());
-//        eventDTO.setTitle(e.getTitle());
-//        eventDTO.setTitle(e.getTitle());
-//        eventDTO.setTitle(e.getTitle());
-//        eventDTO.setTitle(e.getTitle());
-//        eventDTO.setTitle(e.getTitle());
-//        eventDTO.setTitle(e.getTitle());
-        return ResponseEntity.ok(eventService.findByID(1L));
+
+        return ResponseEntity.ok(eventService.findByID(eventDTO.getId()));
     }
 }

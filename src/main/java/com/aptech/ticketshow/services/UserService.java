@@ -2,6 +2,7 @@ package com.aptech.ticketshow.services;
 
 import com.aptech.ticketshow.data.dtos.UserDTO;
 import com.aptech.ticketshow.data.dtos.UserProfileDTO;
+import com.aptech.ticketshow.data.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -24,4 +25,5 @@ public interface UserService {
     UserDetailsService userDetailsService();
 
     UserDetails loadUserByUsername(String email);
+
 }

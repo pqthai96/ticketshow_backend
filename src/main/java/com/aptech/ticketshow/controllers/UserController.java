@@ -5,9 +5,14 @@ import com.aptech.ticketshow.data.dtos.UserProfileDTO;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -22,6 +27,16 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> users = userService.findAll();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/get-user")
+    public ResponseEntity<UserDTO> getUserProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        UserDTO userDTO = userService.findByEmail(userDetails.getUsername());
+        if (userDTO != null) {
+            return ResponseEntity.ok(userDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping("/get-user-by-id/{id}")

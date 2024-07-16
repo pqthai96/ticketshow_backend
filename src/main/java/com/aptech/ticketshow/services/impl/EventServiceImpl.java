@@ -1,20 +1,16 @@
 package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.EventDTO;
-import com.aptech.ticketshow.data.dtos.RoleDTO;
-import com.aptech.ticketshow.data.entities.Event;
-import com.aptech.ticketshow.data.entities.Role;
-import com.aptech.ticketshow.data.entities.Ticket;
+import com.aptech.ticketshow.data.entities.*;
 import com.aptech.ticketshow.data.mappers.AdminMapper;
 import com.aptech.ticketshow.data.mappers.CategoryMapper;
 import com.aptech.ticketshow.data.mappers.EventMapper;
-import com.aptech.ticketshow.data.mappers.RoleMapper;
-import com.aptech.ticketshow.data.repositories.EventRepository;
-import com.aptech.ticketshow.data.repositories.RoleRepository;
+import com.aptech.ticketshow.data.repositories.*;
 import com.aptech.ticketshow.services.EventService;
-import com.aptech.ticketshow.services.RoleService;
+import com.aptech.ticketshow.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +24,12 @@ public class EventServiceImpl implements EventService {
     private EventRepository eventRepository;
 
     @Autowired
+    private OrganiserRepository organiserRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private EventMapper eventMapper;
 
     @Autowired
@@ -35,6 +37,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @Override
     public List<EventDTO> findAll() {
@@ -52,10 +57,27 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDTO addEvent(EventDTO eventDTO) {
+    public void addEvent(EventDTO eventDTO, MultipartFile bannerImg, MultipartFile positionImg) {
         Event event = eventMapper.toEntity(eventDTO);
+
+        // Save the images
+        if (bannerImg != null && !bannerImg.isEmpty()) {
+            String bannerImgPath = saveFile(bannerImg);
+            event.setBannerImagePath(bannerImgPath);
+        }
+
+        if (positionImg != null && !positionImg.isEmpty()) {
+            String positionImgPath = saveFile(positionImg);
+            event.setPositionImagePath(positionImgPath);
+        }
+
         event = eventRepository.save(event);
-        return eventMapper.toDTO(event);
+        eventMapper.toDTO(event);
+    }
+
+    private String saveFile(MultipartFile file) {
+        fileStorageService.save(file);
+        return file.getOriginalFilename();
     }
 
     @Override
@@ -87,9 +109,6 @@ public class EventServiceImpl implements EventService {
             event.setPositionImagePath(eventDTO.getPositionImagePath());
             event.setBannerImagePath(eventDTO.getBannerImagePath());
             event.setContent((eventDTO.getContent()));
-
-            event.setCategory(categoryMapper.toEntity(eventDTO.getCategory()));
-            event.setEditedByAdminId(adminMapper.toEntity(eventDTO.getEditedByAdminId()));
             event = eventRepository.save(event);
             return eventMapper.toDTO(event);
         } else {

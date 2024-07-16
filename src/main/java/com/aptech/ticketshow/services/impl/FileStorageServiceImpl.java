@@ -1,8 +1,10 @@
 package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.services.FileStorageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +17,8 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+@Service
+@RequiredArgsConstructor
 public class FileStorageServiceImpl implements FileStorageService {
     private final Path root = Paths.get("uploads");
 

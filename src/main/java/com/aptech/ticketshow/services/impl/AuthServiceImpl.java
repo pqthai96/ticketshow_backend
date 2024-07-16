@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
 
     public User signup(UserDTO userDTO){
-        User user = new User();
+        User user;
         user = userMapper.toEntity(userDTO);
         user.setStatus(new Status(1L, "Active"));
         user.setRole(ERole.ROLE_USER);
@@ -80,5 +81,28 @@ public class AuthServiceImpl implements AuthService {
         // và implement logic xử lý refreshToken ở đây
 
         return null; // Hoặc trả về một đối tượng JwtAuthResponse mới
+    }
+
+    @Override
+    public UserDTO findById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            return userMapper.toDTO(userOptional.get());
+        } else {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+    }
+
+    @Override
+    public UserDTO verifyEmailUser(UserDTO userDTO){
+        Long id = userDTO.getId();
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setEmailVerified(userDTO.getEmailVerified());
+            user = userRepository.save(user);
+            return userMapper.toDTO(user);
+        }
+        return userDTO;
     }
 }

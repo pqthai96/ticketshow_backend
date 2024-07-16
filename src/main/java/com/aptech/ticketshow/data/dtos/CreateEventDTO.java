@@ -25,9 +25,15 @@ public class CreateEventDTO {
 
     private Date onSaleAt;
 
+    private String positionImagePath;
+
+    private String bannerImagePath;
+
     private String content;
 
-    private int category;
+    private Long category;
+
+    private Long organiser;
 
     private CreateTicketDTO[] tickets;
 }
