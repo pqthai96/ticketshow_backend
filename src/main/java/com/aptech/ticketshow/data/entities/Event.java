@@ -72,6 +72,10 @@ public class Event extends Auditable {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
+    @Lob
+    @Column(name = "booked_seat", columnDefinition = "LONGTEXT")
+    private String bookedSeat;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organiser_id", nullable = false)
     private Organiser organiser;

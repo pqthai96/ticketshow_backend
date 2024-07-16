@@ -22,4 +22,6 @@ public interface EventService {
     PaginationDTO filter(int no, int limit, EventFilterDTO eventFilterDTO);
 
     PaginationDTO search(int no, int limit, String searchValue);
+
+    EventDTO bookedSeat(EventDTO eventDTO);
 }

@@ -44,4 +44,10 @@ public class EventController {
     public ResponseEntity<PaginationDTO> search(@RequestParam int no, @RequestParam int limit, @RequestParam(value = "searchValue") String searchValue) {
         return ResponseEntity.ok(eventService.search(no, limit, searchValue));
     }
+
+    @PostMapping("/bookedSeat")
+    public ResponseEntity<EventDTO> bookedSeat(@RequestBody EventDTO eventDTO) {
+        EventDTO updatedEvent = eventService.bookedSeat(eventDTO);
+        return ResponseEntity.ok(updatedEvent);
+    }
 }

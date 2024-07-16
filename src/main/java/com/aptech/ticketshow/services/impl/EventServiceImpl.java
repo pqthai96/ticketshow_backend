@@ -120,4 +120,18 @@ public class EventServiceImpl implements EventService {
 
         return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
     }
+
+    @Override
+    public EventDTO bookedSeat(EventDTO eventDTO) {
+        Optional<Event> eventOptional = eventRepository.findById(eventDTO.getId());
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            event.setBookedSeat(eventDTO.getBookedSeat());
+
+            event = eventRepository.save(event);
+            return eventMapper.toDTO(event);
+        } else {
+            throw new RuntimeException("Event not found with id: " + eventDTO.getId());
+        }
+    }
 }
