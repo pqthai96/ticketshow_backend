@@ -4,9 +4,11 @@ import com.aptech.ticketshow.data.dtos.EventFilterDTO;
 import com.aptech.ticketshow.data.entities.Category;
 import com.aptech.ticketshow.data.entities.Event;
 import jakarta.persistence.criteria.*;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class EventSpecification implements Specification<Event> {
             if (eventFilterDTO.getLocations() != null && !eventFilterDTO.getLocations().isEmpty()) {
                 Predicate locationPredicate = cb.disjunction();
                 for (Object location : eventFilterDTO.getLocations()) {
-                    locationPredicate = cb.or(locationPredicate, cb.like(root.get("locationProvince"), "%" + location + "%"));
+                    locationPredicate = cb.or(locationPredicate, cb.like(root.get("locationWard"), "%" + location + "%"));
                 }
                 predicates.add(locationPredicate);
             }
@@ -57,7 +59,15 @@ public class EventSpecification implements Specification<Event> {
                     if (date instanceof Date) {
                         datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), (Date) date, (Date) date));
                     } else if (date instanceof String) {
-                        // Handle string date format
+                        if (date.equals("Upcoming Dates")) {
+                            datePredicate = cb.or(datePredicate, cb.greaterThanOrEqualTo(root.get("startedAt"), new Date()));
+                        } else if(date.equals("Today")){
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"),DateUtils.truncate(new Date(), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(),1), Calendar.DATE)));
+                        } else if(date.equals("Tomorrow")){
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"),DateUtils.truncate(DateUtils.addDays(new Date(),1), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(),2), Calendar.DATE)));
+                        } else if(date.equals("This week")){
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"),new Date(), DateUtils.addDays(new Date(),7)));
+                        }
                     }
                 }
                 predicates.add(datePredicate);

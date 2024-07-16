@@ -24,7 +24,7 @@ public class TicketDTO {
 
     private Boolean isHidden;
 
-    // private EventDTO event;
+     private EventDTO event;
 
     private AdminDTO editedByAdminId;
 }
