@@ -24,7 +24,7 @@ public class Organiser extends Auditable {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -94,9 +94,12 @@ public class Organiser extends Auditable {
     @Column(name = "balance")
     private Double balance;
 
-    @OneToMany(mappedBy = "organiser")
-    private List<Bank> banks;
+//    @OneToMany(mappedBy = "organiser")
+//    private List<Bank> banks;
 
-    @OneToMany(mappedBy = "organiser")
-    private List<Event> events;
+//    @OneToMany(mappedBy = "organiser")
+//    private List<Event> events;
+
+    @Column(name = "default_bank_id")
+    private Long defaultBankId;
 }

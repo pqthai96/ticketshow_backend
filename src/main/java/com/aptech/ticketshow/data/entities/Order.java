@@ -42,4 +42,12 @@ public class Order extends Auditable {
 
     @Column(name = "ticket_pdf_path")
     private String ticketPdfPath;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "voucher_id", nullable = false)
+    private Voucher voucher;
 }

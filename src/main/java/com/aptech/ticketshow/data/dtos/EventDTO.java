@@ -42,7 +42,7 @@ public class EventDTO {
 
     private String content;
 
-    private List<Ticket> tickets;
+    // private List<Ticket> tickets;
 
     private String bookedSeat;
 

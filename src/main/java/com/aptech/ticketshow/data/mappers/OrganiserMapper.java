@@ -7,13 +7,13 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses={UserMapper.class})
 public interface OrganiserMapper {
-    @Mapping(target = "user", source = "user")
-    @Mapping(target = "banks", source = "banks")
-    @Mapping(target = "events", source = "events")
+//    @Mapping(target = "user", source = "user")
+//    @Mapping(target = "banks", source = "banks")
+//    @Mapping(target = "events", source = "events")
     OrganiserDTO toDTO(Organiser organiser);
 
-    @Mapping(target = "user", source = "user")
-    @Mapping(target = "banks", source = "banks")
-    @Mapping(target = "events", source = "events")
+//    @Mapping(target = "user", source = "user")
+//    @Mapping(target = "banks", source = "banks")
+//    @Mapping(target = "events", source = "events")
     Organiser toEntity(OrganiserDTO organiserDTO);
 }

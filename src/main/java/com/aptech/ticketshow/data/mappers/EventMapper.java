@@ -13,13 +13,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    @Mapping(target = "organiser", source = "organiser")
-    @Mapping(target = "category", source = "category")
-    @Mapping(target = "editedByAdminId", source = "editedByAdminId")
+    // @Mapping(target = "organiser", source = "organiser")
+    // @Mapping(target = "category", source = "category")
+    // @Mapping(target = "editedByAdminId", source = "editedByAdminId")
     EventDTO toDTO(Event event);
 
-    @Mapping(target = "organiser", source = "organiser")
-    @Mapping(target = "category", source = "category")
-    @Mapping(target = "editedByAdminId", source = "editedByAdminId")
+    // @Mapping(target = "organiser", source = "organiser")
+    // @Mapping(target = "category", source = "category")
+    // @Mapping(target = "editedByAdminId", source = "editedByAdminId")
     Event toEntity(EventDTO eventDTO);
 }

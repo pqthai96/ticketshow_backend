@@ -74,8 +74,8 @@ public class Event extends Auditable {
     private String content;
 
 
-    @OneToMany(mappedBy = "event")
-    private List<Ticket> tickets;
+//    @OneToMany(mappedBy = "event")
+//    private List<Ticket> tickets;
 
     @Lob
     @Column(name = "booked_seat", columnDefinition = "LONGTEXT")

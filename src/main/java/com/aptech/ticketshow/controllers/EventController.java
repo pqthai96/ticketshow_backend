@@ -42,7 +42,8 @@ public class EventController {
         }
         //filesStorageService.save(bannerImg);
 
-        return ResponseEntity.ok(eventService.findByID(eventDTO.getId()));
+        return ResponseEntity.ok(eventService.findById(eventDTO.getId()));
+    }
 
     @GetMapping
     public ResponseEntity<?> findAll(@RequestParam(defaultValue = "0") int no, @RequestParam(defaultValue = "12") int limit) {

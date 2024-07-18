@@ -113,10 +113,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public UserDTO findById(Long id) {
-        return userMapper.toDTO(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExceptionV2(Collections.singletonMap("id", id))));
-    }
+//    @Override
+//    public UserDTO findById(Long id) {
+//        return userMapper.toDTO(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExceptionV2(Collections.singletonMap("id", id))));
+//    }
 
     @Override
     public UserDTO create(UserDTO userDTO) {
