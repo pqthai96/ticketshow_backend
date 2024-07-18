@@ -1,10 +1,19 @@
 package com.aptech.ticketshow.data.dtos;
 
-import java.util.Date;
 
+import com.aptech.ticketshow.data.entities.Bank;
+import com.aptech.ticketshow.data.entities.Event;
+import com.aptech.ticketshow.data.entities.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrganiserDTO {
 
     private Long id;
@@ -16,7 +25,7 @@ public class OrganiserDTO {
     private String description;
 
     private String avatarImagePath;
-
+  
     private String individualName;
 
     private Long individualTax;
@@ -26,6 +35,8 @@ public class OrganiserDTO {
     private String individualEmail;
 
     private String individualAddress;
+
+    private String individualProvince;
 
     private String individualDistrict;
 
@@ -52,6 +63,12 @@ public class OrganiserDTO {
     private String businessWard;
 
     private Double balance;
+
+    private User user;
+
+    private List<Bank> banks;
+
+    private List<Event> events;
 
     private Long defaultBankId;
 }

@@ -1,19 +1,23 @@
 package com.aptech.ticketshow.data.dtos;
 
+import com.aptech.ticketshow.data.entities.Auditable;
+import com.aptech.ticketshow.data.entities.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserDTO extends Auditable {
 
     private long id;
 
     private StatusDTO statusDTO;
 
-    private RoleDTO roleDTO;
+    private ERole role;
 
     private String phone;
 
@@ -39,5 +43,10 @@ public class UserDTO {
 
     private Boolean isConfirm;
 
+    private Date emailVerified;
+
     private String rememberToken;
+
+    private String otp;
+
 }

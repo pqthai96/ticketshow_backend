@@ -7,5 +7,5 @@ import com.aptech.ticketshow.data.entities.Organiser;
 
 @Repository
 public interface OrganiserRepository extends JpaRepository<Organiser, Long> {
-
 }
+

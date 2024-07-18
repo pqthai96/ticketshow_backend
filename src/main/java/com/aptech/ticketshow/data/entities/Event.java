@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -72,6 +73,10 @@ public class Event extends Auditable {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
+
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets;
+
     @Lob
     @Column(name = "booked_seat", columnDefinition = "LONGTEXT")
     private String bookedSeat;
@@ -85,6 +90,6 @@ public class Event extends Auditable {
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "edited_by_admin_id", nullable = false)
+    @JoinColumn(name = "edited_by_admin_id")
     private Admin editedByAdminId;
 }

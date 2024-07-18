@@ -1,6 +1,7 @@
 package com.aptech.ticketshow.services;
 
 import com.aptech.ticketshow.data.dtos.EventDTO;
+import org.springframework.web.multipart.MultipartFile;
 import com.aptech.ticketshow.data.dtos.EventFilterDTO;
 import com.aptech.ticketshow.data.dtos.PaginationDTO;
 import com.aptech.ticketshow.data.dtos.TicketDTO;
@@ -13,7 +14,9 @@ public interface EventService {
 
     EventDTO findById(Long id);
 
-    EventDTO create(EventDTO eventDTO);
+    //EventDTO addEvent(EventDTO eventDTO);
+
+    void addEvent(EventDTO eventDTO, MultipartFile bannerImg, MultipartFile positionImg);
 
     void delete(Long id);
 

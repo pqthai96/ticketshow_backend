@@ -2,6 +2,7 @@ package com.aptech.ticketshow.controllers;
 
 import com.aptech.ticketshow.data.dtos.AdminDTO;
 import com.aptech.ticketshow.services.AdminService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/admin")
+@RequiredArgsConstructor
 public class AdminController {
 
     @Autowired
@@ -46,4 +48,5 @@ public class AdminController {
         adminService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -14,7 +14,11 @@ public class BankDTO {
 
     private String ownerName;
 
-    private Long number;
+    private Long accountNumber;
+
+    private String bankName;
+
+    private String bankBranch;
 
     private Date validDate;
 
