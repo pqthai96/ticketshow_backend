@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminDTO save(AdminDTO adminDTO) {
+    public AdminDTO create(AdminDTO adminDTO) {
         Admin admin = adminMapper.toEntity(adminDTO);
         admin = adminRepository.save(admin);
         return adminMapper.toDTO(admin);
@@ -64,7 +64,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             adminRepository.deleteById(id);

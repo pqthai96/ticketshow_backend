@@ -16,9 +16,6 @@ import java.util.Date;
 @Table(name = "organisers")
 public class Organiser extends Auditable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 8212787252756185258L;
 
 	@Id
@@ -35,6 +32,9 @@ public class Organiser extends Auditable {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "avatar_image_path")
+    private String avatarImagePath;
 
     @Column(name = "individual_name")
     private String individualName;

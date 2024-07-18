@@ -8,11 +8,13 @@ public interface TicketService {
 
     List<TicketDTO> findAll();
 
-    TicketDTO findByID(Long id);
+    TicketDTO findById(Long id);
 
-    TicketDTO addTicket(TicketDTO ticketDTO);
+    List<TicketDTO> findByEventId(Long eventId);
 
-    void deleteTicket(Long id);
+    TicketDTO create(TicketDTO ticketDTO);
 
-    TicketDTO updateTicket(TicketDTO ticketDTO);
+    void delete(Long id);
+
+    TicketDTO update(TicketDTO ticketDTO);
 }

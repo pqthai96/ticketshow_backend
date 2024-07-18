@@ -10,9 +10,9 @@ public interface FeedbackService {
 
     FeedbackDTO findById(Long id);
 
-    FeedbackDTO save(FeedbackDTO feedbackDTO);
+    FeedbackDTO create(FeedbackDTO feedbackDTO);
 
     FeedbackDTO update(FeedbackDTO feedbackDTO);
 
-    void deleteById(Long id);
+    void delete(Long id);
 }

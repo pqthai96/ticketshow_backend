@@ -25,33 +25,32 @@ public class FeedbackController {
     private FeedbackService feedbackService;
     
     @GetMapping
-    public ResponseEntity<List<FeedbackDTO>> getFeedbacks() {
+    public ResponseEntity<List<FeedbackDTO>> findAll() {
         List<FeedbackDTO> feedbacks = feedbackService.findAll();
         return ResponseEntity.ok(feedbacks);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FeedbackDTO> getFeedbackById(@PathVariable Long id) {
+    public ResponseEntity<FeedbackDTO> findById(@PathVariable Long id) {
         FeedbackDTO feedback = feedbackService.findById(id);
         return ResponseEntity.ok(feedback);
     }
 
     @PostMapping
-    public ResponseEntity<FeedbackDTO> createFeedback(@RequestBody FeedbackDTO feedbackDTO) {
-        FeedbackDTO createdFeedback = feedbackService.save(feedbackDTO);
+    public ResponseEntity<FeedbackDTO> create(@RequestBody FeedbackDTO feedbackDTO) {
+        FeedbackDTO createdFeedback = feedbackService.create(feedbackDTO);
         return ResponseEntity.created(URI.create("/api/feedback/" + createdFeedback.getId())).body(createdFeedback);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FeedbackDTO> updateFeedback(@PathVariable Long id, @RequestBody FeedbackDTO feedbackDTO) {
-    	feedbackDTO.setId(id);
+    public ResponseEntity<FeedbackDTO> update(@RequestBody FeedbackDTO feedbackDTO) {
         FeedbackDTO updatedFeedback = feedbackService.update(feedbackDTO);
         return ResponseEntity.ok(updatedFeedback);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFeedbackById(@PathVariable Long id) {
-        feedbackService.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        feedbackService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

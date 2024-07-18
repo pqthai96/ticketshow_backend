@@ -59,6 +59,9 @@ public class User extends Auditable {
     @Column(name = "ward")
     private String ward;
 
+    @Column(name = "avatar_image_path")
+    private String avatarImagePath;
+
     @Column(name = "confirmation_code")
     private String confirmationCode;
 

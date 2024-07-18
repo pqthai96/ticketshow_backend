@@ -17,13 +17,13 @@ public class VoucherController {
 	@Autowired
 	private VoucherService voucherService;
 	@GetMapping
-    public ResponseEntity<List<VoucherDTO>> getAllVouchers() {
+    public ResponseEntity<List<VoucherDTO>> findAll() {
         List<VoucherDTO> vouchers = voucherService.findAll();
         return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<VoucherDTO> getVoucherById(@PathVariable("id") Long id) {
+    public ResponseEntity<VoucherDTO> findById(@PathVariable("id") Long id) {
         VoucherDTO voucherDTO = voucherService.findById(id);
         if (voucherDTO != null) {
             return new ResponseEntity<>(voucherDTO, HttpStatus.OK);
@@ -33,13 +33,13 @@ public class VoucherController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherDTO> createVoucher(@RequestBody VoucherDTO voucherDTO) {
+    public ResponseEntity<VoucherDTO> create(@RequestBody VoucherDTO voucherDTO) {
         VoucherDTO createdVoucher = voucherService.create(voucherDTO);
         return new ResponseEntity<>(createdVoucher, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VoucherDTO> updateVoucher(@PathVariable("id") Long id, @RequestBody VoucherDTO voucherDTO) {
+    public ResponseEntity<VoucherDTO> update(@PathVariable("id") Long id, @RequestBody VoucherDTO voucherDTO) {
     	voucherDTO.setId(id);
         VoucherDTO updatedVoucher = voucherService.update(voucherDTO);
         if (updatedVoucher != null) {
@@ -50,7 +50,7 @@ public class VoucherController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVoucher(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         voucherService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

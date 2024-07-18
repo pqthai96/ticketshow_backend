@@ -33,6 +33,8 @@ public class UserDTO {
 
     private String ward;
 
+    private String avatarImagePath;
+
     private String confirmationCode;
 
     private Boolean isConfirm;

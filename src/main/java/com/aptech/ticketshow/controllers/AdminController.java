@@ -17,33 +17,33 @@ public class AdminController {
     private AdminService adminService;
 
     @GetMapping
-    public ResponseEntity<List<AdminDTO>> getAdmins() {
+    public ResponseEntity<List<AdminDTO>> findAll() {
         List<AdminDTO> admins = adminService.findAll();
         return ResponseEntity.ok(admins);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdminDTO> getAdminById(@PathVariable Long id) {
+    public ResponseEntity<AdminDTO> findById(@PathVariable Long id) {
         AdminDTO admin = adminService.findById(id);
         return ResponseEntity.ok(admin);
     }
 
     @PostMapping
-    public ResponseEntity<AdminDTO> createAdmin(@RequestBody AdminDTO adminDTO) {
-        AdminDTO createdAdmin = adminService.save(adminDTO);
+    public ResponseEntity<AdminDTO> create(@RequestBody AdminDTO adminDTO) {
+        AdminDTO createdAdmin = adminService.create(adminDTO);
         return ResponseEntity.created(URI.create("/api/admin/" + createdAdmin.getId())).body(createdAdmin);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AdminDTO> updateAdmin(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
+    public ResponseEntity<AdminDTO> update(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
         adminDTO.setId(id);
         AdminDTO updatedAdmin = adminService.update(adminDTO);
         return ResponseEntity.ok(updatedAdmin);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAdminById(@PathVariable Long id) {
-        adminService.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        adminService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

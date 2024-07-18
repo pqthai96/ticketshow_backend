@@ -42,7 +42,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public FeedbackDTO save(FeedbackDTO feedbackDTO) {
+    public FeedbackDTO create(FeedbackDTO feedbackDTO) {
         Feedback feedback = feedbackMapper.toEntity(feedbackDTO);
         feedback = feedbackRepository.save(feedback);
         return feedbackMapper.toDTO(feedback);
@@ -67,7 +67,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         Optional<Feedback> feedbackOptional = feedbackRepository.findById(id);
         if (feedbackOptional.isPresent()) {
             feedbackRepository.deleteById(id);
