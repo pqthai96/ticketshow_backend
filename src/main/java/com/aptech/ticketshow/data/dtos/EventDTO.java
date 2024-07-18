@@ -44,9 +44,13 @@ public class EventDTO {
 
     private List<Ticket> tickets;
 
+    private String bookedSeat;
+
     private OrganiserDTO organiser;
 
     private CategoryDTO category;
 
     private AdminDTO editedByAdminId;
+
+    private List<TicketDTO> tickets;
 }

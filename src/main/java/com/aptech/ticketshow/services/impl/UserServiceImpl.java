@@ -5,6 +5,7 @@ import com.aptech.ticketshow.data.dtos.UserProfileDTO;
 import com.aptech.ticketshow.data.entities.User;
 import com.aptech.ticketshow.data.mappers.UserMapper;
 import com.aptech.ticketshow.data.repositories.UserRepository;
+import com.aptech.ticketshow.exception_v2.ResourceNotFoundExceptionV2;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -109,5 +111,21 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         return user;
+    }
+
+    @Override
+    public UserDTO findById(Long id) {
+        return userMapper.toDTO(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExceptionV2(Collections.singletonMap("id", id))));
+    }
+
+    @Override
+    public UserDTO create(UserDTO userDTO) {
+        return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
+    }
+
+    public UserDTO update(UserDTO userDTO) {
+        User oldUser = userRepository.findById(userDTO.getId()).orElseThrow(() -> new ResourceNotFoundExceptionV2(Collections.singletonMap("id", userDTO.getId())));
+
+        return null;
     }
 }

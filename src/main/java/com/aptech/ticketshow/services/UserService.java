@@ -6,6 +6,8 @@ import com.aptech.ticketshow.data.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.aptech.ticketshow.data.entities.User;
+
 import java.util.List;
 
 public interface UserService {
@@ -26,4 +28,5 @@ public interface UserService {
 
     UserDetails loadUserByUsername(String email);
 
+    UserDTO create(UserDTO userDTO);
 }

@@ -37,6 +37,8 @@ public class UserDTO extends Auditable {
 
     private String ward;
 
+    private String avatarImagePath;
+
     private String confirmationCode;
 
     private Boolean isConfirm;

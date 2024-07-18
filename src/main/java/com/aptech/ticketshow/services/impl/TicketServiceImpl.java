@@ -33,7 +33,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDTO findByID(Long id) {
+    public TicketDTO findById(Long id) {
         Optional<Ticket> ticketOptional = ticketRepository.findById(id);
         if (ticketOptional.isPresent()) {
             return ticketMapper.toDTO(ticketOptional.get());
@@ -43,14 +43,19 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDTO addTicket(TicketDTO ticketDTO) {
+    public List<TicketDTO> findByEventId(Long eventId) {
+        return ticketRepository.findByEventId(eventId).stream().map(r -> ticketMapper.toDTO(r)).collect(Collectors.toList());
+    }
+
+    @Override
+    public TicketDTO create(TicketDTO ticketDTO) {
         Ticket ticket = ticketMapper.toEntity(ticketDTO);
         ticket = ticketRepository.save(ticket);
         return ticketMapper.toDTO(ticket);
     }
 
     @Override
-    public void deleteTicket(Long id) {
+    public void delete(Long id) {
         Optional<Ticket> ticketOptional = ticketRepository.findById(id);
         if (ticketOptional.isPresent()) {
             ticketRepository.deleteById(id);
@@ -60,7 +65,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public TicketDTO updateTicket(TicketDTO ticketDTO) {
+    public TicketDTO update(TicketDTO ticketDTO) {
         Optional<Ticket> ticketOptional = ticketRepository.findById(ticketDTO.getId());
         if (ticketOptional.isPresent()) {
             Ticket ticket = ticketOptional.get();

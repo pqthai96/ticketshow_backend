@@ -41,7 +41,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public BankDTO save(BankDTO bankDTO) {
+    public BankDTO create(BankDTO bankDTO) {
         Bank bank = bankMapper.toEntity(bankDTO);
         bank = bankRepository.save(bank);
         return bankMapper.toDTO(bank);
@@ -71,7 +71,7 @@ public class BankServiceImpl implements BankService {
 
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         Optional<Bank> bankOptional = bankRepository.findById(id);
         if (bankOptional.isPresent()) {
             bankRepository.deleteById(id);

@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO save(CategoryDTO categoryDTO) {
+    public CategoryDTO create(CategoryDTO categoryDTO) {
         Category category = categoryMapper.toEntity(categoryDTO);
         category = categoryRepository.save(category);
         return categoryMapper.toDTO(category);
@@ -60,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public void deleteById(Long id) {
+    public void delete(Long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             categoryRepository.deleteById(id);

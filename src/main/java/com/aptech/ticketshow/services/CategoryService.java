@@ -10,9 +10,9 @@ public interface CategoryService {
 
     CategoryDTO findById(Long id);
 
-    CategoryDTO save(CategoryDTO categoryDTO);
+    CategoryDTO create(CategoryDTO categoryDTO);
 
     CategoryDTO update(CategoryDTO categoryDTO);
 
-    void deleteById(Long id);
+    void delete(Long id);
 }

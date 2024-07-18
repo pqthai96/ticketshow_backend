@@ -1,5 +1,6 @@
 package com.aptech.ticketshow.data.dtos;
 
+
 import com.aptech.ticketshow.data.entities.Bank;
 import com.aptech.ticketshow.data.entities.Event;
 import com.aptech.ticketshow.data.entities.User;
@@ -15,10 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 public class OrganiserDTO {
 
+    private Long id;
+
+    private UserDTO userDTO;
+
     private String name;
 
     private String description;
 
+    private String avatarImagePath;
+  
     private String individualName;
 
     private Long individualTax;
@@ -62,4 +69,6 @@ public class OrganiserDTO {
     private List<Bank> banks;
 
     private List<Event> events;
+
+    private Long defaultBankId;
 }

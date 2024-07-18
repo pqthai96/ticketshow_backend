@@ -5,7 +5,7 @@ db:
   name: ticket_show_db
   endpoint: localhost
   username: root
-  password: Sang@1991
+  password: 1234
 
 spring:
   datasource:
@@ -14,7 +14,6 @@ spring:
     username: ${db.username}
     password: ${db.password}
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
 twilio:
@@ -24,6 +23,12 @@ twilio:
     token: b83dbf7df69933a1e07714f7d9576498
   phone:
     number: +16366307749
+
+#  mvc:
+#    static-path-pattern: /images/**
+#  web:
+#    resources:
+#      static-locations: classpath:/static/images/
 #url:
 #  redirect:
 #    path: ${domain.path}

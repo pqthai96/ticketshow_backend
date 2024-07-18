@@ -5,7 +5,7 @@ import com.aptech.ticketshow.data.entities.Organiser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses={UserMapper.class})
 public interface OrganiserMapper {
     @Mapping(target = "user", source = "user")
     @Mapping(target = "banks", source = "banks")
