@@ -18,12 +18,14 @@ import com.aptech.ticketshow.data.repositories.EventRepository;
 import com.aptech.ticketshow.data.repositories.specification.EventSpecification;
 import com.aptech.ticketshow.services.EventService;
 import com.aptech.ticketshow.services.TicketService;
+import com.aptech.ticketshow.util.UtilCommon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,6 +42,8 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private EventMapper eventMapper;
@@ -80,7 +84,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void addEvent(EventDTO eventDTO, MultipartFile bannerImg, MultipartFile positionImg) {
         Event event = eventMapper.toEntity(eventDTO);
-
+        User user = UtilCommon.getUserByToken();
         // Save the images
         if (bannerImg != null && !bannerImg.isEmpty()) {
             String bannerImgPath = saveFile(bannerImg);
@@ -91,9 +95,17 @@ public class EventServiceImpl implements EventService {
             String positionImgPath = saveFile(positionImg);
             event.setPositionImagePath(positionImgPath);
         }
+        if (event.getCategory() != null) {
+            event.setCategoryId(event.getCategory().getId());
+        }
 
-        event = eventRepository.save(event);
-        eventMapper.toDTO(event);
+        Optional<Admin> adminOptional = adminRepository.findById(user.getId());
+        if (adminOptional.isPresent()) {
+            Admin admin = adminOptional.get();
+            event.setEditedByAdminId(admin.getId());
+            event = eventRepository.save(event);
+            eventMapper.toDTO(event);
+        }
     }
 
     private String saveFile(MultipartFile file) {

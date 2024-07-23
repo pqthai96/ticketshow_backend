@@ -9,11 +9,6 @@ public class UtilCommon {
 
     public static User getUserByToken(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String id = auth.getPrincipal().toString();
-        UserDetails userDetail = (UserDetails) auth.getCredentials();
-        User user =  new User();
-        user.setId(Long.parseLong(id));
-        user.setFirstName(userDetail.getUsername());
-        return user;
+        return (User) auth.getPrincipal();
     }
 }

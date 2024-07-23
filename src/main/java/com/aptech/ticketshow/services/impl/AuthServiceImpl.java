@@ -16,6 +16,8 @@ import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,8 @@ public class AuthServiceImpl implements AuthService {
     }
     @Override
     public JwtAuthResponse signin(SigningRequest signingRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getEmail(), signingRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getEmail(), signingRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetails userDetails = userService.loadUserByUsername(signingRequest.getEmail());
         var user = userService.findByEmail(signingRequest.getEmail());
 

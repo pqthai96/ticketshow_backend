@@ -42,7 +42,7 @@ public class EventController {
         }
         //filesStorageService.save(bannerImg);
 
-        return ResponseEntity.ok(eventService.findById(eventDTO.getId()));
+        return ResponseEntity.ok(eventDTO);
     }
 
     @GetMapping

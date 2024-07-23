@@ -42,6 +42,9 @@ public class EventDTO {
 
     private String content;
 
+    private Long categoryId;
+    private Long editedByAdminId;
+    private Long organiserId;
     // private List<Ticket> tickets;
 
     private String bookedSeat;
@@ -50,7 +53,7 @@ public class EventDTO {
 
     private CategoryDTO category;
 
-    private AdminDTO editedByAdminId;
+    private AdminDTO editedByAdmin;
 
     private List<TicketDTO> tickets;
 }

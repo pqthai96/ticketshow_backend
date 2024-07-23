@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -69,6 +70,15 @@ public class Event extends Auditable {
     @Column(name = "banner_image_path")
     private String bannerImagePath;
 
+    @Column(name = "category_id")
+    private Long categoryId;
+
+    @Column(name = "edited_by_admin_id")
+    private Long editedByAdminId;
+
+    @Column(name = "organiser_id")
+    private Long organiserId;
+
     @Lob
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
@@ -82,14 +92,14 @@ public class Event extends Auditable {
     private String bookedSeat;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "organiser_id", nullable = false)
+    @JoinColumn(name = "organiser_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
     private Organiser organiser;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "edited_by_admin_id")
-    private Admin editedByAdminId;
+    @JoinColumn(name = "edited_by_admin_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
+    private Admin editedByAdmin;
 }
