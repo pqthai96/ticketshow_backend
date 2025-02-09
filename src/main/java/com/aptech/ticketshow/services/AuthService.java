@@ -1,20 +1,13 @@
 package com.aptech.ticketshow.services;
 
-import com.aptech.ticketshow.data.dtos.response.JwtAuthResponse;
-import com.aptech.ticketshow.data.dtos.request.RefreshTokenRequest;
-import com.aptech.ticketshow.data.dtos.request.SigningRequest;
-import com.aptech.ticketshow.data.dtos.UserDTO;
-import com.aptech.ticketshow.data.entities.User;
+import com.aptech.ticketshow.data.dtos.request.SignInRequest;
+import com.aptech.ticketshow.data.dtos.request.SignUpRequest;
+import com.aptech.ticketshow.data.dtos.response.AuthResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
 
-    User signup(UserDTO userDTO);
+    ResponseEntity<?> authenticate(SignInRequest signInRequest);
 
-    JwtAuthResponse signin(SigningRequest signingRequest);
-
-    JwtAuthResponse refreshToken(String refreshToken);
-
-    UserDTO findById(Long id);
-
-    UserDTO verifyEmailUser(UserDTO userDTO);
+    AuthResponse registerUser(SignUpRequest signUpRequest);
 }

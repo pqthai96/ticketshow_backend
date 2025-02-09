@@ -1,6 +1,5 @@
 package com.aptech.ticketshow.common.config;
 
-import com.aptech.ticketshow.data.entities.ERole;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,33 +32,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private final UserService userService;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("api/auth/**").permitAll()
-                        .requestMatchers("api/admin").hasAnyAuthority(String.valueOf(ERole.ROLE_ADMIN))
-                        .requestMatchers("api/user").hasAnyAuthority(String.valueOf(ERole.ROLE_USER))
-                        .requestMatchers("api/organiser").hasAnyAuthority(String.valueOf(ERole.ROLE_USER), String.valueOf(ERole.ROLE_ORGANISER))
-                        .anyRequest().permitAll())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
-                );
+                .authorizeHttpRequests(request -> request.anyRequest().permitAll());
         return httpSecurity.build();
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService.userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
     }
 
     @Bean

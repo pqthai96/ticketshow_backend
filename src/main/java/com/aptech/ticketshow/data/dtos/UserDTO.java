@@ -1,7 +1,6 @@
 package com.aptech.ticketshow.data.dtos;
 
 import com.aptech.ticketshow.data.entities.Auditable;
-import com.aptech.ticketshow.data.entities.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +15,6 @@ public class UserDTO extends Auditable {
     private long id;
 
     private StatusDTO statusDTO;
-
-    private ERole role;
 
     private String phone;
 
@@ -48,5 +45,4 @@ public class UserDTO extends Auditable {
     private String rememberToken;
 
     private String otp;
-
 }

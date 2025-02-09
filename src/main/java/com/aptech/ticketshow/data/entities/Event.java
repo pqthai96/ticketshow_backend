@@ -18,9 +18,6 @@ import java.util.List;
 @Table(name = "events")
 public class Event extends Auditable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -3867597010973040270L;
 
 	@Id

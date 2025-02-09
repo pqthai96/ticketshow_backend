@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User extends Auditable implements UserDetails {
+public class User extends Auditable {
 
     /**
 	 * 
@@ -34,9 +34,6 @@ public class User extends Auditable implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
-
-    @Column(name = "role")
-    private ERole role;
 
     @Column(name = "phone")
     private String phone;
@@ -82,36 +79,4 @@ public class User extends Auditable implements UserDetails {
 
     @Column(name = "otp")
     private String otp;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // return List.of(new SimpleGrantedAuthority(role.name()));
-        return List.of(new SimpleGrantedAuthority(String.valueOf(ERole.ROLE_ADMIN)));
-    }
-
-    @Override
-    public String getUsername() {
-        return getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
 }

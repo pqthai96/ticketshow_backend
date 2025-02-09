@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "favorites")
 public class Favorite extends Auditable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 4552490310714433103L;
 
 	@Id

@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "feedbacks")
 public class Feedback extends Auditable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -6267072747737215265L;
 
 	@Id

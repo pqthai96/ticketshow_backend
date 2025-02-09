@@ -22,11 +22,9 @@ public interface UserService {
 
     UserDTO changePasswordUser(UserDTO userDTO);
 
-    UserDTO findByEmail(String email);
-
-    UserDetailsService userDetailsService();
-
-    UserDetails loadUserByUsername(String email);
+    UserProfileDTO findByEmail(String email);
 
     UserDTO create(UserDTO userDTO);
+
+    boolean existsByEmail(String email);
 }

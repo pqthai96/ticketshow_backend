@@ -24,10 +24,6 @@ public class Organiser extends Auditable {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @Column(name = "name")
     private String name;
 
@@ -37,69 +33,6 @@ public class Organiser extends Auditable {
     @Column(name = "avatar_image_path")
     private String avatarImagePath;
 
-    @Column(name = "individual_name")
-    private String individualName;
-
-    @Column(name = "individual_tax")
-    private Long individualTax;
-
-    @Column(name = "individual_identify")
-    private Long individualIdentify;
-
-    @Column(name = "individual_email")
-    private String individualEmail;
-
-    @Column(name = "individual_address")
-    private String individualAddress;
-
-    @Column(name = "individual_province")
-    private String individualProvince;
-
-    @Column(name = "individual_district")
-    private String individualDistrict;
-
-    @Column(name = "individual_ward")
-    private String individualWard;
-
-    @Column(name = "business_name")
-    private String businessName;
-
-    @Column(name = "business_tax")
-    private Long businessTax;
-
-    @Column(name = "business_issue_place")
-    private String businessIssuePlace;
-
-    @Column(name = "business_issue_date")
-    private Date businessIssueDate;
-
-    @Column(name = "business_phone")
-    private String businessPhone;
-
-    @Column(name = "business_email")
-    private String businessEmail;
-
-    @Column(name = "business_address")
-    private String businessAddress;
-
-    @Column(name = "business_province")
-    private String businessProvince;
-
-    @Column(name = "business_district")
-    private String businessDistrict;
-
-    @Column(name = "business_ward")
-    private String businessWard;
-
-    @Column(name = "balance")
-    private Double balance;
-
-//    @OneToMany(mappedBy = "organiser")
-//    private List<Bank> banks;
-
 //    @OneToMany(mappedBy = "organiser")
 //    private List<Event> events;
-
-    @Column(name = "default_bank_id")
-    private Long defaultBankId;
 }

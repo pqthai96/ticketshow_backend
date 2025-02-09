@@ -1,7 +1,6 @@
 package com.aptech.ticketshow.data.dtos;
 
 
-import com.aptech.ticketshow.data.entities.Bank;
 import com.aptech.ticketshow.data.entities.Event;
 import com.aptech.ticketshow.data.entities.User;
 import lombok.AllArgsConstructor;
@@ -65,8 +64,6 @@ public class OrganiserDTO {
     private Double balance;
 
     private User user;
-
-    private List<Bank> banks;
 
     private List<Event> events;
 

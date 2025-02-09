@@ -38,8 +38,4 @@ public class OrderItem extends Auditable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ticket_id", nullable = false)
     private Ticket ticket;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "discount_id", nullable = false)
-    private Discount discount;
 }
