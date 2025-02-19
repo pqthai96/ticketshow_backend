@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +21,8 @@ public class UserProfileDTO {
 
     private String lastName;
 
+    private boolean gender;
+
     private String address;
 
     private String district;
@@ -26,4 +30,8 @@ public class UserProfileDTO {
     private String province;
 
     private String ward;
+
+    private boolean isVerified;
+
+    private Date dayOfBirth;
 }

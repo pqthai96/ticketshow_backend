@@ -27,4 +27,8 @@ public interface UserService {
     UserDTO create(UserDTO userDTO);
 
     boolean existsByEmail(String email);
+
+    UserDTO update(UserDTO userDTO);
+
+    UserDTO findUserByVerificationToken(String verificationToken);
 }

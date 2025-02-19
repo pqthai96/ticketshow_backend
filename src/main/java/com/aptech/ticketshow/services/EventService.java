@@ -16,10 +16,6 @@ public interface EventService {
 
     //EventDTO addEvent(EventDTO eventDTO);
 
-    void addEvent(EventDTO eventDTO, MultipartFile bannerImg, MultipartFile positionImg);
-
-    void delete(Long id);
-
     EventDTO update(EventDTO eventDTO);
 
     PaginationDTO filter(int no, int limit, EventFilterDTO eventFilterDTO);

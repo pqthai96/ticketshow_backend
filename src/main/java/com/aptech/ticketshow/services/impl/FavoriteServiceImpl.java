@@ -37,7 +37,12 @@ public class FavoriteServiceImpl implements FavoriteService {
         return favoriteRepository.findAll().stream().map(r -> favoriteMapper.toDTO(r)).collect(Collectors.toList());
     }
 
-	@Override
+    @Override
+    public List<FavoriteDTO> findByUserId(Long userId) {
+        return favoriteRepository.findByUserId(userId).stream().map(r -> favoriteMapper.toDTO(r)).collect(Collectors.toList());
+    }
+
+    @Override
 	public FavoriteDTO create(FavoriteDTO favoriteDTO) {
 		Favorite favorite = favoriteMapper.toEntity(favoriteDTO);
       

@@ -1,6 +1,7 @@
 package com.aptech.ticketshow.data.mappers;
 
 import com.aptech.ticketshow.data.dtos.TicketDTO;
+import com.aptech.ticketshow.data.entities.Organiser;
 import com.aptech.ticketshow.data.entities.Ticket;
 import org.mapstruct.Mapper;
 
@@ -10,16 +11,18 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {
+        StatusMapper.class, OrganiserMapper.class, CategoryMapper.class
+})
 public interface EventMapper {
 
-    // @Mapping(target = "organiser", source = "organiser")
-    // @Mapping(target = "category", source = "category")
-    // @Mapping(target = "editedByAdminId", source = "editedByAdminId")
-    EventDTO toDTO(Event event);
-
-    // @Mapping(target = "organiser", source = "organiser")
-    // @Mapping(target = "category", source = "category")
-    // @Mapping(target = "editedByAdminId", source = "editedByAdminId")
+    @Mapping(source = "organiserDTO", target = "organiser")
+    @Mapping(source = "categoryDTO", target = "category")
+    @Mapping(source = "statusDTO", target = "status")
     Event toEntity(EventDTO eventDTO);
+
+    @Mapping(source = "organiser", target = "organiserDTO")
+    @Mapping(source = "category", target = "categoryDTO")
+    @Mapping(source = "status", target = "statusDTO")
+    EventDTO toDTO(Event event);
 }

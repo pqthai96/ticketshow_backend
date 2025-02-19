@@ -8,6 +8,8 @@ public class OrderItemDTO {
 
   private Integer quantity;
 
+  private String seatValue;
+
   private OrderDTO orderDTO;
 
   private TicketDTO ticketDTO;

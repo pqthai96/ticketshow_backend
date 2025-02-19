@@ -26,6 +26,8 @@ public class UserDTO extends Auditable {
 
     private String lastName;
 
+    private boolean gender;
+
     private String address;
 
     private String district;
@@ -36,13 +38,11 @@ public class UserDTO extends Auditable {
 
     private String avatarImagePath;
 
-    private String confirmationCode;
+    private boolean isVerified;
 
-    private Boolean isConfirm;
+    private String verificationToken;
 
-    private Date emailVerified;
+    private Date dayOfBirth;
 
-    private String rememberToken;
-
-    private String otp;
+    private String forgotPasswordToken;
 }

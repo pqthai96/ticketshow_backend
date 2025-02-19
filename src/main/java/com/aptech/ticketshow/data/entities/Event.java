@@ -26,7 +26,7 @@ public class Event extends Auditable {
     private Long id;
 
     @Column(name = "type")
-    private String type;
+    private boolean type;
 
     @Column(name = "title")
     private String title;
@@ -80,13 +80,16 @@ public class Event extends Auditable {
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
-
-//    @OneToMany(mappedBy = "event")
-//    private List<Ticket> tickets;
+    @Lob
+    @Column(name = "all_seats", columnDefinition = "LONGTEXT")
+    private String allSeats;
 
     @Lob
-    @Column(name = "booked_seat", columnDefinition = "LONGTEXT")
-    private String bookedSeat;
+    @Column(name = "booked_seats", columnDefinition = "LONGTEXT")
+    private String bookedSeats;
+
+    @Column(name = "seat_price")
+    private Double seatPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organiser_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
@@ -95,6 +98,10 @@ public class Event extends Auditable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
     private Category category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
+    private Category status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "edited_by_admin_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)

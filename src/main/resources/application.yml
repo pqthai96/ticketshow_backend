@@ -16,10 +16,26 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 587
+    username: 675ddba60da419
+    password: 3354d34cda867d
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
   secret: ${JWT_SECRET:OVATION_SECRET_KEY_MUST_BE_LONGER_THAN_32_CHARACTERS}
   expiration: 86400000
 
+stripe:
+  secret:
+    key: sk_test_51NxFXHLLGRqyYpieHwW76KV4ucGDTWQ7gibPokAXSYKwIuXuQdMEdNITA3XMFJhKQqG4pfUAY4I1TvhbAD02q4Y500Du2KvhR6
+  webhook:
+    secret: whsec_DTIsy7YtPPwMLT6tWjDlaA5EPmP12I9A
 #  mvc:
 #    static-path-pattern: /images/**
 #  web:

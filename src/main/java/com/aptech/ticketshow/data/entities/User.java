@@ -50,6 +50,9 @@ public class User extends Auditable {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "gender")
+    private boolean gender;
+
     @Column(name = "address")
     private String address;
 
@@ -65,18 +68,15 @@ public class User extends Auditable {
     @Column(name = "avatar_image_path")
     private String avatarImagePath;
 
-    @Column(name = "confirmation_code")
-    private String confirmationCode;
+    @Column(name = "is_verified")
+    private boolean isVerified;
 
-    @Column(name = "is_confirm")
-    private Boolean isConfirm;
+    @Column(name = "verification_token")
+    private String verificationToken;
 
-    @Column(name = "email_verified")
-    private Date emailVerified;
+    @Column(name = "day_of_birth")
+    private Date dayOfBirth;
 
-    @Column(name = "remember_token")
-    private String rememberToken;
-
-    @Column(name = "otp")
-    private String otp;
+    @Column(name = "forgot_password_token")
+    private String forgotPasswordToken;
 }

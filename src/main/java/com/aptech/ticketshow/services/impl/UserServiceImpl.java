@@ -70,4 +70,14 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    @Override
+    public UserDTO update(UserDTO userDTO) {
+        return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
+    }
+
+    @Override
+    public UserDTO findUserByVerificationToken(String verificationToken) {
+        return userMapper.toDTO(userRepository.findUserByVerificationToken(verificationToken));
+    }
 }

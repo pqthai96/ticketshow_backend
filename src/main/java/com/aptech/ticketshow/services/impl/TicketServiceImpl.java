@@ -66,21 +66,6 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketDTO update(TicketDTO ticketDTO) {
-        Optional<Ticket> ticketOptional = ticketRepository.findById(ticketDTO.getId());
-        if (ticketOptional.isPresent()) {
-            Ticket ticket = ticketOptional.get();
-            ticket.setTitle(ticketDTO.getTitle());
-            ticket.setDescription(ticketDTO.getDescription());
-            ticket.setPrice(ticketDTO.getPrice());
-            ticket.setType(ticketDTO.getType());
-            ticket.setQuantity(ticketDTO.getQuantity());
-            ticket.setIsPaused(ticketDTO.getIsPaused());
-            ticket.setIsHidden((ticketDTO.getIsHidden()));
-            ticket.setEditedByAdminId(adminMapper.toEntity(ticketDTO.getEditedByAdminId()));
-            ticket = ticketRepository.save(ticket);
-            return ticketMapper.toDTO(ticket);
-        } else {
-            throw new RuntimeException("Ticket not found with id: " + ticketDTO.getId());
-        }
+        return ticketMapper.toDTO(ticketRepository.save(ticketMapper.toEntity(ticketDTO)));
     }
 }

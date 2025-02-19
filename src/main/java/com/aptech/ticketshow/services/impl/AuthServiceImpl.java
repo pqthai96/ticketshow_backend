@@ -56,6 +56,7 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         newUser.setFirstName(signUpRequest.getFirstName());
         newUser.setLastName(signUpRequest.getLastName());
+        newUser.setVerified(false);
 
         Status activeStatus = statusRepository.findById(1L).orElseThrow();
         newUser.setStatus(activeStatus);

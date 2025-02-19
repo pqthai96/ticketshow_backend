@@ -2,6 +2,9 @@ package com.aptech.ticketshow.data.dtos;
 
 import lombok.Data;
 
+import java.util.Date;
+import java.util.List;
+
 @Data
 public class OrderDTO {
 
@@ -9,19 +12,21 @@ public class OrderDTO {
 
     private String emailReceive;
 
+    private Date orderDate;
+
     private String ticketPdfPath;
 
-    private Integer transactionId;
+    private String transactionId;
 
-    private String businessName;
-
-    private Long businessTax;
-
-    private String businessAddress;
+    private StatusDTO statusDTO;
 
     private UserDTO userDTO;
 
     private EventDTO eventDTO;
 
     private VoucherDTO voucherDTO;
+
+    private List<OrderItemDTO> orderItemDTOs;
+
+    private Date createdAt;
 }

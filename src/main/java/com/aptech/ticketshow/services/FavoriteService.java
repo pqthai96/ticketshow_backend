@@ -7,6 +7,8 @@ import com.aptech.ticketshow.data.dtos.FavoriteDTO;
 public interface FavoriteService {
 
 	List<FavoriteDTO> findAll();
+
+    List<FavoriteDTO> findByUserId(Long userId);
 	
     FavoriteDTO create(FavoriteDTO favoriteDTO);
 

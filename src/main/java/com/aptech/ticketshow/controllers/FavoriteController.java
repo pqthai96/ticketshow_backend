@@ -2,17 +2,15 @@ package com.aptech.ticketshow.controllers;
 
 import java.util.List;
 
+import com.aptech.ticketshow.common.config.JwtUtil;
+import com.aptech.ticketshow.data.dtos.UserDTO;
+import com.aptech.ticketshow.data.dtos.UserProfileDTO;
+import com.aptech.ticketshow.services.EventService;
+import com.aptech.ticketshow.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.aptech.ticketshow.data.dtos.FavoriteDTO;
 import com.aptech.ticketshow.services.FavoriteService;
@@ -23,41 +21,53 @@ public class FavoriteController {
 
 	@Autowired
 	private FavoriteService favoriteService;
-	@GetMapping
-    public ResponseEntity<List<FavoriteDTO>> findAll() {
-        List<FavoriteDTO> favorites = favoriteService.findAll();
-        return new ResponseEntity<>(favorites, HttpStatus.OK);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<FavoriteDTO> findById(@PathVariable("id") Long id) {
-    	FavoriteDTO favoriteDTO = favoriteService.findById(id);
-        if (favoriteDTO != null) {
-            return new ResponseEntity<>(favoriteDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @GetMapping("/is-like/{eventId}")
+    public ResponseEntity<Boolean> isLike(@PathVariable("eventId") Long eventId, @RequestHeader("Authorization") String token) {
+
+        UserDTO userDTO = jwtUtil.extractUser(token);
+
+        List<FavoriteDTO> favoriteDTOs = favoriteService.findByUserId(userDTO.getId());
+        for (FavoriteDTO favoriteDTO : favoriteDTOs) {
+            if (favoriteDTO.getEventDTO().getId().equals(eventId)) {
+                return ResponseEntity.ok(true);
+            }
         }
+
+        return ResponseEntity.ok(false);
     }
 
-    @PostMapping
-    public ResponseEntity<FavoriteDTO> create(@RequestBody FavoriteDTO favoriteDTO) {
-    	FavoriteDTO createdFavorite = favoriteService.create(favoriteDTO);
-        return new ResponseEntity<>(createdFavorite, HttpStatus.CREATED);
+    @PostMapping("/{eventId}")
+    public ResponseEntity<?> create(@PathVariable("eventId") Long eventId, @RequestHeader("Authorization") String token) {
+
+        UserDTO userDTO = jwtUtil.extractUser(token);
+
+        FavoriteDTO favoriteDTO = new FavoriteDTO();
+        favoriteDTO.setEventDTO(eventService.findById(eventId));
+        favoriteDTO.setUserDTO(userDTO);
+
+        favoriteService.create(favoriteDTO);
+
+        return ResponseEntity.ok("Created!");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<FavoriteDTO> update(@RequestBody FavoriteDTO favoriteDTO) {
-    	FavoriteDTO updatedFavorite = favoriteService.update(favoriteDTO);
-        if (updatedFavorite != null) {
-            return new ResponseEntity<>(updatedFavorite, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<Boolean> delete(@PathVariable("eventId") Long eventId, @RequestHeader("Authorization") String token) {
+        UserDTO userDTO = jwtUtil.extractUser(token);
+
+        List<FavoriteDTO> favoriteDTOs = favoriteService.findByUserId(userDTO.getId());
+        for (FavoriteDTO favoriteDTO : favoriteDTOs) {
+            if (favoriteDTO.getEventDTO().getId().equals(eventId)) {
+                favoriteService.delete(favoriteDTO.getId());
+                return ResponseEntity.ok(true);
+            }
         }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-    	favoriteService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(false);
     }
 }

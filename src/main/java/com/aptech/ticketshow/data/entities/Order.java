@@ -17,9 +17,6 @@ import java.util.Date;
 @Table(name = "orders")
 public class Order extends Auditable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 5465891230354739969L;
 
 	@Id
@@ -30,9 +27,6 @@ public class Order extends Auditable {
     @Column(name = "order_date")
     private Date orderDate;
 
-    @Column(name = "total_amount")
-    private Double totalAmount;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -40,14 +34,24 @@ public class Order extends Auditable {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
+    @Column(name = "email_receive")
+    private String emailReceive;
+
     @Column(name = "ticket_pdf_path")
     private String ticketPdfPath;
+
+    @Column(name = "transaction_id")
+    private String transactionId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "voucher_id", nullable = false)
+    @JoinColumn(name = "voucher_id")
     private Voucher voucher;
+
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 }

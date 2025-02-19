@@ -18,6 +18,8 @@ public class EventDTO {
 
     private String venueName;
 
+    private boolean type;
+
     private String locationAddress;
 
     private String locationProvince;
@@ -43,15 +45,22 @@ public class EventDTO {
     private String content;
 
     private Long categoryId;
+
     private Long editedByAdminId;
+
     private Long organiserId;
-    // private List<Ticket> tickets;
 
-    private String bookedSeat;
+    private String allSeats;
 
-    private OrganiserDTO organiser;
+    private String bookedSeats;
 
-    private CategoryDTO category;
+    private Double seatPrice;
+
+    private OrganiserDTO organiserDTO;
+
+    private StatusDTO statusDTO;
+
+    private CategoryDTO categoryDTO;
 
     private AdminDTO editedByAdmin;
 

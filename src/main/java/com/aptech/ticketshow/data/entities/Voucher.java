@@ -16,9 +16,6 @@ import java.util.Date;
 @Table(name = "vouchers")
 public class Voucher extends Auditable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -3106159136345065847L;
 
 	@Id

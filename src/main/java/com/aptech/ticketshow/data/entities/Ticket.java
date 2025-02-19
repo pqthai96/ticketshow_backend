@@ -48,8 +48,4 @@ public class Ticket extends Auditable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "edited_by_admin_id", nullable = false)
-    private Admin editedByAdminId;
 }
