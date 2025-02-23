@@ -15,6 +15,8 @@ public class AuthResponse {
 
     private String lastName;
 
+    private String avatarImagePath;
+
     private String token;
 
     private String message;

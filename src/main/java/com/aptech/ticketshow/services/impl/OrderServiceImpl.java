@@ -59,6 +59,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDTO> findByUserId(Long userId) {
+
+        List<OrderDTO> orderDTOs = orderRepository.findByUserId(userId).stream().map(r -> orderMapper.toDTO(r)).collect(Collectors.toList());
+
+        for (OrderDTO orderDTO : orderDTOs) {
+            orderDTO.setOrderItemDTOs(orderItemService.findByOrderId(orderDTO.getId()));
+        }
+
+        return orderDTOs;
+    }
+
+    @Override
     public OrderDTO create(OrderDTO orderDTO, CheckoutRequest checkoutRequest) {
 
         Order order = orderMapper.toEntity(orderDTO);

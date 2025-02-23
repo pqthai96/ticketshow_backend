@@ -31,6 +31,8 @@ public class UserProfileDTO {
 
     private String ward;
 
+    private String avatarImagePath;
+
     private boolean isVerified;
 
     private Date dayOfBirth;

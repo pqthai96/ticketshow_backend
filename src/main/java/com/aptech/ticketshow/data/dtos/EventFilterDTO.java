@@ -14,6 +14,8 @@ public class EventFilterDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long statusId;
+
     private List<Object> locations;
 
     private List<Object> categories;

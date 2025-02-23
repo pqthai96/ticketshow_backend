@@ -8,6 +8,10 @@ db:
   password: 1234
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}
@@ -36,6 +40,9 @@ stripe:
     key: sk_test_51NxFXHLLGRqyYpieHwW76KV4ucGDTWQ7gibPokAXSYKwIuXuQdMEdNITA3XMFJhKQqG4pfUAY4I1TvhbAD02q4Y500Du2KvhR6
   webhook:
     secret: whsec_DTIsy7YtPPwMLT6tWjDlaA5EPmP12I9A
+
+upload:
+  path: ./uploads
 #  mvc:
 #    static-path-pattern: /images/**
 #  web:

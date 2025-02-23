@@ -67,15 +67,6 @@ public class Event extends Auditable {
     @Column(name = "banner_image_path")
     private String bannerImagePath;
 
-    @Column(name = "category_id")
-    private Long categoryId;
-
-    @Column(name = "edited_by_admin_id")
-    private Long editedByAdminId;
-
-    @Column(name = "organiser_id")
-    private Long organiserId;
-
     @Lob
     @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
@@ -92,18 +83,18 @@ public class Event extends Auditable {
     private Double seatPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "organiser_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
+    @JoinColumn(name = "organiser_id")
     private Organiser organiser;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
-    private Category status;
+    @JoinColumn(name = "status_id")
+    private Status status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "edited_by_admin_id", nullable = false,referencedColumnName="id",insertable=false, updatable=false)
+    @JoinColumn(name = "edited_by_admin_id")
     private Admin editedByAdmin;
 }

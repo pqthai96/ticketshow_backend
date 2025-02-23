@@ -77,6 +77,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO updateProfile(UserDTO userDTO, UserProfileDTO userProfileDTO) {
+        userDTO.setAddress(userProfileDTO.getAddress());
+        userDTO.setFirstName(userProfileDTO.getFirstName());
+        userDTO.setLastName(userProfileDTO.getLastName());
+        userDTO.setGender(userProfileDTO.isGender());
+        userDTO.setDayOfBirth(userProfileDTO.getDayOfBirth());
+        userDTO.setProvince(userProfileDTO.getProvince());
+        userDTO.setDistrict(userProfileDTO.getDistrict());
+        userDTO.setWard(userProfileDTO.getWard());
+
+        return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
+    }
+
+    @Override
     public UserDTO findUserByVerificationToken(String verificationToken) {
         return userMapper.toDTO(userRepository.findUserByVerificationToken(verificationToken));
     }

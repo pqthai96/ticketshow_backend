@@ -31,9 +31,13 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public PaginationDTO findAll(int no, int limit) {
-
         Page<EventDTO> page = eventRepository.findAll(PageRequest.of(no, limit)).map(r -> eventMapper.toDTO(r));
+        return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
+    }
 
+    @Override
+    public PaginationDTO findAllByStatus(int no, int limit, Long statusId) {
+        Page<EventDTO> page = eventRepository.findAll(EventSpecification.filterEventWithStatus(new EventFilterDTO(), statusId), PageRequest.of(no, limit)).map(r -> eventMapper.toDTO(r));
         return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
     }
 
@@ -43,7 +47,6 @@ public class EventServiceImpl implements EventService {
         if (eventOptional.isPresent()) {
             EventDTO eventDTO = eventMapper.toDTO(eventOptional.get());
             eventDTO.setTickets(ticketService.findByEventId(eventDTO.getId()));
-
             return eventDTO;
         } else {
             throw new RuntimeException("Event not found with id: " + id);
@@ -57,16 +60,17 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public PaginationDTO filter(int no, int limit, EventFilterDTO eventFilterDTO) {
+        if (eventFilterDTO.getStatusId() == null) {
+            eventFilterDTO.setStatusId(1L);
+        }
         Page<EventDTO> page = eventRepository.findAll(EventSpecification.filterEvent(eventFilterDTO), PageRequest.of(no, limit))
                 .map(item -> eventMapper.toDTO(item));
-
         return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
     }
 
     @Override
     public PaginationDTO search(int no, int limit, String searchValue) {
         Page<EventDTO> page = eventRepository.search(searchValue, PageRequest.of(no, limit)).map(r -> eventMapper.toDTO(r));
-
         return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
     }
 
@@ -76,7 +80,6 @@ public class EventServiceImpl implements EventService {
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
             event.setBookedSeats(eventDTO.getBookedSeats());
-
             event = eventRepository.save(event);
             return eventMapper.toDTO(event);
         } else {

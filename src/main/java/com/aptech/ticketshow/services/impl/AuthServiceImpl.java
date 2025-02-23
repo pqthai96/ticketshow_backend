@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
             if (passwordEncoder.matches(signInRequest.getPassword(), user.getPassword())) {
 
                 String token = jwtUtil.generateToken(user.getEmail());
-                return ResponseEntity.ok(new AuthResponse(user.getEmail(), user.getFirstName(), user.getLastName(), token, "Sign In Successfully!"));
+                return ResponseEntity.ok(new AuthResponse(user.getEmail(), user.getFirstName(), user.getLastName(), user.getAvatarImagePath(), token, "Sign In Successfully!"));
             }
         }
 
@@ -65,6 +65,6 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtUtil.generateToken(newUser.getEmail());
 
-        return new AuthResponse(newUser.getEmail(), newUser.getFirstName(), newUser.getLastName(), token, "Sign In Successfully!");
+        return new AuthResponse(newUser.getEmail(), newUser.getFirstName(), newUser.getLastName(), newUser.getAvatarImagePath(), token, "Sign In Successfully!");
     }
 }

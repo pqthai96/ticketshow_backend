@@ -25,6 +25,9 @@ public class EventSpecification implements Specification<Event> {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
+            // Always add status filter
+            predicates.add(cb.equal(root.get("status").get("id"), eventFilterDTO.getStatusId()));
+
             // Sort
             if (eventFilterDTO.getSort() != null) {
                 switch (eventFilterDTO.getSort()) {
@@ -84,6 +87,17 @@ public class EventSpecification implements Specification<Event> {
 
 
             return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
+
+    public static Specification<Event> filterEventWithStatus(EventFilterDTO eventFilterDTO, Long statusId) {
+        return (root, query, cb) -> {
+            Specification<Event> baseFilter = filterEvent(eventFilterDTO);
+            Predicate basePredicates = baseFilter.toPredicate(root, query, cb);
+
+            Predicate statusPredicate = cb.equal(root.get("status").get("id"), statusId);
+
+            return cb.and(basePredicates, statusPredicate);
         };
     }
 }

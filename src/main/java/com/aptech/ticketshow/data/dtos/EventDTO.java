@@ -44,12 +44,6 @@ public class EventDTO {
 
     private String content;
 
-    private Long categoryId;
-
-    private Long editedByAdminId;
-
-    private Long organiserId;
-
     private String allSeats;
 
     private String bookedSeats;

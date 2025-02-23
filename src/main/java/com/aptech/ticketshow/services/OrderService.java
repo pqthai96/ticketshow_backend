@@ -12,6 +12,8 @@ public interface OrderService {
 
   OrderDTO findById(Long id);
 
+  List<OrderDTO> findByUserId(Long userId);
+
   OrderDTO create(OrderDTO orderDTO, CheckoutRequest checkoutRequest);
 
   OrderDTO update(OrderDTO orderDTO);

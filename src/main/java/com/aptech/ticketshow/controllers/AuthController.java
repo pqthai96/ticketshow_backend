@@ -7,6 +7,7 @@ import com.aptech.ticketshow.data.dtos.UserProfileDTO;
 import com.aptech.ticketshow.data.dtos.request.SignInRequest;
 import com.aptech.ticketshow.data.dtos.request.SignUpRequest;
 import com.aptech.ticketshow.services.AuthService;
+import com.aptech.ticketshow.services.ImageUploadService;
 import com.aptech.ticketshow.services.MailService;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
@@ -29,6 +31,9 @@ public class AuthController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private ImageUploadService imageUploadService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -82,5 +87,17 @@ public class AuthController {
         userService.update(userDTO);
 
         return new RedirectView("http://localhost:3000/verified");
+    }
+
+    @PostMapping("/update-profile")
+    public ResponseEntity<?> updateProfile(@RequestHeader("Authorization") String token, @RequestBody UserProfileDTO userProfileDTO) {
+        return ResponseEntity.ok(userService.updateProfile(jwtUtil.extractUser(token), userProfileDTO));
+    }
+
+    @PostMapping("/avatar")
+    public ResponseEntity<?> updateAvatar(@RequestHeader("Authorization") String token, @RequestParam("avatar") MultipartFile avatar) {
+        UserDTO userDTO = jwtUtil.extractUser(token);
+        userDTO.setAvatarImagePath(imageUploadService.uploadAvatarImage(avatar, userDTO.getEmail()));
+        return ResponseEntity.ok(userService.update(userDTO));
     }
 }

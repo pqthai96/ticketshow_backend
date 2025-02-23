@@ -12,6 +12,8 @@ public interface EventService {
 
     PaginationDTO findAll(int no, int limit);
 
+    PaginationDTO findAllByStatus(int no, int limit, Long statusId);
+
     EventDTO findById(Long id);
 
     //EventDTO addEvent(EventDTO eventDTO);
