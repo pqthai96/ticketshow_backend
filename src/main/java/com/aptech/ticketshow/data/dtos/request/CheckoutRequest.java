@@ -19,4 +19,6 @@ public class CheckoutRequest {
     private List<String> seats;
 
     private List<CartDTO> cartDTOs;
+
+    private Long voucherId;
 }

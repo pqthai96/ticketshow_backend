@@ -46,20 +46,11 @@ public class Event extends Auditable {
     @Column(name = "location_ward")
     private String locationWard;
 
-    @Column(name = "location_google_place_id")
-    private String locationGooglePlaceId;
-
-    @Column(name = "barcode")
-    private String barcode;
-
     @Column(name = "started_at")
     private Date startedAt;
 
     @Column(name = "ended_at")
     private Date endedAt;
-
-    @Column(name = "on_sale_at")
-    private Date onSaleAt;
 
     @Column(name = "position_image_path")
     private String positionImagePath;

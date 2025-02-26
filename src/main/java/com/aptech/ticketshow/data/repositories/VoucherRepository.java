@@ -8,4 +8,5 @@ import com.aptech.ticketshow.data.entities.Voucher;
 @Repository
 public interface VoucherRepository extends JpaRepository<Voucher, Long>{
 
+    Voucher findByCode(String voucherCode);
 }

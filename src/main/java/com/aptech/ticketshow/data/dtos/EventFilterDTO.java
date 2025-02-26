@@ -22,7 +22,5 @@ public class EventFilterDTO implements Serializable {
 
     private List<Object> dates;
 
-    private List<Object> prices;
-
     private String sort;
 }

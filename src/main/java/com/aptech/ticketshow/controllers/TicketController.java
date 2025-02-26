@@ -31,4 +31,9 @@ public class TicketController {
         TicketDTO ticket = ticketService.findById(id);
         return ResponseEntity.ok(ticket);
     }
+
+    @GetMapping("/event/{id}")
+    public ResponseEntity<?> findByEventId(@PathVariable Long id) {
+        return ResponseEntity.ok(ticketService.findByEventId(id));
+    }
 }

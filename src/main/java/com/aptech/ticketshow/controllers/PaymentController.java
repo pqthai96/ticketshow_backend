@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Coupon;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -24,9 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static com.stripe.net.Webhook.constructEvent;
 
@@ -56,6 +55,9 @@ public class PaymentController {
     private OrderService orderService;
 
     @Autowired
+    private VoucherService voucherService;
+
+    @Autowired
     private InvoiceService invoiceService;
 
     @Autowired
@@ -80,9 +82,16 @@ public class PaymentController {
 
         EventDTO eventDTO = eventService.findById(checkoutRequest.getEventId());
 
+        VoucherDTO voucherDTO = null;
+
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setUserDTO(userDTO);
         orderDTO.setEventDTO(eventDTO);
+
+        if (checkoutRequest.getVoucherId() != null) {
+            voucherDTO = voucherService.findById(checkoutRequest.getVoucherId());
+            orderDTO.setVoucherDTO(voucherDTO);
+        }
 
         OrderDTO addedOrder = orderService.create(orderDTO, checkoutRequest);
 
@@ -126,17 +135,33 @@ public class PaymentController {
             }
         }
 
-        SessionCreateParams params = SessionCreateParams.builder().setMode(SessionCreateParams.Mode.PAYMENT)
+        SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder().setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl("http://localhost:3000/success")
                 .setCancelUrl("http://localhost:3000/cancel")
                 .addAllLineItem(lineItems)
-                .setClientReferenceId(String.valueOf(addedOrder.getId()))
-                .build();
+                .setClientReferenceId(String.valueOf(addedOrder.getId()));
+
+        if (voucherDTO != null) {
+
+            List<SessionCreateParams.Discount> discounts = new ArrayList<>();
+
+            Map<String, Object> couponParams = new HashMap<>();
+            couponParams.put("amount_off", BigDecimal.valueOf(voucherDTO.getValue()).multiply(new BigDecimal("100")).longValue());
+            couponParams.put("currency", "USD");
+            couponParams.put("duration", "once");
+            couponParams.put("name", voucherDTO.getName());
+            Coupon coupon = Coupon.create(couponParams);
+
+            SessionCreateParams.Discount discountParams = SessionCreateParams.Discount.builder().setCoupon(coupon.getId()).build();
+            discounts.add(discountParams);
+
+            paramsBuilder.addAllDiscount(discounts);
+        }
 
         Session session = null;
 
         try {
-            session = Session.create(params);
+            session = Session.create(paramsBuilder.build());
         } catch (StripeException e) {
             log.error("Create Stripe Session Failed: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

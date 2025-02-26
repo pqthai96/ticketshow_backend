@@ -28,15 +28,9 @@ public class EventDTO {
 
     private String locationWard;
 
-    private String locationGooglePlaceId;
-
-    private String barcode;
-
     private Date startedAt;
 
     private Date endedAt;
-
-    private Date onSaleAt;
 
     private String positionImagePath;
 

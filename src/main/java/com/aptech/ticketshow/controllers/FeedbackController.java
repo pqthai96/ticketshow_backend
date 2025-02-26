@@ -3,6 +3,8 @@ package com.aptech.ticketshow.controllers;
 import java.net.URI;
 import java.util.List;
 
+import com.aptech.ticketshow.data.dtos.StatusDTO;
+import com.aptech.ticketshow.services.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +25,9 @@ public class FeedbackController {
 
     @Autowired
     private FeedbackService feedbackService;
+
+    @Autowired
+    private StatusService statusService;
     
     @GetMapping
     public ResponseEntity<List<FeedbackDTO>> findAll() {
@@ -38,8 +43,8 @@ public class FeedbackController {
 
     @PostMapping
     public ResponseEntity<FeedbackDTO> create(@RequestBody FeedbackDTO feedbackDTO) {
-        FeedbackDTO createdFeedback = feedbackService.create(feedbackDTO);
-        return ResponseEntity.created(URI.create("/api/feedback/" + createdFeedback.getId())).body(createdFeedback);
+        feedbackDTO.setStatusDTO(statusService.findById(4L));
+        return ResponseEntity.ok(feedbackService.create(feedbackDTO));
     }
 
     @PutMapping("/{id}")

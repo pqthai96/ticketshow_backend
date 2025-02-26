@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.aptech.ticketshow.data.dtos.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,10 @@ public class VoucherServiceImpl implements VoucherService{
 	@Override
 	public void delete(Long id) {
 		 voucherRepository.deleteById(id);
-		
 	}
+
+    @Override
+    public VoucherDTO findByCode(String voucherCode) {
+        return voucherMapper.toDTO(voucherRepository.findByCode(voucherCode));
+    }
 }

@@ -8,7 +8,9 @@ import com.aptech.ticketshow.services.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StatusServiceImpl implements StatusService {
@@ -23,5 +25,12 @@ public class StatusServiceImpl implements StatusService {
     public StatusDTO findById(Long id) {
         Optional<Status> status = statusRepository.findById(id);
         return status.map(value -> statusMapper.toDTO(value)).orElse(null);
+    }
+
+    @Override
+    public List<StatusDTO> findAll() {
+        return statusRepository.findAll().stream()
+                .map(statusMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

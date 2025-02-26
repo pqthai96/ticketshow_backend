@@ -48,11 +48,40 @@ public class EventSpecification implements Specification<Event> {
 
             // Filter by location
             if (eventFilterDTO.getLocations() != null && !eventFilterDTO.getLocations().isEmpty()) {
-                Predicate locationPredicate = cb.disjunction();
+                List<Predicate> locationPredicates = new ArrayList<>();
+                List<Predicate> otherLocationPredicates = new ArrayList<>();
+                boolean hasOtherLocations = false;
+
                 for (Object location : eventFilterDTO.getLocations()) {
-                    locationPredicate = cb.or(locationPredicate, cb.like(root.get("locationWard"), "%" + location + "%"));
+                    if ("Other Locations".equals(location)) {
+                        hasOtherLocations = true;
+                    } else {
+                        locationPredicates.add(cb.like(root.get("locationProvince"), "%" + location + "%"));
+                    }
                 }
-                predicates.add(locationPredicate);
+
+                if (hasOtherLocations) {
+                    otherLocationPredicates.add(cb.not(cb.like(root.get("locationProvince"), "%Ha Noi%")));
+                    otherLocationPredicates.add(cb.not(cb.like(root.get("locationProvince"), "%Ho Chi Minh%")));
+                }
+
+                if (!locationPredicates.isEmpty() || !otherLocationPredicates.isEmpty()) {
+                    Predicate finalPredicate = null;
+                    if (!locationPredicates.isEmpty()) {
+                        finalPredicate = cb.or(locationPredicates.toArray(new Predicate[0]));
+                    }
+
+                    if (hasOtherLocations) {
+                        Predicate otherLocationsFilter = cb.and(otherLocationPredicates.toArray(new Predicate[0]));
+                        if (finalPredicate != null) {
+                            finalPredicate = cb.or(finalPredicate, otherLocationsFilter);
+                        } else {
+                            finalPredicate = otherLocationsFilter;
+                        }
+                    }
+
+                    predicates.add(finalPredicate);
+                }
             }
 
             // Filter by date
@@ -64,27 +93,17 @@ public class EventSpecification implements Specification<Event> {
                     } else if (date instanceof String) {
                         if (date.equals("Upcoming Dates")) {
                             datePredicate = cb.or(datePredicate, cb.greaterThanOrEqualTo(root.get("startedAt"), new Date()));
-                        } else if(date.equals("Today")){
-                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"),DateUtils.truncate(new Date(), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(),1), Calendar.DATE)));
-                        } else if(date.equals("Tomorrow")){
-                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"),DateUtils.truncate(DateUtils.addDays(new Date(),1), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(),2), Calendar.DATE)));
-                        } else if(date.equals("This week")){
-                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"),new Date(), DateUtils.addDays(new Date(),7)));
+                        } else if (date.equals("Today")) {
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), DateUtils.truncate(new Date(), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(), 1), Calendar.DATE)));
+                        } else if (date.equals("Tomorrow")) {
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), DateUtils.truncate(DateUtils.addDays(new Date(), 1), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(), 2), Calendar.DATE)));
+                        } else if (date.equals("This week")) {
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), new Date(), DateUtils.addDays(new Date(), 7)));
                         }
                     }
                 }
                 predicates.add(datePredicate);
             }
-
-            // Filter by price
-            if (eventFilterDTO.getPrices() != null && !eventFilterDTO.getPrices().isEmpty()) {
-                Predicate pricePredicate = cb.disjunction();
-                for (Object price : eventFilterDTO.getPrices()) {
-                    pricePredicate = cb.or(pricePredicate, cb.like(root.get("type"), "%" + price + "%"));
-                }
-                predicates.add(pricePredicate);
-            }
-
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
@@ -92,6 +111,7 @@ public class EventSpecification implements Specification<Event> {
 
     public static Specification<Event> filterEventWithStatus(EventFilterDTO eventFilterDTO, Long statusId) {
         return (root, query, cb) -> {
+            eventFilterDTO.setStatusId(statusId);
             Specification<Event> baseFilter = filterEvent(eventFilterDTO);
             Predicate basePredicates = baseFilter.toPredicate(root, query, cb);
 

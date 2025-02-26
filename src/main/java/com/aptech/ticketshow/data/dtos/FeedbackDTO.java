@@ -20,4 +20,6 @@ public class FeedbackDTO {
     private String adminReply;
 
     private AdminDTO adminDTO;
+
+    private StatusDTO statusDTO;
 }

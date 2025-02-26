@@ -18,5 +18,5 @@ public interface OrderService {
 
   OrderDTO update(OrderDTO orderDTO);
 
-  void delete(Long id);
+  List<OrderDTO> findByVoucherId(Long voucherId);
 }

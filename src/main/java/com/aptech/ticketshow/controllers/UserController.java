@@ -37,14 +37,4 @@ public class UserController {
         }
         return ResponseEntity.ok("Can use this email");
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.findById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(userService.create(userDTO), HttpStatus.CREATED);
-    }
 }

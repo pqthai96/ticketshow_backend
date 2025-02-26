@@ -15,4 +15,6 @@ public interface VoucherService {
     VoucherDTO update(VoucherDTO voucherDTO);
 
     void delete(Long id);
+
+    VoucherDTO findByCode(String voucherCode);
 }

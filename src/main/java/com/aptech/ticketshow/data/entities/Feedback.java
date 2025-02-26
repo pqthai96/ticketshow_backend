@@ -27,13 +27,19 @@ public class Feedback extends Auditable {
     @Column(name = "subject")
     private String subject;
 
-    @Column(name = "content", columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "content", columnDefinition = "LONGTEXT")
     private String content;
 
-    @Column(name = "admin_reply", columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "admin_reply", columnDefinition = "LONGTEXT")
     private String adminReply;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id")
     private Admin admin;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 }

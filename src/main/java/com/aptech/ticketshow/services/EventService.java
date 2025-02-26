@@ -1,6 +1,8 @@
 package com.aptech.ticketshow.services;
 
 import com.aptech.ticketshow.data.dtos.EventDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import com.aptech.ticketshow.data.dtos.EventFilterDTO;
 import com.aptech.ticketshow.data.dtos.PaginationDTO;

@@ -109,7 +109,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delete(Long id) {
+    public List<OrderDTO> findByVoucherId(Long voucherId) {
+        List<OrderDTO> orderDTOs = orderRepository.findByVoucherId(voucherId).stream().map(r -> orderMapper.toDTO(r)).collect(Collectors.toList());
 
+        for (OrderDTO orderDTO : orderDTOs) {
+            orderDTO.setOrderItemDTOs(orderItemService.findByOrderId(orderDTO.getId()));
+        }
+
+        return orderDTOs;
     }
 }
