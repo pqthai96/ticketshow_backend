@@ -4,7 +4,6 @@ import com.aptech.ticketshow.common.config.JwtUtil;
 import com.aptech.ticketshow.data.dtos.*;
 import com.aptech.ticketshow.data.dtos.request.CheckoutRequest;
 import com.aptech.ticketshow.data.dtos.response.StripeResponse;
-import com.aptech.ticketshow.data.repositories.StatusRepository;
 import com.aptech.ticketshow.services.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,8 +65,11 @@ public class PaymentController {
     @Autowired
     private StatusService statusService;
 
+    @Autowired
+    private TicketValidationService ticketValidationService;
+
     @PostMapping("/create-checkout-session")
-    public ResponseEntity<StripeResponse> createCheckoutSession(@RequestHeader("Authorization") String token, @RequestBody CheckoutRequest checkoutRequest) throws StripeException {
+    public ResponseEntity<?> createCheckoutSession(@RequestHeader("Authorization") String token, @RequestBody CheckoutRequest checkoutRequest) throws StripeException {
 
         Stripe.apiKey = secretKey;
 
@@ -82,9 +84,14 @@ public class PaymentController {
 
         EventDTO eventDTO = eventService.findById(checkoutRequest.getEventId());
 
+        if (!ticketValidationService.validateTicketAvailability(checkoutRequest)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         VoucherDTO voucherDTO = null;
 
         OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(orderService.generateOrderCode());
         orderDTO.setUserDTO(userDTO);
         orderDTO.setEventDTO(eventDTO);
 
@@ -136,10 +143,11 @@ public class PaymentController {
         }
 
         SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder().setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/success")
-                .setCancelUrl("http://localhost:3000/cancel")
+                .setSuccessUrl("http://localhost:3000/checkout/success")
+                .setCancelUrl("http://localhost:3000/checkout/failed")
                 .addAllLineItem(lineItems)
-                .setClientReferenceId(String.valueOf(addedOrder.getId()));
+                .setClientReferenceId(String.valueOf(addedOrder.getId()))
+                .setExpiresAt(System.currentTimeMillis() / 1000L + (30 * 60));
 
         if (voucherDTO != null) {
 
@@ -191,7 +199,7 @@ public class PaymentController {
         if (event.getType().equals("checkout.session.completed")) {
             Session session = (Session) event.getData().getObject();
 
-            OrderDTO checkoutSuccessOrder = orderService.findById(Long.parseLong(session.getClientReferenceId()));
+            OrderDTO checkoutSuccessOrder = orderService.findById(session.getClientReferenceId());
 
             checkoutSuccessOrder.setStatusDTO(statusService.findById(5L));
             checkoutSuccessOrder.setTransactionId(session.getPaymentIntent());
@@ -228,7 +236,27 @@ public class PaymentController {
 
             invoiceService.createInvoiceWithPdfAndEmail(updatedOrder);
 
-            return ResponseEntity.ok("Order saved successfully");
+            return ResponseEntity.ok("Order processed successfully");
+        } else if (event.getType().equals("payment_intent.payment_failed")) {
+            Session session = (Session) event.getData().getObject();
+            OrderDTO checkoutFailedOrder = orderService.findById(session.getClientReferenceId());
+            checkoutFailedOrder.setStatusDTO(statusService.findById(6L));
+            checkoutFailedOrder.setTransactionId(session.getPaymentIntent());
+            checkoutFailedOrder.setEmailReceive(session.getCustomerDetails().getEmail());
+
+            orderService.update(checkoutFailedOrder);
+            return ResponseEntity.ok("Failed payment processed");
+        } else if (event.getType().equals("checkout.session.expired")) {
+            Session session = (Session) event.getData().getObject();
+            String clientReferenceId = session.getClientReferenceId();
+
+            OrderDTO expiredOrder = orderService.findById(clientReferenceId);
+
+            expiredOrder.setStatusDTO(statusService.findById(6L));
+            expiredOrder.setTransactionId(session.getPaymentIntent());
+            orderService.update(expiredOrder);
+
+            return ResponseEntity.ok("Expired session processed");
         }
 
         return ResponseEntity.ok("Event handled");

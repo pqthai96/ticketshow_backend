@@ -33,6 +33,10 @@ public class FavoriteController {
 
         UserDTO userDTO = jwtUtil.extractUser(token);
 
+        if (userDTO == null) {
+            return ResponseEntity.ok(false);
+        }
+
         List<FavoriteDTO> favoriteDTOs = favoriteService.findByUserId(userDTO.getId());
         for (FavoriteDTO favoriteDTO : favoriteDTOs) {
             if (favoriteDTO.getEventDTO().getId().equals(eventId)) {
@@ -48,13 +52,17 @@ public class FavoriteController {
 
         UserDTO userDTO = jwtUtil.extractUser(token);
 
+        if (userDTO == null) {
+            return ResponseEntity.ok(false);
+        }
+
         FavoriteDTO favoriteDTO = new FavoriteDTO();
         favoriteDTO.setEventDTO(eventService.findById(eventId));
         favoriteDTO.setUserDTO(userDTO);
 
         favoriteService.create(favoriteDTO);
 
-        return ResponseEntity.ok("Created!");
+        return ResponseEntity.ok(true);
     }
 
     @DeleteMapping("/{eventId}")

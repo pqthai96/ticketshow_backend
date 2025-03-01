@@ -88,4 +88,23 @@ public class EventController {
         EventDTO updatedEvent = eventService.bookedSeat(eventDTO);
         return ResponseEntity.ok(updatedEvent);
     }
+
+    @GetMapping("/recent")
+    public ResponseEntity<PaginationDTO> findRecentEvents(
+            @RequestParam(defaultValue = "0") int no,
+            @RequestParam(defaultValue = "3") int limit) {
+        return ResponseEntity.ok(eventService.findRecentEvents(no, limit));
+    }
+
+    @GetMapping("/best-selling")
+    public ResponseEntity<PaginationDTO> findBestSellingEvents(
+            @RequestParam(defaultValue = "0") int no,
+            @RequestParam(defaultValue = "6") int limit) {
+        return ResponseEntity.ok(eventService.findBestSellingEvents(no, limit));
+    }
+
+    @PostMapping("/upload-banner")
+    public ResponseEntity<?> uploadBanner(@RequestParam("file") MultipartFile bannerImage) {
+        return null;
+    }
 }

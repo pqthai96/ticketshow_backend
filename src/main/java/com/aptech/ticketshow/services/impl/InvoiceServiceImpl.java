@@ -7,24 +7,34 @@ import com.aptech.ticketshow.data.dtos.TicketDTO;
 import com.aptech.ticketshow.services.InvoiceService;
 import com.aptech.ticketshow.services.MailService;
 import com.aptech.ticketshow.services.OrderItemService;
+import com.aptech.ticketshow.services.OrderService;
 import com.lowagie.text.Document;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.*;
+import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private OrderItemService orderItemService;
@@ -246,9 +256,42 @@ public class InvoiceServiceImpl implements InvoiceService {
             mailDTO.setSubject("Ovation Ticket Show Booking - Invoice of " + orderDTO.getTransactionId());
             mailDTO.setBody("Your payment is successful. Thank you for your payment. Please find the attached invoice.");
 
-            String pdfFileName = "Invoice-" + orderDTO.getTransactionId() + ".pdf";
+            String pdfFileName = "Invoice-" + orderDTO.getId() + ".pdf";
+            String ticketPdfPath = savePdfInvoice(pdfInvoiceData, pdfFileName, orderDTO);
+
+            orderDTO.setTicketPdfPath(ticketPdfPath);
+            orderService.update(orderDTO);
 
             mailService.sendMailWithAttachment(mailDTO, pdfInvoiceData, pdfFileName);
+        }
+    }
+
+    private String savePdfInvoice(byte[] pdfInvoiceData, String fileName, OrderDTO orderDTO) {
+        try {
+            Resource resource = new FileSystemResource(uploadPath);
+            String baseDir = resource.getFile().getAbsolutePath();
+
+            String directoryPath = baseDir + "/orders/" + orderDTO.getId() + "/invoice/";
+            File directory = new File(directoryPath);
+
+            if (!directory.exists()) {
+                boolean dirCreated = directory.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + directoryPath);
+                }
+            }
+
+            String fullFilePath = directoryPath + fileName;
+            File pdfFile = new File(fullFilePath);
+
+            try (FileOutputStream fos = new FileOutputStream(pdfFile)) {
+                fos.write(pdfInvoiceData);
+                fos.flush();
+            }
+
+            return "/orders/" + orderDTO.getId() + "/invoice/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

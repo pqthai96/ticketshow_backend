@@ -8,8 +8,13 @@ import com.aptech.ticketshow.data.repositories.UserRepository;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,12 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findById(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            return userMapper.toDTO(userOptional.get());
-        } else {
-            throw new RuntimeException("User not found with id: " + id);
-        }
+        return userMapper.toDTO(userRepository.findById(id).orElse(null));
     }
 
     @Override
@@ -93,5 +93,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findUserByVerificationToken(String verificationToken) {
         return userMapper.toDTO(userRepository.findUserByVerificationToken(verificationToken));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        if (user.getStatus().getId() != 1) {
+            throw new UsernameNotFoundException("User account is not active");
+        }
+
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                true,
+                true,
+                true,
+                true,
+                authorities
+        );
     }
 }

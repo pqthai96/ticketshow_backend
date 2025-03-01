@@ -23,7 +23,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public boolean sendMailWithToken(MailDTO mailDTO, String token) {
-        String verificationLink = "http://localhost:8080/api/auth/verify?token=" + token;
+        String verificationLink = "http://localhost:3000/reset-password?token=" + token + "&email=" + mailDTO.getTo();
         mailDTO.body = mailDTO.body +  "<p><a href=\"" + verificationLink + "\">Click here to verify</a></p>";
         return sendMail(mailDTO, null, null);
     }

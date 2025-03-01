@@ -2,13 +2,14 @@ package com.aptech.ticketshow.common.config;
 
 import com.aptech.ticketshow.data.dtos.UserDTO;
 import com.aptech.ticketshow.services.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -53,11 +54,43 @@ public class JwtUtil {
 
         String email = extractEmail(token);
 
-        return userService.findById(userService.findByEmail(email).getId());
+        UserDTO userDTO = null;
+
+        try {
+            userDTO = userService.findById(userService.findByEmail(email).getId());
+            return userDTO;
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     public boolean validateToken(String token, String email) {
         return email.equals(extractEmail(token));
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        try {
+            final String username = extractEmail(token);
+            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean isTokenExpired(String token) {
+        final Date expiration = extractExpiration(token);
+        return expiration.before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getExpiration();
     }
 
     public String generateRandomToken() {

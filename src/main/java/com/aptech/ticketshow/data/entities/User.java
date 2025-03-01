@@ -35,9 +35,6 @@ public class User extends Auditable {
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
-    @Column(name = "phone")
-    private String phone;
-
     @Column(name = "email")
     private String email;
 

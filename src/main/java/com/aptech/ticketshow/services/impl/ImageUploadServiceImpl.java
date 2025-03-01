@@ -26,7 +26,10 @@ public class ImageUploadServiceImpl implements ImageUploadService {
             File directory = new File(directoryPath);
 
             if (!directory.exists()) {
-                directory.mkdirs();
+                boolean dirCreated = directory.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + directoryPath);
+                }
             }
 
             String fileName = generateFileName(image.getOriginalFilename());

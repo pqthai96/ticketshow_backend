@@ -33,4 +33,6 @@ public interface UserService {
     UserDTO updateProfile(UserDTO userDTO, UserProfileDTO userProfileDTO);
 
     UserDTO findUserByVerificationToken(String verificationToken);
+
+    UserDetails loadUserByUsername(String email);
 }

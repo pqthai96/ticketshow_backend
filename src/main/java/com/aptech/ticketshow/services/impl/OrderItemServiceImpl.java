@@ -20,7 +20,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     private OrderItemMapper orderItemMapper;
 
     @Override
-    public List<OrderItemDTO> findByOrderId(Long orderId) {
+    public List<OrderItemDTO> findByOrderId(String orderId) {
         return orderItemRepository.findByOrderId(orderId).stream().map(r -> orderItemMapper.toDTO(r)).collect(Collectors.toList());
     }
 }

@@ -16,8 +16,6 @@ public class UserDTO extends Auditable {
 
     private StatusDTO statusDTO;
 
-    private String phone;
-
     private String email;
 
     private String password;

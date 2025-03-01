@@ -4,12 +4,14 @@ import com.aptech.ticketshow.common.config.JwtUtil;
 import com.aptech.ticketshow.data.dtos.MailDTO;
 import com.aptech.ticketshow.data.dtos.UserDTO;
 import com.aptech.ticketshow.data.dtos.UserProfileDTO;
-import com.aptech.ticketshow.data.dtos.request.SignInRequest;
-import com.aptech.ticketshow.data.dtos.request.SignUpRequest;
+import com.aptech.ticketshow.data.dtos.request.*;
+import com.aptech.ticketshow.exception_v2.ResourceNotFoundExceptionV2;
+import com.aptech.ticketshow.exception_v2.TokenInvalidExceptionV2;
 import com.aptech.ticketshow.services.AuthService;
 import com.aptech.ticketshow.services.ImageUploadService;
 import com.aptech.ticketshow.services.MailService;
 import com.aptech.ticketshow.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -99,5 +101,41 @@ public class AuthController {
         UserDTO userDTO = jwtUtil.extractUser(token);
         userDTO.setAvatarImagePath(imageUploadService.uploadAvatarImage(avatar, userDTO.getEmail()));
         return ResponseEntity.ok(userService.update(userDTO));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+        try {
+            authService.processForgotPassword(forgotPasswordRequest.getEmail());
+            return ResponseEntity.ok("Password reset email sent!");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/verify-reset-token")
+    public ResponseEntity<?> verifyResetToken(@RequestBody VerifyResetTokenRequest verifyResetTokenRequest) {
+        try {
+            authService.verifyPasswordResetToken(verifyResetTokenRequest.getEmail(), verifyResetTokenRequest.getToken());
+            return ResponseEntity.ok("Token accepted!");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+        try {
+            authService.resetPassword(resetPasswordRequest.getEmail(), resetPasswordRequest.getToken(), resetPasswordRequest.getPassword());
+            return ResponseEntity.ok("Reset password successfully!");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization") String token, @RequestBody ChangePasswordRequest changePasswordRequest) {
+        UserDTO userDTO = jwtUtil.extractUser(token);
+        return ResponseEntity.ok(authService.changePassword(userDTO, changePasswordRequest.getCurrentPassword(), changePasswordRequest.getNewPassword()));
     }
 }

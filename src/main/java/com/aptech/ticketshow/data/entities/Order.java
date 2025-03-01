@@ -20,9 +20,8 @@ public class Order extends Auditable {
 	private static final long serialVersionUID = 5465891230354739969L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private String id;
 
     @Column(name = "order_date")
     private Date orderDate;

@@ -6,5 +6,5 @@ import com.aptech.ticketshow.data.dtos.OrderItemDTO;
 
 public interface OrderItemService {
 
-  List<OrderItemDTO> findByOrderId(Long orderId);
+  List<OrderItemDTO> findByOrderId(String orderId);
 }

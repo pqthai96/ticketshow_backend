@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -85,5 +87,17 @@ public class EventServiceImpl implements EventService {
         } else {
             throw new RuntimeException("Event not found with id: " + eventDTO.getId());
         }
+    }
+
+    @Override
+    public PaginationDTO findRecentEvents(int no, int limit) {
+        Page<EventDTO> page = eventRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(no, limit)).map(r -> eventMapper.toDTO(r));
+        return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
+    }
+
+    @Override
+    public PaginationDTO findBestSellingEvents(int no, int limit) {
+        Page<EventDTO> page = eventRepository.findBestSellingEvents(PageRequest.of(no, limit)).map(r -> eventMapper.toDTO(r));
+        return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
     }
 }

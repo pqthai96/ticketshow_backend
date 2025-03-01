@@ -10,7 +10,7 @@ public interface OrderService {
 
   List<OrderDTO> findAll();
 
-  OrderDTO findById(Long id);
+  OrderDTO findById(String id);
 
   List<OrderDTO> findByUserId(Long userId);
 
@@ -19,4 +19,8 @@ public interface OrderService {
   OrderDTO update(OrderDTO orderDTO);
 
   List<OrderDTO> findByVoucherId(Long voucherId);
+
+  String generateOrderCode();
+
+  List<OrderDTO> findByEventIdAndStatusIds(Long eventId, List<Long> statusIds);
 }

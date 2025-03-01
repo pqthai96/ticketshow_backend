@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserProfileDTO {
 
-    private long id;
+    private Long id;
 
     private String email;
 

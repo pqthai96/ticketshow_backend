@@ -13,9 +13,7 @@ import com.aptech.ticketshow.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO findById(Long id) {
+    public OrderDTO findById(String id) {
         Optional<Order> optionalOrder = orderRepository.findById(id);
 
         if (optionalOrder.isPresent()) {
@@ -117,5 +115,33 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return orderDTOs;
+    }
+
+    @Override
+    public String generateOrderCode() {
+        Calendar calendar = Calendar.getInstance();
+        String dateStr = String.format("%04d%02d%02d",
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH));
+
+        String allowedChars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+        StringBuilder randomPart = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 5; i++) {
+            int index = random.nextInt(allowedChars.length());
+            randomPart.append(allowedChars.charAt(index));
+        }
+
+        return "TS-" + dateStr + "-" + randomPart.toString();
+    }
+
+    @Override
+    public List<OrderDTO> findByEventIdAndStatusIds(Long eventId, List<Long> statusIds) {
+        List<Order> orders = orderRepository.findByEventIdAndStatusIdIn(eventId, statusIds);
+        return orders.stream()
+                .map(order -> orderMapper.toDTO(order))
+                .collect(Collectors.toList());
     }
 }
