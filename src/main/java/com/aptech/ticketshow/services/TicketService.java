@@ -17,4 +17,6 @@ public interface TicketService {
     void delete(Long id);
 
     TicketDTO update(TicketDTO ticketDTO);
+
+    int getTicketsBookedCount(Long ticketId);
 }

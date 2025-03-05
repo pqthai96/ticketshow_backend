@@ -1,9 +1,12 @@
 package com.aptech.ticketshow.services.impl;
 
+import com.aptech.ticketshow.data.dtos.OrderDTO;
 import com.aptech.ticketshow.data.dtos.TicketDTO;
+import com.aptech.ticketshow.data.entities.OrderItem;
 import com.aptech.ticketshow.data.entities.Ticket;
 import com.aptech.ticketshow.data.mappers.AdminMapper;
 import com.aptech.ticketshow.data.mappers.TicketMapper;
+import com.aptech.ticketshow.data.repositories.OrderItemRepository;
 import com.aptech.ticketshow.data.repositories.TicketRepository;
 import com.aptech.ticketshow.services.TicketService;
 
@@ -26,6 +29,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public List<TicketDTO> findAll() {
@@ -67,5 +72,21 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketDTO update(TicketDTO ticketDTO) {
         return ticketMapper.toDTO(ticketRepository.save(ticketMapper.toEntity(ticketDTO)));
+    }
+
+    @Override
+    public int getTicketsBookedCount(Long ticketId) {
+        List<OrderItem> orderItems = orderItemRepository.findByTicketIdAndOrderStatusCompleted(ticketId);
+
+        if (orderItems.isEmpty()) {
+            return 0;
+        }
+
+        int bookedTicketCount = 0;
+        for (OrderItem orderItem : orderItems) {
+            bookedTicketCount = bookedTicketCount + orderItem.getQuantity();
+        }
+
+        return bookedTicketCount;
     }
 }

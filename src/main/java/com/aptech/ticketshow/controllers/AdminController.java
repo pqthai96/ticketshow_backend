@@ -1,10 +1,14 @@
 package com.aptech.ticketshow.controllers;
 
+import com.aptech.ticketshow.common.config.JwtUtil;
 import com.aptech.ticketshow.data.dtos.AdminDTO;
+import com.aptech.ticketshow.data.dtos.request.AdminLoginRequest;
+import com.aptech.ticketshow.data.dtos.response.AdminLoginResponse;
 import com.aptech.ticketshow.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -18,6 +22,12 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping
     public ResponseEntity<List<AdminDTO>> findAll() {
         List<AdminDTO> admins = adminService.findAll();
@@ -30,23 +40,17 @@ public class AdminController {
         return ResponseEntity.ok(admin);
     }
 
-    @PostMapping
-    public ResponseEntity<AdminDTO> create(@RequestBody AdminDTO adminDTO) {
-        AdminDTO createdAdmin = adminService.create(adminDTO);
-        return ResponseEntity.created(URI.create("/api/admin/" + createdAdmin.getId())).body(createdAdmin);
-    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AdminLoginRequest adminLoginRequest) {
+        AdminDTO adminDTO = adminService.findByAdminName(adminLoginRequest.getAdminName());
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AdminDTO> update(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
-        adminDTO.setId(id);
-        AdminDTO updatedAdmin = adminService.update(adminDTO);
-        return ResponseEntity.ok(updatedAdmin);
-    }
+        if (adminDTO != null) {
+            if(passwordEncoder.matches(adminLoginRequest.getPassword(), adminDTO.getPassword())) {
+                String token = jwtUtil.generateAdminToken(adminDTO.getAdminName());
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        adminService.delete(id);
-        return ResponseEntity.noContent().build();
+                return ResponseEntity.ok(new AdminLoginResponse(token, adminDTO.getFullName()));
+            }
+        }
+        return ResponseEntity.status(401).body("Wrong admin name or password");
     }
-
 }

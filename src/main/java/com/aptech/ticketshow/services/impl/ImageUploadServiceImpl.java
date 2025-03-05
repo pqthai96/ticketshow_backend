@@ -44,6 +44,90 @@ public class ImageUploadServiceImpl implements ImageUploadService {
         }
     }
 
+    @Override
+    public String uploadBannerImage(MultipartFile image, String subDirectory) {
+        try {
+            Resource resource = new FileSystemResource(uploadPath);
+            String baseDir = resource.getFile().getAbsolutePath();
+
+            String directoryPath = baseDir + "/images/events/" + subDirectory + "/banner/";
+            File directory = new File(directoryPath);
+
+            if (!directory.exists()) {
+                boolean dirCreated = directory.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + directoryPath);
+                }
+            }
+
+            String fileName = generateFileName(image.getOriginalFilename());
+            File dest = new File(directoryPath + File.separator + fileName);
+
+
+            image.transferTo(dest);
+
+            return "images/events/" + subDirectory + "/banner/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String uploadPositionImage(MultipartFile image, String subDirectory) {
+        try {
+            Resource resource = new FileSystemResource(uploadPath);
+            String baseDir = resource.getFile().getAbsolutePath();
+
+            String directoryPath = baseDir + "/images/events/" + subDirectory + "/position/";
+            File directory = new File(directoryPath);
+
+            if (!directory.exists()) {
+                boolean dirCreated = directory.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + directoryPath);
+                }
+            }
+
+            String fileName = generateFileName(image.getOriginalFilename());
+            File dest = new File(directoryPath + File.separator + fileName);
+
+
+            image.transferTo(dest);
+
+            return "images/events/" + subDirectory + "/position/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String uploadOrganiserAvatarImage(MultipartFile image, String subDirectory) {
+        try {
+            Resource resource = new FileSystemResource(uploadPath);
+            String baseDir = resource.getFile().getAbsolutePath();
+
+            String directoryPath = baseDir + "/images/organisers/" + subDirectory + "/avatar/";
+            File directory = new File(directoryPath);
+
+            if (!directory.exists()) {
+                boolean dirCreated = directory.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + directoryPath);
+                }
+            }
+
+            String fileName = generateFileName(image.getOriginalFilename());
+            File dest = new File(directoryPath + File.separator + fileName);
+
+
+            image.transferTo(dest);
+
+            return "images/organisers/" + subDirectory + "/avatar/" + fileName;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private String generateFileName(String originalFilename) {
         return System.currentTimeMillis() + "_" + originalFilename;
     }

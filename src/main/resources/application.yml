@@ -5,9 +5,11 @@ db:
   name: ticket_show_db
   endpoint: localhost
   username: root
-  password: 1234
+  password: REDACTED
 
 spring:
+  profiles:
+    active: local
   servlet:
     multipart:
       max-file-size: 10MB
@@ -23,33 +25,34 @@ spring:
   mail:
     host: sandbox.smtp.mailtrap.io
     port: 587
-    username: 675ddba60da419
-    password: 3354d34cda867d
+    username: REDACTED
+    password: REDACTED
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: REDACTED
+            client-secret: REDACTED
+            scope:
+              - email
+              - profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
 jwt:
-  secret: ${JWT_SECRET:OVATION_SECRET_KEY_MUST_BE_LONGER_THAN_32_CHARACTERS}
+  secret: REDACTED_SECRET_KEY
   expiration: 86400000
 
 stripe:
   secret:
-    key: sk_test_51NxFXHLLGRqyYpieHwW76KV4ucGDTWQ7gibPokAXSYKwIuXuQdMEdNITA3XMFJhKQqG4pfUAY4I1TvhbAD02q4Y500Du2KvhR6
+    key: REDACTED
   webhook:
-    secret: whsec_DTIsy7YtPPwMLT6tWjDlaA5EPmP12I9A
+    secret: REDACTED
 
 upload:
   path: ./uploads
-#  mvc:
-#    static-path-pattern: /images/**
-#  web:
-#    resources:
-#      static-locations: classpath:/static/images/
-#url:
-#  redirect:
-#    path: ${domain.path}
-#domain:
-#  path: http://localhost:3000/

@@ -36,4 +36,9 @@ public class TicketController {
     public ResponseEntity<?> findByEventId(@PathVariable Long id) {
         return ResponseEntity.ok(ticketService.findByEventId(id));
     }
+
+    @GetMapping("/booked-count/{id}")
+    public ResponseEntity<?> getgetTicketsBookedCount(@PathVariable Long id) {
+        return ResponseEntity.ok(ticketService.getTicketsBookedCount(id));
+    }
 }

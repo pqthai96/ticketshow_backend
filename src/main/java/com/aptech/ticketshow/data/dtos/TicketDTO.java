@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketDTO {
+
     private Long id;
 
     private String title;
@@ -19,10 +20,6 @@ public class TicketDTO {
     private String type;
 
     private Integer quantity;
-
-    private Boolean isPaused;
-
-    private Boolean isHidden;
 
     private EventDTO eventDTO;
 }

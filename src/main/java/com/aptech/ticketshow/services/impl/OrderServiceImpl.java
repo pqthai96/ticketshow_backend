@@ -2,10 +2,12 @@ package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.CartDTO;
 import com.aptech.ticketshow.data.dtos.OrderDTO;
+import com.aptech.ticketshow.data.dtos.OrderItemDTO;
 import com.aptech.ticketshow.data.dtos.request.CheckoutRequest;
 import com.aptech.ticketshow.data.entities.Order;
 import com.aptech.ticketshow.data.entities.OrderItem;
 import com.aptech.ticketshow.data.entities.Ticket;
+import com.aptech.ticketshow.data.mappers.OrderItemMapper;
 import com.aptech.ticketshow.data.mappers.OrderMapper;
 import com.aptech.ticketshow.data.repositories.*;
 import com.aptech.ticketshow.services.OrderItemService;
@@ -35,11 +37,21 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Autowired
+    private OrderItemMapper orderItemMapper;
+
+    @Autowired
     private TicketRepository ticketRepository;
 
     @Override
     public List<OrderDTO> findAll() {
-        return orderRepository.findAll().stream().map(r -> orderMapper.toDTO(r)).collect(Collectors.toList());
+        List<OrderDTO> orderDTOs = orderRepository.findAll().stream().map(r -> orderMapper.toDTO(r)).collect(Collectors.toList());
+
+        for (OrderDTO orderDTO : orderDTOs) {
+            List<OrderItemDTO> orderItemDTOs = orderItemRepository.findByOrderId(orderDTO.getId()).stream().map(r -> orderItemMapper.toDTO(r)).collect(Collectors.toList());
+            orderDTO.setOrderItemDTOs(orderItemDTOs);
+        }
+
+        return orderDTOs;
     }
 
     @Override

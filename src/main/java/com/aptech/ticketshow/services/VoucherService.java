@@ -1,5 +1,6 @@
 package com.aptech.ticketshow.services;
 
+import java.util.Date;
 import java.util.List;
 
 import com.aptech.ticketshow.data.dtos.VoucherDTO;
@@ -17,4 +18,6 @@ public interface VoucherService {
     void delete(Long id);
 
     VoucherDTO findByCode(String voucherCode);
+
+    List<VoucherDTO> findActiveVouchers(Date currentDate);
 }

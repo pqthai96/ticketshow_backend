@@ -21,9 +21,12 @@ public class Admin extends Auditable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "admin_name")
+    private String adminName;
+
     @Column(name = "password")
     private String password;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "full_name")
+    private String fullName;
 }

@@ -1,14 +1,10 @@
 package com.aptech.ticketshow.services;
 
 import com.aptech.ticketshow.data.dtos.EventDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
 import com.aptech.ticketshow.data.dtos.EventFilterDTO;
 import com.aptech.ticketshow.data.dtos.PaginationDTO;
-import com.aptech.ticketshow.data.dtos.TicketDTO;
-
-import java.util.List;
+import com.aptech.ticketshow.data.dtos.request.ModifyEventRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface EventService {
 
@@ -17,8 +13,6 @@ public interface EventService {
     PaginationDTO findAllByStatus(int no, int limit, Long statusId);
 
     EventDTO findById(Long id);
-
-    //EventDTO addEvent(EventDTO eventDTO);
 
     EventDTO update(EventDTO eventDTO);
 
@@ -31,4 +25,10 @@ public interface EventService {
     PaginationDTO findRecentEvents(int pageNo, int pageSize);
 
     PaginationDTO findBestSellingEvents(int pageNo, int pageSize);
+
+    EventDTO create(ModifyEventRequest modifyEventRequest, MultipartFile bannerImage, MultipartFile positionImage);
+
+    EventDTO edit(ModifyEventRequest modifyEventRequest, MultipartFile bannerImage, MultipartFile positionImage);
+
+    PaginationDTO findAllByCategory(int no, int limit, Long categoryId);
 }

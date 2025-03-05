@@ -28,16 +28,28 @@ public class EventSpecification implements Specification<Event> {
             // Always add status filter
             predicates.add(cb.equal(root.get("status").get("id"), eventFilterDTO.getStatusId()));
 
-            // Sort
-            if (eventFilterDTO.getSort() != null) {
-                switch (eventFilterDTO.getSort()) {
-                    case "popular":
-                        query.orderBy(cb.desc(root.get("id")));
-                        break;
-                    case "date":
-                        query.orderBy(cb.desc(root.get("startedAt")));
-                        break;
+            if (eventFilterDTO.getSort() == null) {
+                // Default: sort by creation date (newest first)
+                query.orderBy(cb.desc(root.get("createdAt")));
+            } else if ("New".equals(eventFilterDTO.getSort())) {
+                // Sort by event start date
+                query.orderBy(cb.desc(root.get("createdAt")));
+            } else if ("Popular".equals(eventFilterDTO.getSort())) {
+                // Subquery to get order count for each event
+                Subquery<Long> orderCountSubquery = query.subquery(Long.class);
+                Root<?> orderRoot = null;
+                try {
+                    orderRoot = orderCountSubquery.from(Class.forName("com.aptech.ticketshow.data.entities.Order"));
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
+
+                // Count orders where order.event.id = current event id
+                orderCountSubquery.select(cb.count(orderRoot.get("id")))
+                        .where(cb.equal(orderRoot.get("event").get("id"), root.get("id")));
+
+                // Sort by this count
+                query.orderBy(cb.desc(orderCountSubquery));
             }
 
             // Filter by category
@@ -89,16 +101,16 @@ public class EventSpecification implements Specification<Event> {
                 Predicate datePredicate = cb.disjunction();
                 for (Object date : eventFilterDTO.getDates()) {
                     if (date instanceof Date) {
-                        datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), (Date) date, (Date) date));
+                        datePredicate = cb.or(datePredicate, cb.between(root.get("endedAt"), (Date) date, (Date) date));
                     } else if (date instanceof String) {
                         if (date.equals("Upcoming Dates")) {
-                            datePredicate = cb.or(datePredicate, cb.greaterThanOrEqualTo(root.get("startedAt"), new Date()));
+                            datePredicate = cb.or(datePredicate, cb.greaterThanOrEqualTo(root.get("endedAt"), new Date()));
                         } else if (date.equals("Today")) {
-                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), DateUtils.truncate(new Date(), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(), 1), Calendar.DATE)));
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("endedAt"), DateUtils.truncate(new Date(), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(), 1), Calendar.DATE)));
                         } else if (date.equals("Tomorrow")) {
-                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), DateUtils.truncate(DateUtils.addDays(new Date(), 1), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(), 2), Calendar.DATE)));
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("endedAt"), DateUtils.truncate(DateUtils.addDays(new Date(), 1), Calendar.DATE), DateUtils.truncate(DateUtils.addDays(new Date(), 2), Calendar.DATE)));
                         } else if (date.equals("This week")) {
-                            datePredicate = cb.or(datePredicate, cb.between(root.get("startedAt"), new Date(), DateUtils.addDays(new Date(), 7)));
+                            datePredicate = cb.or(datePredicate, cb.between(root.get("endedAt"), new Date(), DateUtils.addDays(new Date(), 7)));
                         }
                     }
                 }

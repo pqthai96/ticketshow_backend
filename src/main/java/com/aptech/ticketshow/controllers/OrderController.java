@@ -4,6 +4,7 @@ import com.aptech.ticketshow.common.config.JwtUtil;
 import com.aptech.ticketshow.data.dtos.OrderDTO;
 import com.aptech.ticketshow.data.dtos.UserDTO;
 import com.aptech.ticketshow.services.OrderService;
+import com.aptech.ticketshow.services.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -23,7 +24,15 @@ public class OrderController {
     private OrderService orderService;
 
     @Autowired
+    private StatusService statusService;
+
+    @Autowired
     private JwtUtil jwtUtil;
+
+    @GetMapping
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAll());
+    }
 
     @GetMapping("/orders-by-user")
     public ResponseEntity<?> findAllOrderByUser(@RequestHeader("Authorization") String token) {
@@ -53,5 +62,12 @@ public class OrderController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/update-status")
+    public ResponseEntity<?> updateStatus(@RequestParam("orderId") String orderId, @RequestParam("statusId") String statusId) {
+        OrderDTO updateStatusOrderDTO = orderService.findById(orderId);
+        updateStatusOrderDTO.setStatusDTO(statusService.findById(Long.valueOf(statusId)));
+        return ResponseEntity.ok(orderService.update(updateStatusOrderDTO));
     }
 }

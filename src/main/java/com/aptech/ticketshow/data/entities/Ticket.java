@@ -39,12 +39,6 @@ public class Ticket extends Auditable {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "is_paused")
-    private Boolean isPaused;
-
-    @Column(name = "is_hidden")
-    private Boolean isHidden;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;

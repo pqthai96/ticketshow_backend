@@ -1,5 +1,6 @@
 package com.aptech.ticketshow.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,5 +65,13 @@ public class VoucherServiceImpl implements VoucherService{
     @Override
     public VoucherDTO findByCode(String voucherCode) {
         return voucherMapper.toDTO(voucherRepository.findByCode(voucherCode));
+    }
+
+    @Override
+    public List<VoucherDTO> findActiveVouchers(Date currentDate) {
+        List<Voucher> activeVouchers = voucherRepository.findActiveVouchers(currentDate);
+        return activeVouchers.stream()
+                .map(voucherMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

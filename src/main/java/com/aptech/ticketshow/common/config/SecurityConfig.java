@@ -1,5 +1,7 @@
 package com.aptech.ticketshow.common.config;
 
+import com.aptech.ticketshow.services.CustomOAuth2UserService;
+import com.aptech.ticketshow.common.config.OAuth2SuccessHandler;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -13,6 +15,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -30,13 +35,24 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     private final UserService userService;
     private final JwtAuthenticationFilter jwtAuthFilter;
+    private final CustomOAuth2UserService oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(request -> request.anyRequest().permitAll());
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers("/api/auth/**", "/oauth2/**", "/login/**", "/images/**").permitAll()
+                                .anyRequest().permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService((OAuth2UserService<OAuth2UserRequest, OAuth2User>) oAuth2UserService)
+                        )
+                        .successHandler(oAuth2SuccessHandler)
+                );
 
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

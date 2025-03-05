@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 /.metadata/
+
+# Ignore application properties with sensitive information
+src/main/resources/application-local.yml

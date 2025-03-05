@@ -78,7 +78,7 @@ public class AuthController {
         mailDTO.setSubject("Verification Email From Ovation");
         mailDTO.setBody("Thank you for registering and using Ovation's services!");
 
-        return ResponseEntity.ok(mailService.sendMailWithToken(mailDTO, userDTO.getVerificationToken()));
+        return ResponseEntity.ok(mailService.sendVerifyEmailWithToken(mailDTO, userDTO.getVerificationToken()));
     }
 
     @GetMapping("/verify")
@@ -88,7 +88,7 @@ public class AuthController {
         userDTO.setVerified(true);
         userService.update(userDTO);
 
-        return new RedirectView("http://localhost:3000/verified");
+        return new RedirectView("http://localhost:3000/verify-successvid ");
     }
 
     @PostMapping("/update-profile")

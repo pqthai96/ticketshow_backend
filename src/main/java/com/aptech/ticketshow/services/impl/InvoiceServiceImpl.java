@@ -30,6 +30,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${app.logo.path:classpath:static/images/logo.png}")
+    private Resource logoResource;
+
     @Autowired
     private MailService mailService;
 
@@ -93,7 +96,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                         "  </tr>" +
                         "  <tr>" +
                         "    <td>" +
-                        "      Invoice No: <strong>" + orderDTO.getTransactionId() + "</strong>" +
+                        "      Invoice No: <strong>" + orderDTO.getId() + "</strong>" +
                         "    </td>" +
                         "    <td>" +
                         "      support@ovation.com" +
@@ -187,7 +190,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                         "  </tr>" +
                         "  <tr>" +
                         "    <td>" +
-                        "      Invoice No: <strong>" + orderDTO.getTransactionId() + "</strong>" +
+                        "      Invoice No: <strong>" + orderDTO.getId() + "</strong>" +
                         "    </td>" +
                         "    <td>" +
                         "      support@ovation.com" +
@@ -253,7 +256,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             MailDTO mailDTO = new MailDTO();
             mailDTO.setName(orderDTO.getUserDTO().getLastName() + " " + orderDTO.getUserDTO().getFirstName());
             mailDTO.setTo(orderDTO.getEmailReceive());
-            mailDTO.setSubject("Ovation Ticket Show Booking - Invoice of " + orderDTO.getTransactionId());
+            mailDTO.setSubject("Ovation Ticket Show Booking - Invoice of " + orderDTO.getId());
             mailDTO.setBody("Your payment is successful. Thank you for your payment. Please find the attached invoice.");
 
             String pdfFileName = "Invoice-" + orderDTO.getId() + ".pdf";
@@ -319,7 +322,8 @@ public class InvoiceServiceImpl implements InvoiceService {
                 cb.addTemplate(page, 0, 0);
             }
 
-            Image logoImage = Image.getInstance("https://i.ibb.co/bMmt5rD3/ovation-black.png");
+//            Image logoImage = Image.getInstance("https://i.ibb.co/bMmt5rD3/ovation-black.png");
+            Image logoImage = Image.getInstance(logoResource.getInputStream().readAllBytes());
             logoImage.setAbsolutePosition(40, 780);
             logoImage.scalePercent(5);
             document.add(logoImage);

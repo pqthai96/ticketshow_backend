@@ -9,4 +9,6 @@ public interface MailService {
     boolean sendMailWithToken(MailDTO mailDTO, String token);
 
     boolean sendMail(MailDTO mailDTO, byte[] attachmentData, String attachmentFileName);
+
+    boolean sendVerifyEmailWithToken(MailDTO mailDTO, String token);
 }

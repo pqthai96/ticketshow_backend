@@ -46,6 +46,15 @@ public class VoucherController {
         }
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<VoucherDTO>> findActiveVouchers() {
+        Date currentDate = new Date();
+
+        List<VoucherDTO> activeVouchers = voucherService.findActiveVouchers(currentDate);
+
+        return new ResponseEntity<>(activeVouchers, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<VoucherDTO> create(@RequestBody VoucherDTO voucherDTO) {
         VoucherDTO createdVoucher = voucherService.create(voucherDTO);

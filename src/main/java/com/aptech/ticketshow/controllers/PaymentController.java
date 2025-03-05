@@ -196,69 +196,88 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid signature");
         }
 
-        if (event.getType().equals("checkout.session.completed")) {
-            Session session = (Session) event.getData().getObject();
+        final String eventType = event.getType();
+        final String eventId = event.getId();
 
-            OrderDTO checkoutSuccessOrder = orderService.findById(session.getClientReferenceId());
+        log.info("Received Stripe webhook event: {}, id: {}", eventType, eventId);
 
-            checkoutSuccessOrder.setStatusDTO(statusService.findById(5L));
-            checkoutSuccessOrder.setTransactionId(session.getPaymentIntent());
-            checkoutSuccessOrder.setEmailReceive(session.getCustomerDetails().getEmail());
+        Event finalEvent = event;
+        new Thread(() -> {
+            try {
+                Thread.sleep(100);
 
-            OrderDTO updatedOrder = orderService.update(checkoutSuccessOrder);
-
-            EventDTO bookedEvent = eventService.findById(checkoutSuccessOrder.getEventDTO().getId());
-
-            if (bookedEvent.isType()) {
-                for (TicketDTO ticketDTO : bookedEvent.getTickets()) {
-                    for (OrderItemDTO orderItemDTO : checkoutSuccessOrder.getOrderItemDTOs()) {
-                        if (ticketDTO.getId().equals(orderItemDTO.getTicketDTO().getId())) {
-                            ticketDTO.setQuantity(ticketDTO.getQuantity() - orderItemDTO.getQuantity());
-                            ticketService.update(ticketDTO);
-                        }
-                    }
+                if (eventType.equals("checkout.session.completed")) {
+                    Session session = (Session) finalEvent.getData().getObject();
+                    processCompletedCheckout(session);
+                } else if (eventType.equals("payment_intent.payment_failed")) {
+                    Session session = (Session) finalEvent.getData().getObject();
+                    processFailedPayment(session);
+                } else if (eventType.equals("checkout.session.expired")) {
+                    Session session = (Session) finalEvent.getData().getObject();
+                    processExpiredSession(session);
                 }
-            } else {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    ArrayList<String> bookedSeats = new ArrayList<>(Arrays.asList(objectMapper.readValue(bookedEvent.getBookedSeats(), String[].class)));
 
-                    for (OrderItemDTO orderItemDTO : checkoutSuccessOrder.getOrderItemDTOs()) {
-                        bookedSeats.add(orderItemDTO.getSeatValue());
-                    }
-
-                    bookedEvent.setBookedSeats(objectMapper.writeValueAsString(bookedSeats));
-                    eventService.update(bookedEvent);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
+                log.info("Successfully processed webhook event: {}, id: {}", eventType, eventId);
+            } catch (Exception e) {
+                log.error("Error processing webhook event: {}, id: {}, error: {}",
+                        eventType, eventId, e.getMessage(), e);
             }
+        }).start();
 
-            invoiceService.createInvoiceWithPdfAndEmail(updatedOrder);
+        return ResponseEntity.ok("Webhook received successfully");
+    }
 
-            return ResponseEntity.ok("Order processed successfully");
-        } else if (event.getType().equals("payment_intent.payment_failed")) {
-            Session session = (Session) event.getData().getObject();
-            OrderDTO checkoutFailedOrder = orderService.findById(session.getClientReferenceId());
-            checkoutFailedOrder.setStatusDTO(statusService.findById(6L));
-            checkoutFailedOrder.setTransactionId(session.getPaymentIntent());
-            checkoutFailedOrder.setEmailReceive(session.getCustomerDetails().getEmail());
+    // Extract the processing logic to separate methods
+    private void processCompletedCheckout(Session session) {
+        OrderDTO checkoutSuccessOrder = orderService.findById(session.getClientReferenceId());
 
-            orderService.update(checkoutFailedOrder);
-            return ResponseEntity.ok("Failed payment processed");
-        } else if (event.getType().equals("checkout.session.expired")) {
-            Session session = (Session) event.getData().getObject();
-            String clientReferenceId = session.getClientReferenceId();
+        checkoutSuccessOrder.setStatusDTO(statusService.findById(5L));
+        checkoutSuccessOrder.setTransactionId(session.getPaymentIntent());
+        checkoutSuccessOrder.setEmailReceive(session.getCustomerDetails().getEmail());
 
-            OrderDTO expiredOrder = orderService.findById(clientReferenceId);
+        OrderDTO updatedOrder = orderService.update(checkoutSuccessOrder);
 
-            expiredOrder.setStatusDTO(statusService.findById(6L));
-            expiredOrder.setTransactionId(session.getPaymentIntent());
-            orderService.update(expiredOrder);
+        EventDTO bookedEvent = eventService.findById(checkoutSuccessOrder.getEventDTO().getId());
 
-            return ResponseEntity.ok("Expired session processed");
+        if (!bookedEvent.isType()) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                ArrayList<String> bookedSeats = new ArrayList<>(Arrays.asList(objectMapper.readValue(bookedEvent.getBookedSeats(), String[].class)));
+
+                for (OrderItemDTO orderItemDTO : checkoutSuccessOrder.getOrderItemDTOs()) {
+                    bookedSeats.add(orderItemDTO.getSeatValue());
+                }
+
+                bookedEvent.setBookedSeats(objectMapper.writeValueAsString(bookedSeats));
+                eventService.update(bookedEvent);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        return ResponseEntity.ok("Event handled");
+        invoiceService.createInvoiceWithPdfAndEmail(updatedOrder);
+        log.info("Successfully processed completed checkout for order: {}", session.getClientReferenceId());
+    }
+
+    private void processFailedPayment(Session session) {
+        OrderDTO checkoutFailedOrder = orderService.findById(session.getClientReferenceId());
+        checkoutFailedOrder.setStatusDTO(statusService.findById(6L));
+        checkoutFailedOrder.setTransactionId(session.getPaymentIntent());
+        checkoutFailedOrder.setEmailReceive(session.getCustomerDetails().getEmail());
+
+        orderService.update(checkoutFailedOrder);
+        log.info("Successfully processed failed payment for order: {}", session.getClientReferenceId());
+    }
+
+    private void processExpiredSession(Session session) {
+        String clientReferenceId = session.getClientReferenceId();
+
+        OrderDTO expiredOrder = orderService.findById(clientReferenceId);
+
+        expiredOrder.setStatusDTO(statusService.findById(6L));
+        expiredOrder.setTransactionId(session.getPaymentIntent());
+        orderService.update(expiredOrder);
+
+        log.info("Successfully processed expired session for order: {}", clientReferenceId);
     }
 }

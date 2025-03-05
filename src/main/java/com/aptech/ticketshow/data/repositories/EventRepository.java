@@ -18,8 +18,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Page<Event> findAll(Specification<Event> filter, Pageable pageable);
 
-    @Query("SELECT e FROM Event e WHERE e.title LIKE %:searchValue% AND e.status.id = 1L")
-    Page<Event> search(@Param("searchValue") String searchValue, Pageable pageable);
+    @Query("SELECT e FROM Event e WHERE e.status.id = 1L")
+    Page<Event> findAllActive(Pageable pageable);
+
+    Page<Event> findByCategoryIdOrderByEndedAtDesc(Long categoryId, Pageable pageable);
 
     @Query("SELECT e FROM Event e WHERE (:id is null or e.id = :id)")
     Optional<Event> findById(@Param("id") Long id);

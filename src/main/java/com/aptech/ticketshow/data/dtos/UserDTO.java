@@ -43,4 +43,10 @@ public class UserDTO extends Auditable {
     private Date dayOfBirth;
 
     private String forgotPasswordToken;
+
+    private String provider;
+
+    private String providerId;
+
+    private String refreshToken;
 }

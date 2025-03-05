@@ -76,4 +76,13 @@ public class User extends Auditable {
 
     @Column(name = "forgot_password_token")
     private String forgotPasswordToken;
+
+    @Column(name = "provider")
+    private String provider;
+
+    @Column(name = "provider_id")
+    private String providerId;
+
+    @Column(name = "refresh_token")
+    private String refreshToken;
 }

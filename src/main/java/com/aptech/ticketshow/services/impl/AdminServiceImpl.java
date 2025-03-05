@@ -1,11 +1,16 @@
 package com.aptech.ticketshow.services.impl;
 
+import com.aptech.ticketshow.common.config.JwtUtil;
 import com.aptech.ticketshow.data.dtos.AdminDTO;
+import com.aptech.ticketshow.data.dtos.request.AdminLoginRequest;
+import com.aptech.ticketshow.data.dtos.response.AdminLoginResponse;
 import com.aptech.ticketshow.data.entities.Admin;
 import com.aptech.ticketshow.data.mappers.AdminMapper;
 import com.aptech.ticketshow.data.repositories.AdminRepository;
 import com.aptech.ticketshow.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,34 +42,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminDTO create(AdminDTO adminDTO) {
-        Admin admin = adminMapper.toEntity(adminDTO);
-        admin = adminRepository.save(admin);
-        return adminMapper.toDTO(admin);
-    }
-
-    @Override
-    public AdminDTO update(AdminDTO adminDTO) {
-        Long id = adminDTO.getId(); // Lấy id từ adminDTO
-        Optional<Admin> adminOptional = adminRepository.findById(id);
-        if (adminOptional.isPresent()) {
-            Admin admin = adminOptional.get();
-            admin.setName(adminDTO.getName());
-            admin.setPassword(adminDTO.getPassword());
-            admin = adminRepository.save(admin);
-            return adminMapper.toDTO(admin);
-        } else {
-            throw new RuntimeException("Admin not found with id: " + id);
-        }
-    }
-
-    @Override
-    public void delete(Long id) {
-        Optional<Admin> adminOptional = adminRepository.findById(id);
-        if (adminOptional.isPresent()) {
-            adminRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Admin not found with id: " + id);
-        }
+    public AdminDTO findByAdminName(String adminName) {
+        return adminMapper.toDTO(adminRepository.findByAdminName(adminName));
     }
 }

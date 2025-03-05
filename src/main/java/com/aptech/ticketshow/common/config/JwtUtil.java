@@ -1,6 +1,8 @@
 package com.aptech.ticketshow.common.config;
 
+import com.aptech.ticketshow.data.dtos.AdminDTO;
 import com.aptech.ticketshow.data.dtos.UserDTO;
+import com.aptech.ticketshow.services.AdminService;
 import com.aptech.ticketshow.services.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -24,6 +26,9 @@ public class JwtUtil {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AdminService adminService;
 
     public JwtUtil(@Value("${jwt.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
@@ -91,6 +96,41 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getExpiration();
+    }
+
+    public String generateAdminToken(String adminName) {
+        return Jwts.builder()
+                .setSubject(adminName)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String extractAdminName(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public AdminDTO extractAdmin(String token) {
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        String adminName = extractAdminName(token);
+
+        AdminDTO adminDTO = null;
+
+        try {
+            adminDTO = adminService.findById(adminService.findByAdminName(adminName).getId());
+            return adminDTO;
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     public String generateRandomToken() {
