@@ -161,16 +161,10 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>com.aptech.ticketshow.TicketshowBackendApplication</mainClass>
-                        </manifest>
-                    </archive>
+                    <mainClass>com.aptech.ticketshow.TicketshowBackendApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
