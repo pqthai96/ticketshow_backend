@@ -11,5 +11,7 @@ public class AdminLoginResponse {
 
     private String token;
 
+    private String adminName;
+
     private String fullName;
 }

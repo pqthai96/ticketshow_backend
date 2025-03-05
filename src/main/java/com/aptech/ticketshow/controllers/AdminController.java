@@ -48,9 +48,15 @@ public class AdminController {
             if(passwordEncoder.matches(adminLoginRequest.getPassword(), adminDTO.getPassword())) {
                 String token = jwtUtil.generateAdminToken(adminDTO.getAdminName());
 
-                return ResponseEntity.ok(new AdminLoginResponse(token, adminDTO.getFullName()));
+                return ResponseEntity.ok(new AdminLoginResponse(token, adminDTO.getAdminName(), adminDTO.getFullName()));
             }
         }
         return ResponseEntity.status(401).body("Wrong admin name or password");
+    }
+
+    @GetMapping("/admin-name")
+    public ResponseEntity<?> findByAdminName(@RequestParam String adminName) {
+        AdminDTO adminDTO = adminService.findByAdminName(adminName);
+        return ResponseEntity.ok(adminDTO.getFullName());
     }
 }

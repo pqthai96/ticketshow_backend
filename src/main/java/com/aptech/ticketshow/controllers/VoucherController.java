@@ -27,6 +27,7 @@ public class VoucherController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -55,15 +56,14 @@ public class VoucherController {
         return new ResponseEntity<>(activeVouchers, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<VoucherDTO> create(@RequestBody VoucherDTO voucherDTO) {
         VoucherDTO createdVoucher = voucherService.create(voucherDTO);
         return new ResponseEntity<>(createdVoucher, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<VoucherDTO> update(@PathVariable("id") Long id, @RequestBody VoucherDTO voucherDTO) {
-        voucherDTO.setId(id);
+    @PostMapping("/update")
+    public ResponseEntity<VoucherDTO> update(@RequestBody VoucherDTO voucherDTO) {
         VoucherDTO updatedVoucher = voucherService.update(voucherDTO);
         if (updatedVoucher != null) {
             return new ResponseEntity<>(updatedVoucher, HttpStatus.OK);
