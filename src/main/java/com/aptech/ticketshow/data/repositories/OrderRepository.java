@@ -17,5 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 
     List<Order> findByEventIdAndStatusIdIn(Long eventId, List<Long> statusIds);
 
+    List<Order> findByEventIdAndStatusId(Long eventId, Long statusId);
+
     List<Order> findAllByOrderDateBetween(Date startDate, Date endDate);
 }

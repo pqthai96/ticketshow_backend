@@ -16,4 +16,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("SELECT oi FROM OrderItem oi JOIN oi.order o JOIN oi.ticket t " +
             "WHERE t.id = :ticketId AND o.status.id = 5L")
     List<OrderItem> findByTicketIdAndOrderStatusCompleted(@Param("ticketId") Long ticketId);
+
+    List<OrderItem> findByOrderIdIn(List<String> orderIds);
 }

@@ -77,6 +77,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3001");
         config.addAllowedOrigin("https://ticketshow-user-app.vercel.app/");
+        config.addAllowedOrigin("https://ticketshow-admin-app.vercel.app/");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);

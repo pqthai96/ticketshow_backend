@@ -31,4 +31,6 @@ public interface EventService {
     EventDTO edit(ModifyEventRequest modifyEventRequest, MultipartFile bannerImage, MultipartFile positionImage);
 
     PaginationDTO findAllByCategory(int no, int limit, Long categoryId);
+
+    Integer ticketsAndSeatsCount(Long id);
 }

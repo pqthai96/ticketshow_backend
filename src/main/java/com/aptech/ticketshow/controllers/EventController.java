@@ -32,9 +32,6 @@ public class EventController {
     private FavoriteService favoriteService;
 
     @Autowired
-    private ImageUploadService imageUploadService;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     @GetMapping
@@ -42,9 +39,9 @@ public class EventController {
         return ResponseEntity.ok(eventService.findAll(no, limit));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> findAllTest() {
-        return ResponseEntity.ok("test ok");
+    @GetMapping("/count/{id}")
+    public ResponseEntity<?> ticketsAndSeatsCount(@PathVariable long id) {
+        return ResponseEntity.ok(eventService.ticketsAndSeatsCount(id));
     }
 
     @GetMapping("/active")
@@ -135,18 +132,29 @@ public class EventController {
             ModifyEventRequest modifyEventRequest = new ModifyEventRequest();
 
             if (parameterMap.containsKey("title")) modifyEventRequest.setTitle(parameterMap.get("title")[0]);
-            if (parameterMap.containsKey("statusId")) modifyEventRequest.setStatusId(Long.valueOf(parameterMap.get("statusId")[0]));
-            if (parameterMap.containsKey("venueName")) modifyEventRequest.setVenueName(parameterMap.get("venueName")[0]);
-            if (parameterMap.containsKey("type")) modifyEventRequest.setType(Boolean.valueOf(parameterMap.get("type")[0]));
-            if (parameterMap.containsKey("locationAddress")) modifyEventRequest.setLocationAddress(parameterMap.get("locationAddress")[0]);
-            if (parameterMap.containsKey("locationProvince")) modifyEventRequest.setLocationProvince(parameterMap.get("locationProvince")[0]);
-            if (parameterMap.containsKey("locationDistrict")) modifyEventRequest.setLocationDistrict(parameterMap.get("locationDistrict")[0]);
-            if (parameterMap.containsKey("locationWard")) modifyEventRequest.setLocationWard(parameterMap.get("locationWard")[0]);
-            if (parameterMap.containsKey("startedAt")) modifyEventRequest.setStartedAt(Date.from(LocalDate.parse(parameterMap.get("startedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            if (parameterMap.containsKey("endedAt")) modifyEventRequest.setEndedAt(Date.from(LocalDate.parse(parameterMap.get("endedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            if (parameterMap.containsKey("statusId"))
+                modifyEventRequest.setStatusId(Long.valueOf(parameterMap.get("statusId")[0]));
+            if (parameterMap.containsKey("venueName"))
+                modifyEventRequest.setVenueName(parameterMap.get("venueName")[0]);
+            if (parameterMap.containsKey("type"))
+                modifyEventRequest.setType(Boolean.valueOf(parameterMap.get("type")[0]));
+            if (parameterMap.containsKey("locationAddress"))
+                modifyEventRequest.setLocationAddress(parameterMap.get("locationAddress")[0]);
+            if (parameterMap.containsKey("locationProvince"))
+                modifyEventRequest.setLocationProvince(parameterMap.get("locationProvince")[0]);
+            if (parameterMap.containsKey("locationDistrict"))
+                modifyEventRequest.setLocationDistrict(parameterMap.get("locationDistrict")[0]);
+            if (parameterMap.containsKey("locationWard"))
+                modifyEventRequest.setLocationWard(parameterMap.get("locationWard")[0]);
+            if (parameterMap.containsKey("startedAt"))
+                modifyEventRequest.setStartedAt(Date.from(LocalDate.parse(parameterMap.get("startedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            if (parameterMap.containsKey("endedAt"))
+                modifyEventRequest.setEndedAt(Date.from(LocalDate.parse(parameterMap.get("endedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (parameterMap.containsKey("content")) modifyEventRequest.setContent(parameterMap.get("content")[0]);
-            if (parameterMap.containsKey("categoryId")) modifyEventRequest.setCategoryId(Long.valueOf(parameterMap.get("categoryId")[0]));
-            if (parameterMap.containsKey("organiserId")) modifyEventRequest.setOrganiserId(Long.valueOf(parameterMap.get("organiserId")[0]));
+            if (parameterMap.containsKey("categoryId"))
+                modifyEventRequest.setCategoryId(Long.valueOf(parameterMap.get("categoryId")[0]));
+            if (parameterMap.containsKey("organiserId"))
+                modifyEventRequest.setOrganiserId(Long.valueOf(parameterMap.get("organiserId")[0]));
 
             // Parse seatPrice (BigDecimal)
             if (parameterMap.containsKey("seatPrice") && parameterMap.get("seatPrice")[0] != null && !parameterMap.get("seatPrice")[0].isEmpty()) {
@@ -178,8 +186,8 @@ public class EventController {
 
     @PostMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> editEvent(HttpServletRequest httpServletRequest,
-                                         @RequestPart(value = "bannerImage", required = false) MultipartFile bannerImage,
-                                         @RequestPart(value = "positionImage", required = false) MultipartFile positionImage) {
+                                       @RequestPart(value = "bannerImage", required = false) MultipartFile bannerImage,
+                                       @RequestPart(value = "positionImage", required = false) MultipartFile positionImage) {
         try {
             Map<String, String[]> parameterMap = httpServletRequest.getParameterMap();
 
@@ -187,18 +195,29 @@ public class EventController {
 
             if (parameterMap.containsKey("id")) modifyEventRequest.setId(Long.valueOf(parameterMap.get("id")[0]));
             if (parameterMap.containsKey("title")) modifyEventRequest.setTitle(parameterMap.get("title")[0]);
-            if (parameterMap.containsKey("statusId")) modifyEventRequest.setStatusId(Long.valueOf(parameterMap.get("statusId")[0]));
-            if (parameterMap.containsKey("venueName")) modifyEventRequest.setVenueName(parameterMap.get("venueName")[0]);
-            if (parameterMap.containsKey("type")) modifyEventRequest.setType(Boolean.valueOf(parameterMap.get("type")[0]));
-            if (parameterMap.containsKey("locationAddress")) modifyEventRequest.setLocationAddress(parameterMap.get("locationAddress")[0]);
-            if (parameterMap.containsKey("locationProvince")) modifyEventRequest.setLocationProvince(parameterMap.get("locationProvince")[0]);
-            if (parameterMap.containsKey("locationDistrict")) modifyEventRequest.setLocationDistrict(parameterMap.get("locationDistrict")[0]);
-            if (parameterMap.containsKey("locationWard")) modifyEventRequest.setLocationWard(parameterMap.get("locationWard")[0]);
-            if (parameterMap.containsKey("startedAt")) modifyEventRequest.setStartedAt(Date.from(LocalDate.parse(parameterMap.get("startedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            if (parameterMap.containsKey("endedAt")) modifyEventRequest.setEndedAt(Date.from(LocalDate.parse(parameterMap.get("endedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            if (parameterMap.containsKey("statusId"))
+                modifyEventRequest.setStatusId(Long.valueOf(parameterMap.get("statusId")[0]));
+            if (parameterMap.containsKey("venueName"))
+                modifyEventRequest.setVenueName(parameterMap.get("venueName")[0]);
+            if (parameterMap.containsKey("type"))
+                modifyEventRequest.setType(Boolean.valueOf(parameterMap.get("type")[0]));
+            if (parameterMap.containsKey("locationAddress"))
+                modifyEventRequest.setLocationAddress(parameterMap.get("locationAddress")[0]);
+            if (parameterMap.containsKey("locationProvince"))
+                modifyEventRequest.setLocationProvince(parameterMap.get("locationProvince")[0]);
+            if (parameterMap.containsKey("locationDistrict"))
+                modifyEventRequest.setLocationDistrict(parameterMap.get("locationDistrict")[0]);
+            if (parameterMap.containsKey("locationWard"))
+                modifyEventRequest.setLocationWard(parameterMap.get("locationWard")[0]);
+            if (parameterMap.containsKey("startedAt"))
+                modifyEventRequest.setStartedAt(Date.from(LocalDate.parse(parameterMap.get("startedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            if (parameterMap.containsKey("endedAt"))
+                modifyEventRequest.setEndedAt(Date.from(LocalDate.parse(parameterMap.get("endedAt")[0]).atStartOfDay(ZoneId.systemDefault()).toInstant()));
             if (parameterMap.containsKey("content")) modifyEventRequest.setContent(parameterMap.get("content")[0]);
-            if (parameterMap.containsKey("categoryId")) modifyEventRequest.setCategoryId(Long.valueOf(parameterMap.get("categoryId")[0]));
-            if (parameterMap.containsKey("organiserId")) modifyEventRequest.setOrganiserId(Long.valueOf(parameterMap.get("organiserId")[0]));
+            if (parameterMap.containsKey("categoryId"))
+                modifyEventRequest.setCategoryId(Long.valueOf(parameterMap.get("categoryId")[0]));
+            if (parameterMap.containsKey("organiserId"))
+                modifyEventRequest.setOrganiserId(Long.valueOf(parameterMap.get("organiserId")[0]));
 
             // Parse seatPrice (BigDecimal)
             if (parameterMap.containsKey("seatPrice") && parameterMap.get("seatPrice")[0] != null && !parameterMap.get("seatPrice")[0].isEmpty()) {

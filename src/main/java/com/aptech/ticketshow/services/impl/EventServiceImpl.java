@@ -6,14 +6,19 @@ import com.aptech.ticketshow.data.dtos.PaginationDTO;
 import com.aptech.ticketshow.data.dtos.TicketDTO;
 import com.aptech.ticketshow.data.dtos.request.ModifyEventRequest;
 import com.aptech.ticketshow.data.entities.Event;
+import com.aptech.ticketshow.data.entities.Order;
+import com.aptech.ticketshow.data.entities.OrderItem;
 import com.aptech.ticketshow.data.mappers.EventMapper;
 import com.aptech.ticketshow.data.repositories.EventRepository;
+import com.aptech.ticketshow.data.repositories.OrderItemRepository;
+import com.aptech.ticketshow.data.repositories.OrderRepository;
 import com.aptech.ticketshow.data.repositories.specification.EventSpecification;
 import com.aptech.ticketshow.services.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +53,12 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private ImageUploadService imageUploadService;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public PaginationDTO findAll(int no, int limit) {
@@ -222,5 +233,40 @@ public class EventServiceImpl implements EventService {
         return new PaginationDTO(page.getContent(), page.isFirst(), page.isLast(), page.getTotalPages(), page.getTotalElements(), page.getSize(), page.getNumber());
     }
 
+    @Override
+    public Integer ticketsAndSeatsCount(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Event not found with id: " + id));
 
+        if (event.isType()) {
+            List<Order> orders = orderRepository.findByEventIdAndStatusId(event.getId(), 1L);
+
+            if (orders.isEmpty()) {
+                return 0;
+            }
+
+            List<String> orderIds = orders.stream()
+                    .map(Order::getId)
+                    .collect(Collectors.toList());
+
+            return orderItemRepository.findByOrderIdIn(orderIds).stream()
+                    .mapToInt(OrderItem::getQuantity)
+                    .sum();
+
+        } else {
+            String bookedSeats = event.getBookedSeats();
+
+            if (bookedSeats == null || bookedSeats.isEmpty()) {
+                return 0;
+            }
+
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                String[] seatsArray = objectMapper.readValue(bookedSeats, String[].class);
+                return seatsArray.length;
+            } catch (Exception e) {
+                throw new RuntimeException("Error parsing bookedSeats data: " + e.getMessage());
+            }
+        }
+    }
 }
