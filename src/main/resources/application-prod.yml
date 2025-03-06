@@ -56,13 +56,13 @@
 #  path: ./uploads
 
   server:
-    port: 80
+    port: ${PORT}
   db:
-    port: 3306
-    name: ticket_show_db
-    endpoint: ticketshow-mysql-server.mysql.database.azure.com
-    username: pqthai96
-    password: Noemotion1
+    port: ${DB_PORT}
+    name: ${DB_NAME}
+    endpoint: ${DB_ENDPOINT}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   spring:
     servlet:
