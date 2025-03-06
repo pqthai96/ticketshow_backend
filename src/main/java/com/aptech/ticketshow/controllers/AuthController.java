@@ -50,12 +50,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.registerUser(signUpRequest));
     }
 
-
-    @GetMapping("/test")
-    public ResponseEntity<?> findAllTest() {
-        return ResponseEntity.ok("test ok");
-    }
-
     @GetMapping("/user")
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String token) {
         if (token == null || token.isEmpty()) {

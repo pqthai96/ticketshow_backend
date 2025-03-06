@@ -42,6 +42,11 @@ public class EventController {
         return ResponseEntity.ok(eventService.findAll(no, limit));
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<?> findAllTest() {
+        return ResponseEntity.ok("test ok");
+    }
+
     @GetMapping("/active")
     public ResponseEntity<?> findAllActive(@RequestParam(defaultValue = "0") int no, @RequestParam(defaultValue = "12") int limit) {
         return ResponseEntity.ok(eventService.findAllByStatus(no, limit, 1L));
