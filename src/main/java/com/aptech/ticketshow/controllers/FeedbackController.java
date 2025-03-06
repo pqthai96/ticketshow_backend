@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import com.aptech.ticketshow.data.dtos.StatusDTO;
+import com.aptech.ticketshow.data.dtos.request.FeedbackReplyRequest;
 import com.aptech.ticketshow.services.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,15 +48,11 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbackService.create(feedbackDTO));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<FeedbackDTO> update(@RequestBody FeedbackDTO feedbackDTO) {
-        FeedbackDTO updatedFeedback = feedbackService.update(feedbackDTO);
-        return ResponseEntity.ok(updatedFeedback);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        feedbackService.delete(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/reply")
+    public ResponseEntity<?> reply(@RequestBody FeedbackReplyRequest feedbackReplyRequest) {
+        FeedbackDTO feedbackDTO = feedbackService.findById(feedbackReplyRequest.getFeedbackId());
+        feedbackDTO.setStatusDTO(statusService.findById(5L));
+        feedbackDTO.setAdminReply(feedbackReplyRequest.getReplyContent());
+        return ResponseEntity.ok(feedbackService.update(feedbackDTO));
     }
 }

@@ -50,20 +50,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackDTO update(FeedbackDTO feedbackDTO) {
-    	long id = feedbackDTO.getId();
-        Optional<Feedback> feedbackOptional = feedbackRepository.findById(id);
-        if (feedbackOptional.isPresent()) {
-            Feedback feedback = feedbackOptional.get();
-            feedback.setEmail(feedbackDTO.getEmail());
-            feedback.setSubject(feedbackDTO.getSubject());
-            feedback.setContent(feedbackDTO.getContent());
-            feedback.setAdminReply(feedbackDTO.getAdminReply());
-            feedback.setAdmin(adminMapper.toEntity(feedbackDTO.getAdminDTO()));
-            feedback = feedbackRepository.save(feedback);
-            return feedbackMapper.toDTO(feedback);
-        } else {
-            throw new RuntimeException("Feedback not found with id: " + id);
-        }
+    	return feedbackMapper.toDTO(feedbackRepository.save(feedbackMapper.toEntity(feedbackDTO)));
     }
 
     @Override
