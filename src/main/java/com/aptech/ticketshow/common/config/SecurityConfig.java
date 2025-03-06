@@ -76,7 +76,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3001");
-        config.addAllowedOrigin("https://ticketshowbackend-production.up.railway.app/");
+        config.addAllowedOrigin("https://ticketshow-user-1hyjtrmsr-phan-quoc-thais-projects.vercel.app");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
