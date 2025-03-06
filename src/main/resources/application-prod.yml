@@ -1,116 +1,60 @@
-#server:
-#  port: 8080
-#db:
-#  port: 3306
-#  name: ticket_show_db
-#  endpoint: ticketshow-mysql-server.mysql.database.azure.com
-#  username: pqthai96
-#  password: Noemotion1
-#
-#spring:
-#  servlet:
-#    multipart:
-#      max-file-size: 10MB
-#      max-request-size: 10MB
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}?useSSL=true&requireSSL=true
-#    username: ${db.username}
-#    password: ${db.password}
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#  mail:
-#    host: sandbox.smtp.mailtrap.io
-#    port: 587
-#    username: 675ddba60da419
-#    password: 3354d34cda867d
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            client-id: 956900926115-jnga5cq045038hhgitn6s3ima3k7arrm.apps.googleusercontent.com
-#            client-secret: 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
-#            scope:
-#              - email
-#              - profile
-#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-#jwt:
-#  secret: OVATION_SECRET_KEY_MUST_BE_LONGER_THAN_32_CHARACTERS
-#  expiration: 86400000
-#
-#stripe:
-#  secret:
-#    key: sk_test_51NxFXHLLGRqyYpieHwW76KV4ucGDTWQ7gibPokAXSYKwIuXuQdMEdNITA3XMFJhKQqG4pfUAY4I1TvhbAD02q4Y500Du2KvhR6
-#  webhook:
-#    secret: whsec_DTIsy7YtPPwMLT6tWjDlaA5EPmP12I9A
-#
-#upload:
-#  path: ./uploads
+server:
+  port: ${PORT}
+db:
+  port: ${DB_PORT}
+  name: ${DB_NAME}
+  endpoint: ${DB_ENDPOINT}
+  username: ${DB_USERNAME}
+  password: ${DB_PASSWORD}
 
-  server:
-    port: ${PORT}
-  db:
-    port: ${DB_PORT}
-    name: ${DB_NAME}
-    endpoint: ${DB_ENDPOINT}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
-  spring:
-    servlet:
-      multipart:
-        max-file-size: 10MB
-        max-request-size: 10MB
-    datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}?useSSL=true
-      username: ${db.username}
-      password: ${db.password}
-    jpa:
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}?useSSL=true
+    username: ${db.username}
+    password: ${db.password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
-    mail:
-      host: sandbox.smtp.mailtrap.io
-      port: 587
-      username: ${MAIL_USERNAME}
-      password: ${MAIL_PASSWORD}
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
-    security:
-      oauth2:
-        client:
-          registration:
-            google:
-              client-id: ${GOOGLE_CLIENT_ID}
-              client-secret: ${GOOGLE_CLIENT_SECRET}
-              scope:
-                - email
-                - profile
-              redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-  jwt:
-    secret: ${JWT_SECRET}
-    expiration: ${JWT_EXPIRATION}
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  security:
+    oauth2:
+      redirectUrl: ${GOOGLE_REDIRECT_URL}
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
 
-  stripe:
-    secret:
-      key: ${STRIPE_SECRET_KEY}
-    webhook:
-      secret: ${STRIPE_WEBHOOK_SECRET}
+stripe:
+  secret:
+    key: ${STRIPE_SECRET_KEY}
+  webhook:
+    secret: ${STRIPE_WEBHOOK_SECRET}
 
-  upload:
-    path: /home/site/wwwroot/uploads
+upload:
+  path: /home/site/wwwroot/uploads
