@@ -58,7 +58,6 @@ stripe:
 upload:
   path: ./uploads
 
-# CONFIG frontend và CORS
 app:
   frontend:
     url: http://localhost:3000
