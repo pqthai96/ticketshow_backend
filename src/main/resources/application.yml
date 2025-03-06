@@ -3,9 +3,9 @@ server:
 db:
   port: 3306
   name: ticket_show_db
-  endpoint: localhost
-  username: root
-  password: REDACTED
+  endpoint: ticketshow-mysql-server.mysql.database.azure.com
+  username: pqthai96
+  password: Noemotion1
 
 spring:
   profiles:
