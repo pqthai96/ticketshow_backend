@@ -14,7 +14,7 @@
 #      max-request-size: 10MB
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}
+#    url: jdbc:mysql://${db.endpoint}:${db.port}/${db.name}?useSSL=true&requireSSL=true
 #    username: ${db.username}
 #    password: ${db.password}
 #  jpa:
