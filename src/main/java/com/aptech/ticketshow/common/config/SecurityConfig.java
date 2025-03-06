@@ -4,7 +4,6 @@ import com.aptech.ticketshow.services.CustomOAuth2UserService;
 import com.aptech.ticketshow.common.config.OAuth2SuccessHandler;
 import com.aptech.ticketshow.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +27,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.io.File;
-
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
@@ -40,9 +37,6 @@ public class SecurityConfig implements WebMvcConfigurer {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -92,26 +86,9 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     // Config to call images from FE
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/images/**")
-//                .addResourceLocations("file:./uploads/images/");
-//    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-
-        String resourceLocation = "file:" + uploadPath + "/images/";
-
         registry.addResourceHandler("/images/**")
-                .addResourceLocations(resourceLocation)
-                .setCachePeriod(3600)
-                .resourceChain(true);
-
-        System.out.println("Resource location configured as: " + resourceLocation);
+                .addResourceLocations("file:./uploads/images/");
     }
 }
