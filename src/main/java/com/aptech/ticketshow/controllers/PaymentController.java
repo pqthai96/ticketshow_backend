@@ -41,6 +41,9 @@ public class PaymentController {
     @Value("${stripe.webhook.secret}")
     private String webhookSecret;
 
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
     @Autowired
     private TicketService ticketService;
 
@@ -143,8 +146,8 @@ public class PaymentController {
         }
 
         SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder().setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/checkout/success")
-                .setCancelUrl("http://localhost:3000/checkout/failed")
+                .setSuccessUrl(frontendUrl + "/checkout/success")
+                .setCancelUrl(frontendUrl + "/checkout/failed")
                 .addAllLineItem(lineItems)
                 .setClientReferenceId(String.valueOf(addedOrder.getId()))
                 .setExpiresAt(System.currentTimeMillis() / 1000L + (30 * 60));
