@@ -6,6 +6,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,12 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
+    @Value("${app.backend.url}")
+    private String backendUrl;
+
     @Override
     public boolean sendMailWithAttachment(MailDTO mailDTO, byte[] pdfData, String pdfFileName) {
         return sendMail(mailDTO, pdfData, pdfFileName);
@@ -23,14 +30,14 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public boolean sendMailWithToken(MailDTO mailDTO, String token) {
-        String verificationLink = "http://localhost:3000/reset-password?token=" + token + "&email=" + mailDTO.getTo();
+        String verificationLink = frontendUrl + "/reset-password?token=" + token + "&email=" + mailDTO.getTo();
         mailDTO.body = mailDTO.body + "<p><a href=\"" + verificationLink + "\">Click here to reset password!</a></p>";
         return sendMail(mailDTO, null, null);
     }
 
     @Override
     public boolean sendVerifyEmailWithToken(MailDTO mailDTO, String token) {
-        String verificationLink = "http://localhost:8080/api/auth/verify?token=" + token;
+        String verificationLink = backendUrl + "/api/auth/verify?token=" + token;
         mailDTO.body = mailDTO.body + "<p><a href=\"" + verificationLink + "\">Click here to verify</a></p>";
         return sendMail(mailDTO, null, null);
     }

@@ -36,6 +36,7 @@ spring:
             enable: true
   security:
     oauth2:
+      base-url: ${BACKEND_URL}
       redirectUrl: ${GOOGLE_REDIRECT_URL}
       client:
         registration:
@@ -45,7 +46,7 @@ spring:
             scope:
               - email
               - profile
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "${spring.security.oauth2.base-url}/login/oauth2/code/{registrationId}"
 jwt:
   secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION}
@@ -62,6 +63,8 @@ upload:
 app:
   frontend:
     url: ${FRONTEND_URL}
+  backend:
+    url: ${BACKEND_URL}
   cors:
     allowed-origins:
       - ${FRONTEND_URL}

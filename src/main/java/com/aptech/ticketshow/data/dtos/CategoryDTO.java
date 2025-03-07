@@ -13,8 +13,6 @@ public class CategoryDTO {
 
     private String name;
 
-    private Double serviceCharge;
-
     public CategoryDTO(String id) {
         this.id = Long.valueOf(id);
     }

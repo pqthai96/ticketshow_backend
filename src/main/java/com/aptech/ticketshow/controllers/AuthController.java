@@ -14,6 +14,7 @@ import com.aptech.ticketshow.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,9 @@ public class AuthController {
 
     @Autowired
     private ImageUploadService imageUploadService;
+
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -88,7 +92,7 @@ public class AuthController {
         userDTO.setVerified(true);
         userService.update(userDTO);
 
-        return new RedirectView("http://localhost:3000/verify-successvid ");
+        return new RedirectView(frontendUrl + "/verify-success");
     }
 
     @PostMapping("/update-profile")

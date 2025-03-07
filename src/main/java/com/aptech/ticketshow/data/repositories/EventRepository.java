@@ -29,6 +29,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     @Query("SELECT e FROM Event e LEFT JOIN Order o ON o.event.id = e.id " +
+            "WHERE e.status.id = 1 " +
             "GROUP BY e.id " +
             "ORDER BY COUNT(o.id) DESC")
     Page<Event> findBestSellingEvents(Pageable pageable);

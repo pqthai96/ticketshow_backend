@@ -50,7 +50,6 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
             category.setName(categoryDTO.getName());
-            category.setServiceCharge(categoryDTO.getServiceCharge());
             category = categoryRepository.save(category);
             return categoryMapper.toDTO(category);
         } else {

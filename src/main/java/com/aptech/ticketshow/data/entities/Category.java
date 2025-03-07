@@ -23,7 +23,4 @@ public class Category extends Auditable {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "service_charge")
-    private Double serviceCharge;
 }
