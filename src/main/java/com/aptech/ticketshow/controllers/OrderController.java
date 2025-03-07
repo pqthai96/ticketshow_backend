@@ -34,6 +34,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findAll());
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable String id) {
+        return ResponseEntity.ok(orderService.findById(id));
+    }
+
     @GetMapping("/orders-by-user")
     public ResponseEntity<?> findAllOrderByUser(@RequestHeader("Authorization") String token) {
         UserDTO userDTO = jwtUtil.extractUser(token);
