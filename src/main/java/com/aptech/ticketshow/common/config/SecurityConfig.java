@@ -44,7 +44,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/api/auth/**", "/oauth2/**", "/login/**", "/images/**").permitAll()
+                        request.requestMatchers("/api/auth/**", "/oauth2/**", "/login/**", "/images/**", "/api/webhook").permitAll()
                                 .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -78,6 +78,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         config.addAllowedOrigin("http://localhost:3001");
         config.addAllowedOrigin("https://ticketshow-user-app.vercel.app/");
         config.addAllowedOrigin("https://ticketshow-admin-app.vercel.app/");
+        config.addAllowedOrigin("https://hooks.stripe.com");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
