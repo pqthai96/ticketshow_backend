@@ -57,7 +57,7 @@ public class FeedbackController {
     public ResponseEntity<?> reply(@RequestBody FeedbackReplyRequest feedbackReplyRequest) {
         FeedbackDTO feedbackDTO = feedbackService.findById(feedbackReplyRequest.getFeedbackId());
 
-        mailService.sendMail(new MailDTO(feedbackDTO.getEmail(), feedbackDTO.getEmail(), feedbackDTO.getSubject(), feedbackReplyRequest.getReplyContent()), null, null);
+        mailService.sendMail(new MailDTO(feedbackDTO.getEmail(), feedbackDTO.getEmail(),"Ovation Support for your request: " + feedbackDTO.getSubject(), feedbackReplyRequest.getReplyContent()), null, null);
 
         feedbackDTO.setStatusDTO(statusService.findById(5L));
         feedbackDTO.setAdminReply(feedbackReplyRequest.getReplyContent());
