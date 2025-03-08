@@ -41,4 +41,9 @@ public class TicketController {
     public ResponseEntity<?> getgetTicketsBookedCount(@PathVariable Long id) {
         return ResponseEntity.ok(ticketService.getTicketsBookedCount(id));
     }
+
+    @GetMapping("/verify/{orderItemId}")
+    public ResponseEntity<?> verifyTicket(@PathVariable Long orderItemId) {
+        return ResponseEntity.ok(ticketService.verifyTicket(orderItemId));
+    }
 }

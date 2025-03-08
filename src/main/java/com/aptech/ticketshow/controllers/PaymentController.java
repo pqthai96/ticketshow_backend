@@ -57,6 +57,9 @@ public class PaymentController {
     private OrderService orderService;
 
     @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
     private VoucherService voucherService;
 
     @Autowired
@@ -249,12 +252,19 @@ public class PaymentController {
 
                 for (OrderItemDTO orderItemDTO : checkoutSuccessOrder.getOrderItemDTOs()) {
                     bookedSeats.add(orderItemDTO.getSeatValue());
+                    orderItemDTO.setQrCodeBase64(ticketService.generateAndSaveBarcodeForOrderItem(orderItemDTO.getId()));
+                    orderItemService.save(orderItemDTO);
                 }
 
                 bookedEvent.setBookedSeats(objectMapper.writeValueAsString(bookedSeats));
                 eventService.update(bookedEvent);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
+            }
+        } else {
+            for (OrderItemDTO orderItemDTO : checkoutSuccessOrder.getOrderItemDTOs()) {
+                orderItemDTO.setQrCodeBase64(ticketService.generateAndSaveBarcodeForOrderItem(orderItemDTO.getId()));
+                orderItemService.save(orderItemDTO);
             }
         }
 

@@ -23,4 +23,9 @@ public class OrderItemServiceImpl implements OrderItemService {
     public List<OrderItemDTO> findByOrderId(String orderId) {
         return orderItemRepository.findByOrderId(orderId).stream().map(r -> orderItemMapper.toDTO(r)).collect(Collectors.toList());
     }
+
+    @Override
+    public OrderItemDTO save(OrderItemDTO orderItemDTO) {
+        return orderItemMapper.toDTO(orderItemRepository.save(orderItemMapper.toEntity(orderItemDTO)));
+    }
 }

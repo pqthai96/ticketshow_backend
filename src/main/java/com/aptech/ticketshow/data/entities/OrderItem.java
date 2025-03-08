@@ -30,6 +30,10 @@ public class OrderItem extends Auditable {
     @Column(name = "seat_value")
     private String seatValue;
 
+    @Lob
+    @Column(name = "qr_code_base64", columnDefinition = "LONGTEXT")
+    private String qrCodeBase64;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;

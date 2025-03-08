@@ -1,22 +1,25 @@
 package com.aptech.ticketshow.services.impl;
 
 import com.aptech.ticketshow.data.dtos.OrderDTO;
+import com.aptech.ticketshow.data.dtos.OrderItemDTO;
 import com.aptech.ticketshow.data.dtos.TicketDTO;
 import com.aptech.ticketshow.data.entities.OrderItem;
 import com.aptech.ticketshow.data.entities.Ticket;
 import com.aptech.ticketshow.data.mappers.AdminMapper;
+import com.aptech.ticketshow.data.mappers.OrderItemMapper;
 import com.aptech.ticketshow.data.mappers.TicketMapper;
 import com.aptech.ticketshow.data.repositories.OrderItemRepository;
 import com.aptech.ticketshow.data.repositories.TicketRepository;
 import com.aptech.ticketshow.services.TicketService;
 
+import com.aptech.ticketshow.utils.TicketBarcodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -29,8 +32,15 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private OrderItemMapper orderItemMapper;
+
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private TicketBarcodeGenerator ticketBarcodeGenerator;
 
     @Override
     public List<TicketDTO> findAll() {
@@ -88,5 +98,40 @@ public class TicketServiceImpl implements TicketService {
         }
 
         return bookedTicketCount;
+    }
+
+    @Override
+    @Transactional
+    public String generateAndSaveBarcodeForOrderItem(Long orderItemId) {
+        try {
+            OrderItem orderItem = orderItemRepository.findById(orderItemId)
+                    .orElseThrow(() -> new RuntimeException("NOT FOUND"));
+
+            String qrCodeBase64 = ticketBarcodeGenerator.generateOrderItemQRCode(orderItemId);
+
+            orderItem.setQrCodeBase64(qrCodeBase64);
+            orderItemRepository.save(orderItem);
+
+            return qrCodeBase64;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public OrderItemDTO verifyTicket(Long orderItemId) {
+        try {
+            OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(() -> new RuntimeException("NOT FOUND"));
+            OrderItemDTO orderItemDTO = orderItemMapper.toDTO(orderItem);
+
+            if (orderItem.getTicket() != null) {
+
+                orderItemDTO.setTicketDTO(findById(orderItem.getTicket().getId()));
+            }
+
+            return orderItemDTO;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

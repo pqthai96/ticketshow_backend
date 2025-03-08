@@ -13,4 +13,6 @@ public class OrderItemDTO {
   private OrderDTO orderDTO;
 
   private TicketDTO ticketDTO;
+
+  private String qrCodeBase64;
 }
