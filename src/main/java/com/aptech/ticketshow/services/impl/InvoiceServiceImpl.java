@@ -764,10 +764,10 @@ public class InvoiceServiceImpl implements InvoiceService {
             mailDTO.setBody("Your payment is successful. Thank you for your payment. Please find the attached invoice.");
 
             String pdfFileName = "Invoice-" + orderDTO.getId() + ".pdf";
-            String ticketPdfPath = savePdfInvoice(finalPdfWithTickets, pdfFileName, orderDTO);
+            // String ticketPdfPath = savePdfInvoice(finalPdfWithTickets, pdfFileName, orderDTO);
 
-            orderDTO.setTicketPdfPath(ticketPdfPath);
-            orderService.update(orderDTO);
+            // orderDTO.setTicketPdfPath(ticketPdfPath);
+            // orderService.update(orderDTO);
 
             mailService.sendMailWithAttachment(mailDTO, finalPdfWithTickets, pdfFileName);
         }
